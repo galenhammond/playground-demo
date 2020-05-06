@@ -4,7 +4,8 @@ import * as React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-export default function TopPicksScreen() {
+
+export default function ProfileScreen() {
   return (
     <SafeAreaView>
       <Text>Profile</Text>

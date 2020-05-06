@@ -49,7 +49,7 @@ export default function App(props) {
   } else {
     return (
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar hidden />}
+        {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} /> }>
             <Drawer.Screen name="Home" component={BottomTabNavigator} />

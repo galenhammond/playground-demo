@@ -51,8 +51,8 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} /> }>
-            <Drawer.Screen name="Home" component={BottomTabNavigator} />
+          <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} /> } >
+            <Drawer.Screen name="Home" component={BottomTabNavigator} options={{swipeEnabled: false}} />
           </Drawer.Navigator>
         </NavigationContainer>
       </View>

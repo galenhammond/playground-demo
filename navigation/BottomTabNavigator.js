@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MessagesScreen from '../screens/MessagesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import HamburgerIcon from "../components/HamburgerMenu"
+import HamburgerIcon from "../navigation/HamburgerMenu";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -27,7 +27,7 @@ export default function BottomTabNavigator({ navigation, route }) {
          headerStyle: {height: 65},
          headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
          textAlign: 'center', alignSelf: 'center'},
-         headerLeft: props => <HamburgerIcon {...props} /> 
+         headerLeft: props => <HamburgerIcon {...navigation} /> 
        }}>
           <MyHomeStack.Screen name="home" component={HomeScreen}/>
         </MyHomeStack.Navigator>
@@ -42,7 +42,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         headerStyle: {height: 65},
         headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
         textAlign: 'center', alignSelf: 'center'},
-        headerLeft: props => <HamburgerIcon {...props} /> 
+        headerLeft: props => <HamburgerIcon {...navigation} /> 
       }}>
         <MyMessagesStack.Screen name="Messages" component={MessagesScreen} />
       </MyMessagesStack.Navigator>
@@ -57,7 +57,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         headerStyle: {height: 65},
         headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
         textAlign: 'center', alignSelf: 'center'},
-        headerLeft: props => <HamburgerIcon {...props} /> 
+        headerLeft: props => <HamburgerIcon {...navigation} /> 
        }}>
         <MyProfileStack.Screen name="Profile" component={ProfileScreen} />
       </MyProfileStack.Navigator>
@@ -92,19 +92,6 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
     </BottomTab.Navigator>
   );
-}
-
-function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
-
-  switch (routeName) {
-    case 'Home':
-      return 'How to get started';
-    case 'Messages':
-      return 'Messages';
-    case 'Profile':
-      return 'Your Profile';
-  }
 }
 
 const styles = StyleSheet.create({

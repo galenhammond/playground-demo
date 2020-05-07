@@ -31,7 +31,8 @@ export default function App(props) {
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
           'comfortaa-regular': require('./assets/fonts/Comfortaa-Regular.ttf'),
-          'sfprodisplay-regular': require('./assets/fonts/SFProDisplay-Regular.ttf')
+          'sfprodisplay-regular': require('./assets/fonts/SFProDisplay-Regular.ttf'),
+          'sfprodisplay-light': require('./assets/fonts/SFProDisplay-Light.ttf')
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

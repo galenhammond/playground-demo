@@ -8,6 +8,7 @@ import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Ionicons, Enty
 function HamburgerIcon(navigation) {
     return (
         <TouchableOpacity
+        //TODO: Increase area for greater responsiveness
         style={{
             width: 30,
             height: 30,

@@ -13,7 +13,7 @@ export default function CustomDrawerHeader(props) {
         justifyContent: 'center',
       }}
     >
-      <Text style={{ color: 'white', fontSize: 30, marginLeft: 10, fontFamily: "comfortaa-regular" }}>Header</Text>
+      <Text style={{ color: 'white', fontSize: 30, marginLeft: 10, fontFamily: "comfortaa-regular" }}>Username</Text>
     </View>
     <ScrollView contentContainerStyle={{ flexGrow: 1}}>
       <DrawerItemList {...props} />

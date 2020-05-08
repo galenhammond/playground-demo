@@ -6,6 +6,7 @@ import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons'; 
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'
@@ -90,6 +91,14 @@ export default function ProfileScreen(props) {
 	        	value={userGenderFilter}
 	        	step={GENDER_STEP}
 	        	onSlidingComplete={val => setUserGenderFilter(val)} />
+	        	<View style={{flex: 1, 
+	        		flexDirection: "row",
+	        		alignItems: 'center',
+	        		justifyContent: 'space-between', }}>
+		        	<MaterialCommunityIcons name="human-male" size={24} color="#757E90" />
+		        	<MaterialCommunityIcons name="human-male-female" size={24} color="#757E90" />
+		        	<MaterialCommunityIcons name="human-female" size={24} color="#757E90" />
+		        </View>
 		        <Text style={styles.message}>Set gender preference</Text>
 		    </View>
       	</ScrollView>

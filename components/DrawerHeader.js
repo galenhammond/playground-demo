@@ -9,13 +9,13 @@ export default function CustomDrawerHeader(props) {
     <View
       style={{
         flexDirection:'row',
-        backgroundColor: '#000000',
+        backgroundColor: '#f5fffe',
         height: 140,
         alignItems: 'center',
       }}
     >
       <Thumbnail small source={props.image} style={{marginLeft: "4%", marginBottom: "4%"}}/>
-      <Text style={{ color: 'white', fontSize: 30, marginLeft: "4%", fontFamily: "comfortaa-regular" }}>{props.name}</Text>
+      <Text style={{ color: 'black', fontSize: 30, marginLeft: "4%", fontFamily: "comfortaa-regular" }}>{props.name}</Text>
     </View>
     <ScrollView contentContainerStyle={{ flexGrow: 1}}>
       <DrawerItemList {...props} />
@@ -23,3 +23,4 @@ export default function CustomDrawerHeader(props) {
   </View>
   );
 }
+//#d9fffd

@@ -71,6 +71,21 @@ export default function BottomTabNavigator({ navigation, route }) {
       );
   }
 
+const MySettingsStack = createStackNavigator();
+export default function SettingsStack({navigation}) {
+  return (
+    <MySettingsStack.Navigator screenOptions={{headerShown: true,
+     headerTitle: "playground",
+     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+     textAlign: 'center', alignSelf: 'center'},
+     headerLeft: props => <HamburgerIcon {...navigation} /> 
+   }}>
+      <MySettingsStack.Screen name="Settings" component={SettingsScreen}/>
+    </MySettingsStack.Navigator>
+  );
+}
+
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} >
       <BottomTab.Screen

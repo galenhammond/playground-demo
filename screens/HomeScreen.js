@@ -11,7 +11,8 @@ function HomeScreen(props) {
 	  		<MatchCard name={"Michelle"} age={"21"} 
 	  		tile={require('../assets/images/Michelle.jpeg')} 
 	  		thumbnail={require("../assets/images/MichelleThumb.jpg")} 
-	  		distance={"21"} />
+	  		distance={"21"}
+	  		bio="Here for a good time, not a long time!" />
 	  		<MatchCard name={"Nicole"} age={"19"} 
 	  		tile={require('../assets/images/Nicole.jpg')} 
 	  		thumbnail={require("../assets/images/ness.jpg")} 

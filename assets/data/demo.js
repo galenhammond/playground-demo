@@ -2,7 +2,8 @@ export const Data = [
   {
     image: require('../images/Michelle.jpeg'),
     message: 'Hey!',
-    name: "Michelle"
+    name: "Michelle",
+    matchTime: "2:47"
   },
   {
     image: require('../images/Kate.jpg'),
@@ -49,8 +50,7 @@ export const Data = [
     message: 'Where you at',
     name: "Nicole"
   },
-  
-  {
+    {
     image: require('../images/Michelle.jpeg'),
     message: 'Hey!',
     name: "Michelle"
@@ -75,6 +75,4 @@ export const Data = [
     message: 'Where you at',
     name: "Nicole"
   },
-  
-  
 ];

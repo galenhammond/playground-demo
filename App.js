@@ -4,11 +4,14 @@ import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
 import { VisbilitySwitch } from './components/VisibilitySwitch'
+import HamburgerIcon from "./navigation/HamburgerMenu";
+import SettingsScreen from './screens/SettingsScreen'
 
 const Drawer = createDrawerNavigator();
 
@@ -61,11 +64,27 @@ export default function App(props) {
           image={require('./assets/images/MichelleThumb.jpg')} 
           name="Michelle" />} >
             <Drawer.Screen name="Home" component={BottomTabNavigator} options={{swipeEnabled: false}} />
+            <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
           </Drawer.Navigator>
         </NavigationContainer>
       </View>
     );
   }
+}
+
+const MySettingsStack = createStackNavigator();
+function SettingsStack({navigation}) {
+  return (
+    <MySettingsStack.Navigator screenOptions={{headerShown: true,
+     headerTitle: "playground",
+     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+     textAlign: 'center', alignSelf: 'center'},
+     headerLeft: props => <HamburgerIcon {...navigation} /> 
+   }}>
+      <MySettingsStack.Screen name="Settings" component={SettingsScreen}/>
+    </MySettingsStack.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({

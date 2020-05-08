@@ -64,7 +64,8 @@ export default function BottomTabNavigator({ navigation, route }) {
           {props => <ProfileScreen {...props} 
           image={require('../assets/images/MichelleThumb.jpg')}
           name="Michelle"
-          age="21" /> }
+          age="21"
+          bio="Here for a good time, not a long time!" /> }
         </MyProfileStack.Screen>
       </MyProfileStack.Navigator>
       );

@@ -44,8 +44,6 @@ export default function MessagesScreen(props) {
   	  <View style={{flexDirection: "row",
   	  alignSelf: 'center',
   	  justifyContent: 'center', 
-  	  paddingTop: 6,
-  	  paddingBottom: 6, 
   	  borderBottomWidth: 0.7,   
   	  borderColor: "#D8D8D8"}}>
   	  	<FlatList

@@ -8,6 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
+import { VisbilitySwitch } from './components/VisibilitySwitch'
 
 const Drawer = createDrawerNavigator();
 
@@ -32,7 +33,10 @@ export default function App(props) {
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
           'comfortaa-regular': require('./assets/fonts/Comfortaa-Regular.ttf'),
           'sfprodisplay-regular': require('./assets/fonts/SFProDisplay-Regular.ttf'),
-          'sfprodisplay-light': require('./assets/fonts/SFProDisplay-Light.ttf')
+          'sfprodisplay-light': require('./assets/fonts/SFProDisplay-Light.ttf'),
+          'sfprodisplay-medium': require('./assets/fonts/SFProDisplay-Medium.ttf'),
+          'sfprodisplay-semibold': require('./assets/fonts/SFProDisplay-SemiBold.ttf'),
+          'sfprodisplay-thin': require('./assets/fonts/SFProDisplay-Thin.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -53,7 +57,9 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} /> } >
+          <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
+          image={require('./assets/images/MichelleThumb.jpg')} 
+          name="Michelle" />} >
             <Drawer.Screen name="Home" component={BottomTabNavigator} options={{swipeEnabled: false}} />
           </Drawer.Navigator>
         </NavigationContainer>

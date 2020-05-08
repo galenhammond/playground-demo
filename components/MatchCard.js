@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Platform, Image } from 'react-native';
 import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { PillTimer } from '../components/PillTimer'
 
 export default function MatchCard(props) {
   return (
@@ -14,6 +15,9 @@ export default function MatchCard(props) {
 	        		<Text note>{props.age}</Text>
 	      		</Body>
         	</Left>
+          <Right>
+            <PillTimer time={"47:39"} />
+          </Right>
       	</CardItem>
 		<CardItem cardBody>
 	  		<Image source={props.tile} style={{height: 200, width: null, flex: 1}}/>
@@ -32,7 +36,7 @@ export default function MatchCard(props) {
             	</Button>
           	</Body>
           	<Right>
-            	<Text>{props.distance}m away</Text>
+            	<Text style={{fontSize: 13}}>{props.distance}m away</Text>
           	</Right>
         </CardItem>
  	</Card>

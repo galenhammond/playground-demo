@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { PillTimer } from '../components/PillTimer'
 
 export const MatchCounter = (props) => {
 	return (
@@ -12,12 +13,8 @@ export const MatchCounter = (props) => {
 				<Text style={styles.footer}>new matches</Text>
 			</View>
 			<View style={styles.timer}>
-				<View style={{padding: "7%"}}>
-					<SimpleLineIcons name="clock" size={20} color="black" />
-				</View>
-				<View>
-					<Text style={{fontSize: 17}}>{props.timer}</Text>
-				</View>
+				<SimpleLineIcons name="clock" size={20} color={'#757E90'} style={{paddingRight: "2%"}}/>
+				<Text style={{fontSize: 17, color: "#757E90"}}>{props.timer}</Text>
 			</View>
 
 		</View>
@@ -26,7 +23,7 @@ export const MatchCounter = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: "10%"
+		padding: "6%"
 	},
 	innerContainer: {
 		padding: "3%"
@@ -44,12 +41,10 @@ const styles = StyleSheet.create({
 		alignSelf: "center"
 	},
 	timer: {
-		padding: "2%",
-		alignItems: "center",
-		justifyContent: "center",
-		flexDirection: "row",
-		position: 'relative', width: '45%', left: '50%',
 		flex: 1,
+		flexDirection: "row",
+		justifyContent: "center",
+		paddingTop: "8%",
 		fontFamily: "comfortaa-light",
 
 	}

@@ -41,12 +41,29 @@ export default function MessagesScreen(props) {
   	  <View>
   	  	<MatchCounter counter="12" timer="9:22"/>
   	  </View>
-  	  <View style={{flexDirection: "row", paddingBottom: 9, borderBottomWidth: 0.3, borderColor: "#D8D8D8"}}>
+  	  <View style={{flexDirection: "row",
+  	  alignSelf: 'center',
+  	  justifyContent: 'center', 
+  	  paddingTop: 6,
+  	  paddingBottom: 6, 
+  	  borderBottomWidth: 0.7,   
+  	  borderColor: "#D8D8D8"}}>
   	  	<FlatList
+  	  	contentContainerStyle={{
+  	  		justifyContent: 'center',
+  	  		paddingLeft: "1%",
+  	  		paddingRight: "1%"
+
+  	  	}}
   	  	horizontal
   	  	data={Data}
+  	  	//TODO: Center elements in list at all times
+  	  	/* contentContainerStyle={{
+  	  		alignSelf: "center",
+  	  		justifyContent: "center",}}
+		*/
   	  	renderItem={({ item }) => (
-	      <TouchableOpacity style={{paddingLeft: "12.3%", paddingRight: "12.3%"}}>
+	      <TouchableOpacity style={{padding: 20}}>
 	      	<Thumbnail small source={item.image} />
 	      </TouchableOpacity>
 	      )}

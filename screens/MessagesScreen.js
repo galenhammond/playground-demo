@@ -1,17 +1,19 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-elements'
+import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
+import { Data } from '../assets/data/demo.js';
+import Message from '../components/Messages'
 
 export default function MessagesScreen(props) {
   const [searchState, setSearchState] = React.useState();
   return (
     <SafeAreaView style={styles.container}>
 	  <SearchBar lightTheme round
-	  searchIcon="false"
 	  placeholder="17 matches..." 
 	  containerStyle={{
 	  	backgroundColor: 'white',
@@ -31,7 +33,7 @@ export default function MessagesScreen(props) {
 	  }}
 	  inputStyle={{
 	  	fontFamily: "sfprodisplay-light",
-	  	fontSize: "16%"
+	  	fontSize: 16
 	  }}
 	  //TODO: create event handler in app.js
 	  //onChange={props.onChange}
@@ -39,10 +41,31 @@ export default function MessagesScreen(props) {
   	  <View>
   	  	<MatchCounter counter="12" timer="9:22"/>
   	  </View>
-  	  <View>
+  	  <View style={{flexDirection: "row", paddingBottom: 9, borderBottomWidth: 0.3, borderColor: "#D8D8D8"}}>
+  	  	<FlatList
+  	  	horizontal
+  	  	data={Data}
+  	  	renderItem={({ item }) => (
+	      <TouchableOpacity style={{paddingLeft: "12.3%", paddingRight: "12.3%"}}>
+	      	<Thumbnail small source={item.image} />
+	      </TouchableOpacity>
+	      )}
+  	  	keyExtractor={(item, index) => index.toString()}
+	    />
   	  </View>
-  	  <ScrollView>
-  	  </ScrollView>
+	  	<FlatList
+	    data={Data}
+	    keyExtractor={(item, index) => index.toString()}
+	    renderItem={({ item }) => (
+	      <TouchableOpacity>
+	        <Message
+	          image={item.image}
+	          name={item.name}
+	          lastMessage={item.message}
+	        />
+	      </TouchableOpacity>
+	    )}
+	  />
     </SafeAreaView>
   )
 }
@@ -52,5 +75,6 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "white",
 		flex: 1
-	}
+	},
+
 })

@@ -16,7 +16,7 @@ export const MatchCounter = (props) => {
 					<SimpleLineIcons name="clock" size={20} color="black" />
 				</View>
 				<View>
-					<Text style={{fontSize: "17%"}}>{props.timer}</Text>
+					<Text style={{fontSize: 17}}>{props.timer}</Text>
 				</View>
 			</View>
 

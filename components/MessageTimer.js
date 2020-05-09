@@ -15,11 +15,11 @@ export default function Timer(props) {
 
   React.useEffect(() => {
     let interval = null;
-    if (isActive) {
+    if (isActive && remainingSecs > 0) {
       interval = setInterval(() => {
         setRemainingSecs(remainingSecs => remainingSecs - 1);
       }, 1000);
-    } else if (!isActive && remainingSecs !== 0) {
+    } else if (remainingSecs <= 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);

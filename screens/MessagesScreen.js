@@ -18,7 +18,7 @@ export default function MessagesScreen(props) {
 	  <SearchBar lightTheme round
 	  onChangeText={val => setSearchText(val)}
 	  value={searchText}
-	  placeholder="17 matches..." 
+	  placeholder="17 matches..." //Source this from props/redux store
 	  containerStyle={{
 	  	backgroundColor: 'white',
 	  	borderBottomWidth: 0,
@@ -82,6 +82,7 @@ export default function MessagesScreen(props) {
 	          image={item.image}
 	          name={item.name}
 	          lastMessage={item.message}
+	          timeStamp={item.timestamp}
 	        />
 	      </TouchableOpacity>
 	    )}

@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		flexDirection: "row",
 		paddingHorizontal: 10,
-		width: DIMENSION_WIDTH - 100
+		width: "100%",
+		borderBottomWidth: 0.3,
+		borderColor: "#D8D8D8"
 	},
 	avatar: {
 		borderRadius: 30,

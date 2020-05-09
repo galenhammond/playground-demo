@@ -46,10 +46,7 @@ export default function ProfileScreen(props) {
 	      	marginBottom: "2%", 
 	      	marginTop: "3.5%"}}>{props.name}</Text>
 	      	<Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#D8D8D8"}}>{props.age}</Text>
-	      	{props.bio ? 
-	      		<Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: "#757E90"}}>{props.bio}</Text>
-	      		: <View />
-	      	}
+	      	{props.bio && <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: "#757E90"}}>{props.bio}</Text>}
   			<View  style={{
 	      		flexDirection: 'row',
 	      		flexGrow: 1,
@@ -115,7 +112,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		flexDirection: "column",
 		paddingHorizontal: 20,
-		paddingBottom: "5%"
+		paddingVertical: "3%",
+		borderBottomWidth: 0.5,
+		borderColor: "#D8D8D8"
 	},
 	avatar: {
 		borderRadius: 30,

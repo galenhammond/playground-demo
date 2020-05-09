@@ -62,7 +62,7 @@ export default function App(props) {
           <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
           image={require('./assets/images/MichelleThumb.jpg')} 
           name="Michelle" />} >
-            <Drawer.Screen name="Home" component={BottomTabNavigator} options={{swipeEnabled: false}} />
+            <Drawer.Screen name="Feed" component={BottomTabNavigator} options={{swipeEnabled: false}} />
             <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
           </Drawer.Navigator>
         </NavigationContainer>

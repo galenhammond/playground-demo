@@ -85,7 +85,6 @@ export default function MessagesScreen(props) {
   )
 }
 
-
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "white",

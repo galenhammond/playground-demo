@@ -11,7 +11,6 @@ import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
 import { VisbilitySwitch } from './components/VisibilitySwitch'
 import HamburgerIcon from "./navigation/HamburgerMenu";
-import SettingsStack from './navigation/BottomTabNavigator'
 
 const Drawer = createDrawerNavigator();
 
@@ -70,6 +69,21 @@ export default function App(props) {
       </View>
     );
   }
+}
+
+const MySettingsStack = createStackNavigator();
+function SettingsStack({navigation}) {
+  return (
+    <MySettingsStack.Navigator screenOptions={{headerShown: true,
+     headerTitle: "playground",
+     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+     textAlign: 'center', alignSelf: 'center'},
+     headerLeft: props => <HamburgerIcon {...navigation} /> 
+   }}>
+      <MySettingsStack.Screen name="Settings" component={SettingsScreen}/>
+    </MySettingsStack.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({

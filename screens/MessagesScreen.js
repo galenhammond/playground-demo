@@ -3,20 +3,25 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
 import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
 import { Data } from '../assets/data/demo.js';
-import Message from '../components/Messages'
+import Message from '../components/Messages';
+import ChatScreen from '../screens/ChatScreen';
 
 export default function MessagesScreen(props) {
-  const [searchState, setSearchState] = React.useState();
+  const [searchText, setSearchText] = React.useState();
+
   return (
     <SafeAreaView style={styles.container}>
 	  <SearchBar lightTheme round
+	  onChangeText={val => setSearchText(val)}
+	  value={searchText}
 	  placeholder="17 matches..." 
 	  containerStyle={{
 	  	backgroundColor: 'white',
+	  	borderBottomWidth: 0,
 	  	borderTopWidth: 0,
 	  	height: "7.65%"
 	  }}
@@ -72,7 +77,7 @@ export default function MessagesScreen(props) {
 	    data={Data}
 	    keyExtractor={(item, index) => index.toString()}
 	    renderItem={({ item }) => (
-	      <TouchableOpacity>
+	      <TouchableOpacity onPress={() => props.navigation.navigate("Chat")}>
 	        <Message
 	          image={item.image}
 	          name={item.name}
@@ -90,5 +95,4 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		flex: 1
 	},
-
-})
+});

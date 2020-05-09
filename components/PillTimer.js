@@ -30,7 +30,6 @@ export function PillTimer(props) {
     return () => clearInterval(interval);
   });
 
-
 	if (remainingSecs < 1200) {
 		return (
 			<View style={styles.containerRed}>

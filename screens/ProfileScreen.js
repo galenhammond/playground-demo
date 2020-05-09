@@ -17,10 +17,10 @@ const MINIMUM_AGE = 19;
 const GENDER_STEP = 0.5;
 
 export default function ProfileScreen(props) {
-  const [userMatchRadius, setUserMatchRadius] = React.useState(1*MAX_RADIUS);
+  const [userMatchRadius, setUserMatchRadius] = React.useState(MAX_RADIUS);
   const [userVisible, setUserVisible] = React.useState(true);
   const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
-  const [userGenderFilter, setUserGenderFilter] = React.useState(GENDER_STEP);
+  const [userGenderPreference, setUserGenderPreference] = React.useState(GENDER_STEP);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,11 +83,11 @@ export default function ProfileScreen(props) {
 		        <Text style={styles.message}>Set max age range</Text>
 		    </View>
 		    <View style={styles.containerMessage}>
-		        <Text style={{fontSize: 16, color: "#757E90"}}>Gender Filter</Text>
+		        <Text style={{fontSize: 16, color: "#757E90"}}>Gender Preference</Text>
 	        	<Slider 
-	        	value={userGenderFilter}
+	        	value={userGenderPreference}
 	        	step={GENDER_STEP}
-	        	onSlidingComplete={val => setUserGenderFilter(val)} />
+	        	onSlidingComplete={val => setUserGenderPreference(val)} />
 	        	<View style={{flex: 1, 
 	        		flexDirection: "row",
 	        		alignItems: 'center',
@@ -105,7 +105,6 @@ export default function ProfileScreen(props) {
 }
 
 const styles = StyleSheet.create({
-	// COMPONENT - MESSAGE
 	containerMessage: {
 		flexGrow: 1,
 		alignItems: "stretch",

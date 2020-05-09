@@ -9,7 +9,8 @@ import MessagesScreen from '../screens/MessagesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HamburgerIcon from "../navigation/HamburgerMenu";
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
+import ChatScreen from '../screens/ChatScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -38,13 +39,9 @@ export default function BottomTabNavigator({ navigation, route }) {
   const MyMessagesStack = createStackNavigator();
   function MessagesStack({navigation}) {
     return (
-      <MyMessagesStack.Navigator screenOptions={{headerShown: false, 
-        headerTitle: "playground",
-        headerStyle: {height: 65},
-        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-        textAlign: 'center', alignSelf: 'center'},
-        headerLeft: props => <HamburgerIcon {...navigation} /> 
-      }}>
+      <MyMessagesStack.Navigator initialRouteName={"Messages"} 
+      screenOptions={{headerShown: false}}>
+        <MyMessagesStack.Screen name="Chat" component={ChatScreen} />
         <MyMessagesStack.Screen name="Messages" component={MessagesScreen} />
       </MyMessagesStack.Navigator>
       );
@@ -53,7 +50,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   const MyProfileStack = createStackNavigator();
   function ProfileStack({navigation}) {
     return (
-      <MyProfileStack.Navigator screenOptions={{headerShown: false,
+      <MyProfileStack.Navigator screenOptions={{headerShown: true,
         headerTitle: "playground",
         headerStyle: {height: 65, borderBottomWidth: 0.5},
         headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,

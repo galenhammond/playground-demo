@@ -10,14 +10,14 @@ export default function MatchCard(props) {
   	<Card>
   		<CardItem>
 	    	<Left>
-	      		<Thumbnail source={props.thumbnail} />
+	       <Thumbnail source={props.thumbnail} />
    	 		 <Body>
         		<Text style={styles.headerText}>{props.name}</Text>
         		<Text note>{props.age}</Text>
       		</Body>
       	</Left>
         <Right>
-          <PillTimer time={"47:39"} />
+          <PillTimer />
         </Right>
     	</CardItem>
 		  <CardItem cardBody>

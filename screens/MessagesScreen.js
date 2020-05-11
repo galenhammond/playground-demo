@@ -83,6 +83,7 @@ export default function MessagesScreen(props) {
 	          name={item.name}
 	          lastMessage={item.message}
 	          timeStamp={item.timestamp}
+	          opened
 	        />
 	      </TouchableOpacity>
 	    )}

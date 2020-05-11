@@ -24,7 +24,7 @@ export default function MatchCard(props) {
         <Image source={props.tile} style={{height: 200, width: null, flex: 1}} />
       </CardItem>
       {props.bio ?
-        <Text style={{textAlign: 'center', fontFamily: "sfprodisplay-light", color: "#757E90", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>
+        <Text style={{textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#757E90", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>
         : <View />}
       <CardItem>
       	<Left>

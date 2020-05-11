@@ -5,5 +5,5 @@ export default function SettingsScreen(props) {
 	return (
 		<View>
 		</View>
-		)
+	);
 }

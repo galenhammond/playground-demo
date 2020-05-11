@@ -1,11 +1,13 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet, Dimensions } from 'react-native';
+import { Badge } from 'react-native-elements'
 
-const DIMENSION_WIDTH = Dimensions.get("window").width;
+//TODO: Slidable message list
 
-const Message = ({ image, lastMessage, name, timeStamp }) => {
+const Message = ({ image, lastMessage, name, timeStamp, opened}) => {
   return (
     <View style={styles.containerMessage}>
+      { opened && <Badge status="primary" containerStyle={{ position: 'absolute', left: '1.7%' }} /> }
       <Image source={image} style={styles.avatar} />
       <View>
         <Text>{name}</Text>

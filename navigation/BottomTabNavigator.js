@@ -50,13 +50,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   const MyProfileStack = createStackNavigator();
   function ProfileStack({navigation}) {
     return (
-      <MyProfileStack.Navigator screenOptions={{headerShown: true,
-        headerTitle: "playground",
-        headerStyle: {height: 65, borderBottomWidth: 0.5},
-        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-        textAlign: 'center', alignSelf: 'center'},
-        headerLeft: props => <HamburgerIcon {...navigation} /> 
-       }}>
+      <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
         <MyProfileStack.Screen name="Profile">
           {props => <ProfileScreen {...props} 
           image={require('../assets/images/MichelleThumb.jpg')}

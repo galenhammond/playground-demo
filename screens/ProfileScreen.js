@@ -3,13 +3,15 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Slider, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { Avatar } from 'react-native-elements'
+import { Avatar, Button } from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons'; 
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Picker } from 'native-base'
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'
+const SYSTEM_BLUE = '#007bff'
 const MAX_RADIUS = 2.5;
 const MAX_AGE = 65;
 const AGE_STEP = 0.02173913;
@@ -21,12 +23,14 @@ export default function ProfileScreen(props) {
   const [userVisible, setUserVisible] = React.useState(true);
   const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
   const [userGenderPreference, setUserGenderPreference] = React.useState(GENDER_STEP);
-
+  const [isSliding, setIsSliding] = React.useState(false); //TODO: Set scrollview to freeze when using slider
+  const [isEditing, setEditing] = React.useState(false); //TODO: Set user fields to be editable on edit button click
+ 
   return (
     <SafeAreaView style={styles.container}>
       <View style={{
       	justifyContent: 'center',
-      	paddingTop: "10%",
+      	paddingTop: "1%",
       }}>
       	<View style={{
       		borderColor: "#D8D8D8",
@@ -34,6 +38,7 @@ export default function ProfileScreen(props) {
       		borderBottomWidth: 1,
       		alignItems: "center",
       		justifyContent:"center"}}>
+      		<Button title={"Edit"} type={"clear"} />
       		<TouchableOpacity>
 		      	<Avatar rounded
 		      	showAccessory={true}

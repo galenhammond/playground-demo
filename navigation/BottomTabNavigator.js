@@ -25,7 +25,7 @@ function HomeStack({ navigation }) {
      headerStyle: {height: 65, borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
-     headerLeft: props => <HamburgerIcon {...props} /> 
+     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> 
    }}>
       <MyHomeStack.Screen name="home" component={HomeScreen}/>
     </MyHomeStack.Navigator>

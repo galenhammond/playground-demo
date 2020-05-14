@@ -6,7 +6,6 @@ import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Ionicons, Enty
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 
 function HamburgerIcon(props) {
-    const { navigation } = props;
     console.log(props);
     return (
         <TouchableOpacity
@@ -16,7 +15,7 @@ function HamburgerIcon(props) {
             height: 30,
             marginLeft: 10
         }}
-        onPress={(navigation) => navigation.openDrawer()} >
+        onPress={(navigation) => props.navigation.openDrawer()} >
 	        <SafeAreaView style={{alignSelf: "center"}}>
 	             <Ionicons name='ios-menu' size={28} color='#D8D8D8'/>
 	        </SafeAreaView>

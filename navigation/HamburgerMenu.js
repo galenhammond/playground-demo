@@ -5,8 +5,9 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 
-function HamburgerIcon(navigation) {
-    console.log(navigation);
+function HamburgerIcon(props) {
+    const { navigation } = props;
+    console.log(props);
     return (
         <TouchableOpacity
         //TODO: Increase area for greater responsiveness

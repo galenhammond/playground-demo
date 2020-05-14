@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import { Text, SafeAreaView  } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
 
 function HamburgerIcon(navigation) {
+    console.log(navigation);
     return (
         <TouchableOpacity
         //TODO: Increase area for greater responsiveness
@@ -14,9 +15,7 @@ function HamburgerIcon(navigation) {
             height: 30,
             marginLeft: 10
         }}
-        onPress={()=>{
-            navigation.openDrawer();
-        }}>
+        onPress={(navigation) => navigation.openDrawer()} >
 	        <SafeAreaView style={{alignSelf: "center"}}>
 	             <Ionicons name='ios-menu' size={28} color='#D8D8D8'/>
 	        </SafeAreaView>

@@ -14,64 +14,61 @@ import ChatScreen from '../screens/ChatScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
+const MyHomeStack = createStackNavigator();
+const MyMessagesStack = createStackNavigator();
+const MyProfileStack = createStackNavigator();
 
-export default function BottomTabNavigator({ navigation, route }) {
+function HomeStack({ navigation }) {
+  return (
+    <MyHomeStack.Navigator screenOptions={{headerShown: true,
+     headerTitle: "playground",
+     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+     textAlign: 'center', alignSelf: 'center'},
+     headerLeft: ({navigation}) => <HamburgerIcon {...navigation} /> 
+   }}>
+      <MyHomeStack.Screen name="home" component={HomeScreen}/>
+    </MyHomeStack.Navigator>
+  );
+}
+
+function MessagesStack(props) {
+return (
+  <MyMessagesStack.Navigator initialRouteName={"messages"} 
+  screenOptions={{headerShown: false}}>
+    <MyMessagesStack.Screen name="messages" component={MessagesScreen} />
+    <MyMessagesStack.Screen name="chats" component={ChatScreen} />
+  </MyMessagesStack.Navigator>
+  );
+}
+
+function ProfileStack(props) {
+return (
+  <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
+    <MyProfileStack.Screen name="Profile">
+      {props => <ProfileScreen {...props} 
+      image={require('../assets/images/MichelleThumb.jpg')}
+      name="Michelle"
+      age="21"
+      bio="Here for a good time, not a long time!" /> }
+    </MyProfileStack.Screen>
+  </MyProfileStack.Navigator>
+  );
+}
+
+function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-
-
-  const MyHomeStack = createStackNavigator();
-    function HomeStack({navigation}) {
-      return (
-        <MyHomeStack.Navigator screenOptions={{headerShown: true,
-         headerTitle: "playground",
-         headerStyle: {height: 65, borderBottomWidth: 0.5},
-         headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-         textAlign: 'center', alignSelf: 'center'},
-         headerLeft: props => <HamburgerIcon {...navigation} /> 
-       }}>
-          <MyHomeStack.Screen name="home" component={HomeScreen}/>
-        </MyHomeStack.Navigator>
-      );
-    }
-
-  const MyMessagesStack = createStackNavigator();
-  function MessagesStack({navigation}) {
-    return (
-      <MyMessagesStack.Navigator initialRouteName={"Messages"} 
-      screenOptions={{headerShown: false}}>
-        <MyMessagesStack.Screen name="Chat" component={ChatScreen} />
-        <MyMessagesStack.Screen name="Messages" component={MessagesScreen} />
-      </MyMessagesStack.Navigator>
-      );
-  }
-
-  const MyProfileStack = createStackNavigator();
-  function ProfileStack({navigation}) {
-    return (
-      <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
-        <MyProfileStack.Screen name="Profile">
-          {props => <ProfileScreen {...props} 
-          image={require('../assets/images/MichelleThumb.jpg')}
-          name="Michelle"
-          age="21"
-          bio="Here for a good time, not a long time!" /> }
-        </MyProfileStack.Screen>
-      </MyProfileStack.Navigator>
-      );
-  }
-
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} >
-      <BottomTab.Screen
-        name="Home"
+    <BottomTab.Navigator lazy={false} initialRouteName={INITIAL_ROUTE_NAME} >
+      <BottomTab.Screen 
+        name="Home" 
         component={HomeStack}
         options={{
           title: 'Feed',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={MaterialCommunityIcons} focused={focused} name="heart" />,
-        }}
-      />
+        }} /> 
       <BottomTab.Screen
         name="Messages"
         component={MessagesStack}
@@ -97,3 +94,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default BottomTabNavigator;

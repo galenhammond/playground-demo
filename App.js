@@ -11,6 +11,7 @@ import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
 import { VisbilitySwitch } from './components/VisibilitySwitch'
 import HamburgerIcon from "./navigation/HamburgerMenu";
+import SettingsScreen from "./screens/SettingsScreen"
 
 const Drawer = createDrawerNavigator();
 

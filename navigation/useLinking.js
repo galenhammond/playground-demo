@@ -10,7 +10,8 @@ export default function(containerRef) {
         screens: {
           Home: 'home',
           Profile: 'profile',
-          Messages: 'messages'
+          Messages: 'messages',
+          Chats: 'chats'
         },
       },
     },

@@ -69,7 +69,7 @@ function MessagesScreen(props) {
   	  		justifyContent: "center",}}
 		*/
   	  	renderItem={({ item }) => (
-	      <TouchableOpacity style={{padding: 20}}>
+	      <TouchableOpacity style={{padding: 20}} onPress={() => props.navigation.navigate('Chats', {avatar: item.image,})}>
 	      	<Thumbnail small source={item.image} />
 	      </TouchableOpacity>
 	      )}

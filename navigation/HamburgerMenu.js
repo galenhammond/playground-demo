@@ -6,7 +6,6 @@ import { MaterialCommunityIcons, Feather, FontAwesome, AntDesign, Ionicons, Enty
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 
 function HamburgerIcon(props) {
-    console.log(props);
     return (
         <TouchableOpacity
         //TODO: Increase area for greater responsiveness

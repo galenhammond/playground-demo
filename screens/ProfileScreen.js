@@ -1,13 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Slider, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import { Slider, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Avatar, Button } from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons'; 
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { Picker } from 'native-base'
+import { Picker, ActionSheet } from 'native-base'
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'
@@ -17,6 +17,8 @@ const MAX_AGE = 65;
 const AGE_STEP = 0.02173913;
 const MINIMUM_AGE = 19;
 const GENDER_STEP = 0.5;
+const CANCEL_BUTTON_INDEX = 2;
+const BUTTONS = ["Add/Replace Photos", "Edit Details", "Cancel"];
 
 export default function ProfileScreen(props) {
   const [userMatchRadius, setUserMatchRadius] = React.useState(MAX_RADIUS);
@@ -38,7 +40,14 @@ export default function ProfileScreen(props) {
       		borderBottomWidth: 1,
       		alignItems: "center",
       		justifyContent:"center"}}>
-      		<Button title={"Edit"} type={"clear"} />
+      		<Button title={"Edit"} type={"clear"} onPress={() => ActionSheet.show({
+      			options: BUTTONS,
+      			destructiveButtonIndex: CANCEL_BUTTON_INDEX
+      		}, 
+      		buttonIndex => {
+      			setEditing(true);
+      		}
+      		)}/>
       		<TouchableOpacity>
 		      	<Avatar rounded
 		      	showAccessory={true}
@@ -46,13 +55,19 @@ export default function ProfileScreen(props) {
 		      	size={120} 
 		      	source={props.image} />
 		    </TouchableOpacity>
-	      	<Text style={{fontFamily: "comfortaa-regular", fontSize: 26,
+	      	{ isEditing ?  <TextInput style={{fontFamily: "comfortaa-regular", fontSize: 26,
 	      	alignSelf: "center",
 	      	marginBottom: "2%", 
-	      	marginTop: "3.5%"}}>{props.name}</Text>
-	      	<Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#D8D8D8"}}>{props.age}</Text>
-	      	{props.bio && <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: "#757E90"}}>{props.bio}</Text>}
-  			<View  style={{
+	      	marginTop: "3.5%", color: SYSTEM_BLUE}}>{props.name}</TextInput>
+	      		: <Text style={{fontFamily: "comfortaa-regular", fontSize: 26,
+	      	alignSelf: "center",
+	      	marginBottom: "2%", 
+	      	marginTop: "3.5%"}}>{props.name}</Text> }
+	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: SYSTEM_BLUE}}>{props.age}</TextInput>
+	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#D8D8D8"}}>{props.age}</Text> }
+	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{props.bio}</TextInput>
+	      		: props.bio && <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: "#757E90"}}>{props.bio}</Text> }
+  			<View style={{
 	      		flexDirection: 'row',
 	      		flexGrow: 1,
 	      		alignItems: "center",

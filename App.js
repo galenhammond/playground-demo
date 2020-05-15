@@ -3,6 +3,7 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import { Root } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -57,17 +58,19 @@ export default function App(props) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
-          image={require('./assets/images/MichelleThumb.jpg')} 
-          name="Michelle" />} >
-            <Drawer.Screen name="Feed" component={BottomTabNavigator} options={{swipeEnabled: false}} />
-            <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </View>
+      <Root>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
+          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+            <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
+            image={require('./assets/images/MichelleThumb.jpg')} 
+            name="Michelle" />} >
+              <Drawer.Screen name="Feed" component={BottomTabNavigator} options={{swipeEnabled: false}} />
+              <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
+            </Drawer.Navigator>
+          </NavigationContainer>
+        </View>
+      </Root>
     );
   }
 }

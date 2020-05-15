@@ -20,14 +20,16 @@ const MyProfileStack = createStackNavigator();
 
 function HomeStack({ navigation }) {
   return (
-    <MyHomeStack.Navigator screenOptions={{headerShown: true,
+    <MyHomeStack.Navigator>
+      <MyHomeStack.Screen name="home" component={HomeScreen} options={{headerShown: true,
      headerTitle: "playground",
      headerStyle: {height: 65, borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
-     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> 
-   }}>
-      <MyHomeStack.Screen name="home" component={HomeScreen}/>
+     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
+     <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
+      headerBackTitle: "Feed"
+     }}/>
     </MyHomeStack.Navigator>
   );
 }

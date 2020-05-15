@@ -8,17 +8,20 @@ function HomeScreen(props) {
 	return (
 	  <SafeAreaView style={styles.container}>
 	  	<ScrollView contentContainerStyle={{ flexGrow: 1}}>
-	  		<MatchCard name={"Madison"} age={"21"} 
+	  		<MatchCard {...props}
+	  		name={"Madison"} age={"21"} 
 	  		tile={require('../assets/images/Michelle.jpeg')} 
 	  		thumbnail={require("../assets/images/MichelleThumb.jpg")} 
 	  		distance={"21"}
 	  		bio="Here for a good time, not a long time!" />
-	  		<MatchCard name={"Nicole"} age={"19"} 
+	  		<MatchCard {...props}
+	  		name={"Nicole"} age={"19"} 
 	  		tile={require('../assets/images/Nicole.jpg')} 
 	  		thumbnail={require("../assets/images/ness.jpg")} 
 	  		distance={"17"}
 	  		bio="Only on here for the night!" />
-	  		<MatchCard name={"Kate"} age={"20"} 
+	  		<MatchCard {...props}
+	  		name={"Kate"} age={"20"} 
 	  		tile={require('../assets/images/Kate.jpg')} 
 	  		thumbnail={require("../assets/images/KateThumb.jpg")} 
 	  		distance={"42"}

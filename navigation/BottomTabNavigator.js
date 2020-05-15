@@ -34,10 +34,9 @@ function HomeStack({ navigation }) {
 
 function MessagesStack(props) {
 return (
-  <MyMessagesStack.Navigator initialRouteName={"messages"} 
-  screenOptions={{headerShown: false}}>
-    <MyMessagesStack.Screen name="messages" component={MessagesScreen} />
-    <MyMessagesStack.Screen name="chats" component={ChatScreen} />
+  <MyMessagesStack.Navigator initialRouteName={"messages"}>
+    <MyMessagesStack.Screen name="Messages" component={MessagesScreen} options={{ headerShown: false, }} />
+    <MyMessagesStack.Screen name="Chats" component={ChatScreen} options={{ title: props.userFirstName }} />
   </MyMessagesStack.Navigator>
   );
 }

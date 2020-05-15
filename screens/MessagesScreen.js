@@ -9,10 +9,11 @@ import { MatchCounter } from "../components/MatchCounter";
 import { Data } from '../assets/data/demo.js';
 import Message from '../components/Messages';
 import ChatScreen from '../screens/ChatScreen';
+import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 //TODO: Implement pull down to refresh
 
-export default function MessagesScreen(props) {
+function MessagesScreen(props) {
   const [searchText, setSearchText] = React.useState();
 
   return (
@@ -79,7 +80,7 @@ export default function MessagesScreen(props) {
 	    data={Data}
 	    keyExtractor={(item, index) => index.toString()}
 	    renderItem={({ item }) => (
-	      <TouchableOpacity onPress={() => props.navigation.navigate('chats')} >
+	      <TouchableOpacity onPress={() => props.navigation.navigate('Chats', {avatar: item.image,})}>
 	        <Message
 	          image={item.image}
 	          name={item.name}
@@ -100,3 +101,4 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 });
+export default withMappedNavigationParams()(MessagesScreen);

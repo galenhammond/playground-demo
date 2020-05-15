@@ -43,10 +43,10 @@ return (
   );
 }
 
-function ProfileStack(props) {
+function ProfileStack({ navigation }) {
 return (
   <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
-    <MyProfileStack.Screen name="Profile">
+    <MyProfileStack.Screen name="Profile" options={{headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
       {props => <ProfileScreen {...props} 
       image={require('../assets/images/MichelleThumb.jpg')}
       name="Michelle"

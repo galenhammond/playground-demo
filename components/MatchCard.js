@@ -1,13 +1,21 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 'react-native';
-import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast } from 'native-base';
+import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import { PillTimer } from '../components/PillTimer'
 import { Data } from '../assets/data/demo'
 
 //onPress={props.navigation.navigate('Messages', {screen: "Chat"})
+const SYSTEM_RED = '#ff3a30'
+const BUTTONS = ['Message', 'Buy A Drink', 'Extend', 'Rewind', 'Unmatch', 'Cancel'];
+const UNMATCH_INDEX = 4
+const CANCEL_INDEX = 5
+
+//TODO: set up power up mapping to more icon
 
 export default function MatchCard(props) {
+  const [studState, setStud] = React.useState(false);
+
   return (
   	<Card>
   		<CardItem>
@@ -19,7 +27,20 @@ export default function MatchCard(props) {
       		</Body>
       	</Left>
         <Right>
-          <PillTimer />
+          <TouchableOpacity onPress={() => ActionSheet.show({
+            options: BUTTONS,
+            cancelButtonIndex: CANCEL_INDEX,
+            destructiveButtonIndex: UNMATCH_INDEX
+          }, 
+          buttonIndex => {
+            setStud(!studState);
+          }
+          )}
+          >  
+            <Ionicons name="ios-more" size={24} color="#D8D8D8" />
+          </TouchableOpacity>
+          <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} />
+          {/*<PillTimer />*/}
         </Right>
     	</CardItem>
 		  <CardItem cardBody>

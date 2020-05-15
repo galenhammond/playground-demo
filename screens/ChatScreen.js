@@ -4,6 +4,7 @@ import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 function ChatScreen(props) {
+	//TODO: Push user avatar and name to GiftedChat
 	const [userTypedMessage, setUserTypedMessage] = React.useState();
 	const [messages, updateMessages] = React.useState([
 		{

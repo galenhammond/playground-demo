@@ -26,7 +26,8 @@ export default function ProfileScreen(props) {
   const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
   const [userGenderPreference, setUserGenderPreference] = React.useState(GENDER_STEP);
   const [isSliding, setIsSliding] = React.useState(false); //TODO: Set scrollview to freeze when using slider
-  const [isEditing, setEditing] = React.useState(false); //TODO: Set user fields to be editable on edit button click
+  const [isEditing, setEditing] = React.useState(false); //TODO: Setup editable callback to pushes changes to backend and setup logic for determing which button was pressed 
+
  
   return (
     <SafeAreaView style={styles.container}>

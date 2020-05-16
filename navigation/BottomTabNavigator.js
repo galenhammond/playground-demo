@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import MessagesScreen from '../screens/MessagesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HamburgerIcon from "../navigation/HamburgerMenu";
 import { SearchBar } from 'react-native-elements';
@@ -29,6 +30,22 @@ function HomeStack({ navigation }) {
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
      <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
       headerBackTitle: "Feed"
+     }}/>
+    </MyHomeStack.Navigator>
+  );
+}
+
+function ExploreStack({ navigation }) {
+  return (
+    <MyHomeStack.Navigator>
+      <MyHomeStack.Screen name="explore" component={ExploreScreen} options={{headerShown: true,
+     headerTitle: "playground",
+     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+     textAlign: 'center', alignSelf: 'center'},
+     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
+     <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
+      headerBackTitle: "Explore"
      }}/>
     </MyHomeStack.Navigator>
   );
@@ -67,9 +84,18 @@ function BottomTabNavigator({ navigation, route }) {
         name="Home" 
         component={HomeStack}
         options={{
+          title: 'Feed',
+          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-apps" />,
+        }} /> 
+
+        <BottomTab.Screen 
+        name="explore" 
+        component={ExploreStack}
+        options={{
           title: 'Discover',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-search" />,
         }} /> 
+
       <BottomTab.Screen
         name="Messages"
         component={MessagesStack}

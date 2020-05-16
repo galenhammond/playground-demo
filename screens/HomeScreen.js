@@ -1,29 +1,50 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, FlatList, Modal } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-elements';
 import MatchCard from '../components/MatchCard';
 import MapView from 'react-native-maps';
 import { Data } from '../assets/data/demo';
 import CardItem from '../components/CardItem';
-import RNLocation from 'react-native-location';
+import Modal from 'react-native-modal';
 
 function HomeScreen(props) {
 	//TODO: Inject MatchCards as a callback rather than hard coding them
 	//TODO: Refresh must send and receive up to date data from backend
 	const [locationSearch, setLocationSearch] = React.useState();
 	const [isModalVisible, setModalVisible] = React.useState(false);
-	const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
+	const [modalData, setModalData] = React.useState({});
+	//const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
+	const renderModal = (item) => {
+		setModalVisible(true);
+		setModalData(item);
+	}
+
+	const closeModal = () => {
+		setModalVisible(false);
+	}
+
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, isModalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
+			<Modal
+			isVisible={isModalVisible} 
+			onBackdropPress={closeModal}
+			>
+				<CardItem
+				image={modalData.image} 
+				name={modalData.name} 
+				description={modalData.bio}
+				status={"100m"}
+				/>
+			</Modal>
 			<MapView style={styles.map} initialRegion={{
-		      latitude: 45.187009,
-		      longitude: -75.847699,
-		      latitudeDelta: 0.0922,
-		      longitudeDelta: 0.0421,
+		      latitude: 45.250625,
+		      longitude: -75.903906,
+		      latitudeDelta: 0.0522,
+		      longitudeDelta: 0.0021,
 		      }}
-		      customMapStyle={mapStyle}
+		      //customMapStyle={mapStyle}
 		      provider={'google'}
 		      showsUserLocation
 		       />  
@@ -34,7 +55,7 @@ function HomeScreen(props) {
 		      data={Data}
 		      keyExtractor={(item, index) => index.toString()}
 		      renderItem={({ item }) => (
-			    <TouchableOpacity >
+			    <TouchableOpacity onPress={() => renderModal(item)}>
 			      <CardItem
 			        image={item.image}
 			        name={item.name}

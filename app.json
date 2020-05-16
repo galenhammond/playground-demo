@@ -23,7 +23,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
+        "NSLocationAlwaysUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
+      },
     }
   }
 }

@@ -2,8 +2,12 @@ import React from 'react';
 import styles from '../assets/styles';
 
 import { Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
-import Icon from './Icon';
-
+import { Icon } from 'react-native-elements';
+const PRIMARY_COLOR = "#7444C0";
+const SYSTEM_RED = '#ff3a30'
+const SYSTEM_GREEN = '#30bf54'
+const SYSTEM_YELLOW = '#ffcc00'
+const SECONDARY_COLOR = "#5636B8";
 const CardItem = ({
   actions,
   description,
@@ -58,9 +62,11 @@ const CardItem = ({
       )}
 
       {/* STATUS */}
+      {/* Lets use this as a "new match" indicator, blue badge appears when a match has not been clicked or messaged */}
       {status && (
         <View style={styles.status}>
-          <View style={status === 'Online' ? styles.online : styles.offline} />
+          <View style={status === 'Online' ? styles.online : styles.online //styles.offline
+          } />
           <Text style={styles.statusText}>{status}</Text>
         </View>
       )}
@@ -69,30 +75,27 @@ const CardItem = ({
       {actions && (
         <View style={styles.actionsCardItem}>
           <TouchableOpacity style={styles.miniButton}>
-            <Text style={styles.star}>
-              <Icon name="star" />
-            </Text>
+            <Icon name={"ios-hourglass"}
+            type={"ionicon"}
+            color={'#007bff'}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
-            <Text style={styles.like}>
-              <Icon name="like" />
-            </Text>
+            <Icon name={"ios-wine"}
+            type="ionicon" 
+            color={'#960f0f'} />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onPressRight()}
-          >
-            <Text style={styles.dislike}>
-              <Icon name="dislike" />
-            </Text>
+          <TouchableOpacity style={styles.button}>
+            <Icon name={"ios-paper-plane"}
+            type={"ionicon"}
+            color={PRIMARY_COLOR} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.miniButton}>
-            <Text style={styles.flash}>
-              <Icon name="flash" />
-            </Text>
+            <Icon name={"back-in-time"}
+            type={"entypo"} 
+            />
           </TouchableOpacity>
         </View>
       )}

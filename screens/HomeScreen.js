@@ -36,6 +36,7 @@ function HomeScreen(props) {
 				name={modalData.name} 
 				description={modalData.bio}
 				status={"100m"}
+				actions
 				/>
 			</Modal>
 			<MapView style={styles.map} initialRegion={{

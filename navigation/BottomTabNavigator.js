@@ -67,15 +67,15 @@ function BottomTabNavigator({ navigation, route }) {
         name="Home" 
         component={HomeStack}
         options={{
-          title: 'Feed',
-          tabBarIcon: ({ focused }) => <TabBarIcon Icon={MaterialCommunityIcons} focused={focused} name="heart" />,
+          title: 'Discover',
+          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-search" />,
         }} /> 
       <BottomTab.Screen
         name="Messages"
         component={MessagesStack}
         options={{
-          title: 'Messages',
-          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Entypo} focused={focused} name="paper-plane" />,
+          title: 'Chats',
+          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-chatbubbles" />,
         }}
       />
       <BottomTab.Screen
@@ -83,7 +83,7 @@ function BottomTabNavigator({ navigation, route }) {
         component={ProfileStack}
         options={{
           title: 'Profile',
-          tabBarIcon: ({ focused }) => <TabBarIcon Icon={MaterialIcons} focused={focused} name="person-pin" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-contact" />,
         }}
       />
     </BottomTab.Navigator>

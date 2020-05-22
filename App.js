@@ -14,6 +14,7 @@ import { VisbilitySwitch } from './components/VisibilitySwitch'
 import HamburgerIcon from "./navigation/HamburgerMenu";
 import SettingsScreen from "./screens/SettingsScreen";
 import LandingScreen from "./screens/LandingScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 const Drawer = createDrawerNavigator();
 const LoginStack = createStackNavigator();
@@ -21,7 +22,7 @@ const MySettingsStack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [initialNavigationState, setInitialNavigationState] = React.useState();
+  const [initialNavigationState, setInitialNavigationState] = React.useState('');
   const [userLoggedIn, setUserLoggedIn] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
@@ -40,6 +41,7 @@ export default function App(props) {
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
           'comfortaa-regular': require('./assets/fonts/Comfortaa-Regular.ttf'),
+          'comfortaa-light': require('./assets/fonts/Comfortaa-Light.ttf'),
           'sfprodisplay-regular': require('./assets/fonts/SFProDisplay-Regular.ttf'),
           'sfprodisplay-light': require('./assets/fonts/SFProDisplay-Light.ttf'),
           'sfprodisplay-medium': require('./assets/fonts/SFProDisplay-Medium.ttf'),
@@ -75,7 +77,8 @@ export default function App(props) {
             </Drawer.Navigator>
           :
             <LoginStack.Navigator>
-              <LoginStack.Screen name="Settings" component={LandingScreen} options={{headerShown: false}} />
+              <LoginStack.Screen name="Landing Page" component={LandingScreen} options={{headerShown: false}} />
+              <LoginStack.Screen name="Sign Up" component={SignUpScreen} options={{headerShown: false}} />
             </LoginStack.Navigator>
           }
           </NavigationContainer>

@@ -8,6 +8,7 @@ const SYSTEM_RED = '#ff3a30'
 const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_YELLOW = '#ffcc00'
 const SECONDARY_COLOR = "#5636B8";
+
 const CardItem = ({
   actions,
   description,
@@ -17,10 +18,16 @@ const CardItem = ({
   onPressLeft,
   onPressRight,
   status,
-  variant
+  variant,
+  navigation,
+  onNavigate
 }) => {
   // Custom styling
   const fullWidth = Dimensions.get('window').width;
+  const onMessagePress = (navigation) => {
+    onNavigate(false);
+    navigation.navigate('Chats');
+  }
   const imageStyle = [
     {
       borderRadius: 8,
@@ -86,7 +93,7 @@ const CardItem = ({
             color={'#960f0f'} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => onMessagePress(navigation)}>
             <Icon name={"ios-paper-plane"}
             type={"ionicon"}
             color={PRIMARY_COLOR} />

@@ -24,7 +24,7 @@ function HomeStack({ navigation }) {
     <MyHomeStack.Navigator>
       <MyHomeStack.Screen name="home" component={HomeScreen} options={{headerShown: true,
      headerTitle: "playground",
-     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerStyle: {borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
@@ -40,7 +40,7 @@ function ExploreStack({ navigation }) {
     <MyHomeStack.Navigator>
       <MyHomeStack.Screen name="explore" component={ExploreScreen} options={{headerShown: true,
      headerTitle: "playground",
-     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerStyle: { borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
@@ -85,7 +85,7 @@ function BottomTabNavigator({ navigation, route }) {
         component={HomeStack}
         options={{
           title: 'Feed',
-          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-apps" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-heart" />,
         }} /> 
 
         <BottomTab.Screen 

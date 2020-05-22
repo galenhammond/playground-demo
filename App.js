@@ -12,13 +12,17 @@ import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
 import { VisbilitySwitch } from './components/VisibilitySwitch'
 import HamburgerIcon from "./navigation/HamburgerMenu";
-import SettingsScreen from "./screens/SettingsScreen"
+import SettingsScreen from "./screens/SettingsScreen";
+import LandingScreen from "./screens/LandingScreen";
 
 const Drawer = createDrawerNavigator();
+const LoginStack = createStackNavigator();
+const MySettingsStack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
+  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
@@ -62,12 +66,18 @@ export default function App(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+          {userLoggedIn ?
             <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
             image={require('./assets/images/MichelleThumb.jpg')} 
             name="Michelle" />} >
               <Drawer.Screen name="Feed" component={BottomTabNavigator} options={{swipeEnabled: false}} />
               <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
             </Drawer.Navigator>
+          :
+            <LoginStack.Navigator>
+              <LoginStack.Screen name="Settings" component={LandingScreen} options={{headerShown: false}} />
+            </LoginStack.Navigator>
+          }
           </NavigationContainer>
         </View>
       </Root>
@@ -75,7 +85,6 @@ export default function App(props) {
   }
 }
 
-const MySettingsStack = createStackNavigator();
 function SettingsStack({navigation}) {
   return (
     <MySettingsStack.Navigator>

@@ -16,6 +16,10 @@ function ExploreScreen(props) {
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [modalData, setModalData] = React.useState({});
 	//const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
+  const onNavigate = (value) => {
+    setModalVisible(value);
+  }
+
 	const renderModal = (item) => {
 		setModalVisible(true);
 		setModalData(item);
@@ -36,6 +40,8 @@ function ExploreScreen(props) {
 				name={modalData.name} 
 				description={modalData.bio}
 				status={"100m"}
+        navigation={props.navigation}
+        onNavigate={onNavigate}
 				actions
 				/>
 			</Modal>

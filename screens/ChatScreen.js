@@ -22,7 +22,7 @@ function ChatScreen(props) {
     const onSend = (newMessage = []) => {
     	updateMessages(GiftedChat.append(messages, newMessage));
  	}
- 
+ 	
 	return (
 		<SafeAreaView style={styles.container}>
 			<GiftedChat

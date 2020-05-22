@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 	},
 	loginText: {
 		color: '#000000',
-		fontFamily: "comfortaa-regular",
-		fontSize: 16,
+		fontFamily: "comfortaa-light",
+		fontSize: 18,
 	}
 }) 

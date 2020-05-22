@@ -1,13 +1,17 @@
 import * as React from 'react';
-import { View, SafeAreaView, TextInput, Text, StyleSheet } from 'react-native';
+import { View, SafeAreaView, KeyboardAvoidingView, TextInput, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons'; 
 
 export default function SignUpScreen(props) {
-	const [userFirstName, setUserFirstName] = React.useState('');
+	const [userFirstName, setUserFirstName] = React.useState();
+	const [userAge, setUserAge] = React.useState();
+	const [userEmail, setUserEmail] = React.useState();
+	const [userPictures, setUserPictures] = React.useState({});
 	const [userPicturesUploaded, setUploaded] = React.useState(false);
+	const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
 	return (
-		<SafeAreaView style={styles.container}>
+		<KeyboardAvoidingView behavior="padding" style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Let's get you setup</Text>
 			</View>
@@ -23,14 +27,14 @@ export default function SignUpScreen(props) {
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'22'} 
-				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
+				 onChange={val => setUserAge(val)} textAlign={'center'} />
 			</View>
 			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Email</Text>
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'john.smith@playground.ca'} 
-				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
+				 onChange={val => setUserEmail(val)} textAlign={'center'} />
 			</View>
 			<View style={styles.subTitleContainer}>
 			</View>
@@ -43,7 +47,7 @@ export default function SignUpScreen(props) {
 				{userPicturesUploaded ? <Button title={"Continue"} type={"clear"} />
 				: <Button disabled title={"Continue"} type={"clear"} /> }
 			</View>
-		</SafeAreaView>
+		</KeyboardAvoidingView>
 	)
 }
 

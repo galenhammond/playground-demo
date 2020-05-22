@@ -11,7 +11,7 @@ export default function LandingScreen(props) {
 				<TouchableOpacity onPress={() => props.navigation.navigate('Sign Up')}>
 					<Text style={styles.registrationText}>join now</Text>
 				</TouchableOpacity>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => props.navigation.navigate('Sign In')}>
 					<Text style={styles.loginText}>already have an account? sign in</Text>
 				</TouchableOpacity>
 			</View>

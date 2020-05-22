@@ -15,6 +15,7 @@ import HamburgerIcon from "./navigation/HamburgerMenu";
 import SettingsScreen from "./screens/SettingsScreen";
 import LandingScreen from "./screens/LandingScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import SignInScreen from "./screens/SignInScreen";
 
 const Drawer = createDrawerNavigator();
 const LoginStack = createStackNavigator();
@@ -79,6 +80,7 @@ export default function App(props) {
             <LoginStack.Navigator>
               <LoginStack.Screen name="Landing Page" component={LandingScreen} options={{headerShown: false}} />
               <LoginStack.Screen name="Sign Up" component={SignUpScreen} options={{headerShown: false}} />
+              <LoginStack.Screen name="Sign In" component={SignInScreen} options={{headerShown: false}} />
             </LoginStack.Navigator>
           }
           </NavigationContainer>

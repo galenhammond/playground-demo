@@ -25,9 +25,12 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
-        "NSLocationAlwaysUsageDescription": "This app uses the location services in order to determine and update the distance to other Playground users",
+        "NSLocationWhenInUseUsageDescription": "Playground would like to access your location",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Playground would like to access your location",
+        "NSLocationAlwaysUsageDescription": "Playground would like to access your location",
+        "NSPhotoLibraryUsageDescription": "Playground would like to access your photos",
+        "NSCameraUsageDescription": "Playground would like to access your camera",
+        "NSPhotoLibraryUsageDescription": "Playground would like to save photos to your library",
       },
     }
   }

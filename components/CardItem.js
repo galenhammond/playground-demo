@@ -82,8 +82,8 @@ const CardItem = ({
       {actions && (
         <View style={styles.actionsCardItem}>
           <TouchableOpacity style={styles.miniButton}>
-            <Icon name={"ios-hourglass"}
-            type={"ionicon"}
+            <Icon name={"pin"}
+            type={"entypo"}
             color={'#007bff'}/>
           </TouchableOpacity>
 

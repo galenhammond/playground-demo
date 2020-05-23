@@ -1,15 +1,29 @@
 import * as React from 'react';
 import { View, SafeAreaView, KeyboardAvoidingView, TextInput, Text, StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 import { Entypo } from '@expo/vector-icons'; 
+import ImagePicker from 'react-native-image-picker';
 
 export default function SignUpScreen(props) {
 	const [userFirstName, setUserFirstName] = React.useState();
 	const [userAge, setUserAge] = React.useState();
 	const [userEmail, setUserEmail] = React.useState();
 	const [userPictures, setUserPictures] = React.useState({});
-	const [userPicturesUploaded, setUploaded] = React.useState(false);
+	const [userPicturesUploaded, setUserPicturesUploaded] = React.useState(false);
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+
+	/*const handleChoosePhoto = () => {
+    	const options = {
+      		noData: true,
+    	}
+    	ImagePicker.launchImageLibrary(options, response => {
+      		if (response) {
+        		setUserPictures(response);
+        		setUserPicturesUploaded(true);
+      		}
+    	})
+  	}*/
+
 	return (
 		<KeyboardAvoidingView behavior="padding" style={styles.container}>
 			<View style={styles.titleContainer}>

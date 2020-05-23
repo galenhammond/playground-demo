@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {View, SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, SafeAreaView, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default function SignInPage(props) {
 	const [userEmail, setUserEmail] = React.useState();
 	const [userPassword, setUserPassword] = React.useState();
 	return (
-		<SafeAreaView style={styles.container}>
+		<KeyboardAvoidingView behavior='padding' style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Sign In</Text>
 			</View>
@@ -15,18 +15,19 @@ export default function SignInPage(props) {
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'Enter email'} 
-				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
+				 onChange={val => setUserEmail(val)} textAlign={'center'}
+				 keyboardType={'email-address'} />
 			</View><View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Password</Text>
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'Enter password'} 
-				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
+				 onChange={val => setUserPassword(val)} textAlign={'center'} />
 			</View>
 			<View style={styles.buttonContainer}>
-				<Button title={"Sign In"} type={"clear"} />
+				<Button title={"Sign In"} type={"clear"} onPress={() => props.navigation.navigate("Feed")}/>
 			</View>
-		</SafeAreaView>
+		</KeyboardAvoidingView>
 	)
 }
 

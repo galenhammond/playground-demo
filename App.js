@@ -24,7 +24,7 @@ const MySettingsStack = createStackNavigator();
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
-  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
+  const [userLoggedIn, setUserLoggedIn] = React.useState(true);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 

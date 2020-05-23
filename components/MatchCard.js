@@ -1,4 +1,4 @@
-import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
+import { Ionicons, SimpleLineIcons, Entypo } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 'react-native';
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
@@ -15,6 +15,8 @@ const CANCEL_INDEX = 5
 
 export default function MatchCard(props) {
   const [studState, setStud] = React.useState(false);
+  const BUTTONS = ['Message ' + props.name, 'Buy ' + props.name + ' A Drink',
+   'Pin ' + props.name + ' for 24 hours', 'Rewind ' + props.name + "'s Timer", 'Unmatch ' + props.name, 'Cancel'];
 
   return (
   	<Card>
@@ -39,7 +41,8 @@ export default function MatchCard(props) {
           >  
             <Ionicons name="ios-more" size={24} color="#D8D8D8" />
           </TouchableOpacity>
-          <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} />
+          {props.pinned ? <Entypo name={'pin'} size={18} color={'#009dff'} />
+          : <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
           {/*<PillTimer />*/}
         </Right>
     	</CardItem>

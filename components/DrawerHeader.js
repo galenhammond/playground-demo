@@ -6,6 +6,7 @@ import { Ionicons, Entypo } from '@expo/vector-icons'
 
 const ONLINE_STATUS = "#46A575";
 const GRAY = "#757E90";
+const SYSTEM_BLUE = '#007bff'
 
 export default function CustomDrawerHeader(props) {
   return (
@@ -24,19 +25,19 @@ export default function CustomDrawerHeader(props) {
       </View>
       <View style={styles.iconContainer}>
         <View style={styles.iconCount}>
-          <Ionicons name={'ios-wine'} size={18} color={'#960f0f'} />
+          <Ionicons name={'ios-wine'} size={18} color={'#009dff'} />
           <Text style={{marginLeft: "8%"}}>1</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'pin'} size={18} color={'#007bff'} />
+          <Entypo name={'pin'} size={18} color={'#009dff'} />
           <Text style={{marginLeft: "8%"}}>3</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'flash'} size={18} color={'#7444C0'} />
+          <Entypo name={'flash'} size={18} color={'#009dff'} />
           <Text style={{marginLeft: "8%"}}>1</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'back-in-time'} size={18} color={'#000000'} />
+          <Entypo name={'back-in-time'} size={18} color={'#009dff'} />
           <Text style={{marginLeft: "8%"}}>0</Text>
         </View>
       </View>

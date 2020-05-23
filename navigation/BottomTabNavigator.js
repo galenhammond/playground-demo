@@ -38,7 +38,7 @@ function HomeStack({ navigation }) {
 function ExploreStack({ navigation }) {
   return (
     <MyHomeStack.Navigator>
-      <MyHomeStack.Screen name="explore" component={ExploreScreen} options={{headerShown: true,
+      <MyHomeStack.Screen name="Explore" component={ExploreScreen} options={{headerShown: true,
      headerTitle: "playground",
      headerStyle: { borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
@@ -63,7 +63,12 @@ return (
 function ProfileStack({ navigation }) {
 return (
   <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
-    <MyProfileStack.Screen name="Profile" options={{headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
+    <MyProfileStack.Screen name="Profile" options={{
+      headerTitle: "playground",
+      headerStyle: { borderBottomWidth: 0.5},
+      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+      textAlign: 'center', alignSelf: 'center'},
+      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
       {props => <ProfileScreen {...props} 
       image={require('../assets/images/MichelleThumb.jpg')}
       name="Michelle"
@@ -121,5 +126,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const options = {
+  header: {
+    headerShown: true,
+    headerTitle: "playground",
+    headerStyle: { borderBottomWidth: 0.5},
+    headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+    textAlign: 'center', alignSelf: 'center'},
+  },
+}
 
 export default BottomTabNavigator;

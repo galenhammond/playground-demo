@@ -2,7 +2,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Button, Icon } from 'react-native-elements';
 import MatchCard from '../components/MatchCard';
 import MapView from 'react-native-maps';
 import { Data } from '../assets/data/demo';
@@ -15,6 +15,7 @@ function ExploreScreen(props) {
 	const [locationSearch, setLocationSearch] = React.useState();
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [modalData, setModalData] = React.useState({});
+  const [listVisible, setListVisible] = React.useState(false);
 	//const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
   const onNavigate = (value) => {
     setModalVisible(value);
@@ -55,7 +56,12 @@ function ExploreScreen(props) {
 		      provider={'google'}
 		      showsUserLocation
 		       />  
-		    <View>
+      {listVisible ?
+		  <View>
+        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={15}/> } 
+        containerStyle={styles.listButtonContainer} 
+        titleStyle={styles.listButtonTitle} title={"Hide Matches"} 
+        type={"clear"} onPress={() => setListVisible(false)} />
 			  <FlatList
 			  styles={styles.matchList}
 		      horizontal
@@ -72,7 +78,12 @@ function ExploreScreen(props) {
 		        </TouchableOpacity>
 		    	)}
 		  	  />
-			</View>
+        </View>
+        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={15}/> } 
+        containerStyle={styles.listButtonContainer} 
+        titleStyle={styles.listButtonTitle} raised title={"Show Matches"} 
+        type={'clear'} onPress={() => setListVisible(true)} />
+    }
 		<SearchBar lightTheme
 		onChangeText={val => setLocationSearch(val)}
 	  	value={locationSearch} placeholder={"Enter a location"}
@@ -266,6 +277,17 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-end',
 		position: 'absolute',
 		bottom: 0
-	}
+	},
+  listButtonContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    width: "40%",
+    borderRadius: 25,
+  },
+  listButtonTitle: {
+    fontSize: 15,
+    paddingHorizontal: 5,
+    color: 'black'
+  }
 });
 export default ExploreScreen;

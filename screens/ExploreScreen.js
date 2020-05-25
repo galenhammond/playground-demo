@@ -51,8 +51,8 @@ function ExploreScreen(props) {
 			<MapView style={styles.map} initialRegion={{
 		      latitude: 45.250625,
 		      longitude: -75.903906,
-		      latitudeDelta: 0.0522,
-		      longitudeDelta: 0.0021,
+		      latitudeDelta: 0.0622,
+		      longitudeDelta: 0.0121,
 		      }}
 		      //customMapStyle={mapStyle}
 		      provider={'google'}
@@ -68,13 +68,13 @@ function ExploreScreen(props) {
         </MapView>
       <SearchBar lightTheme
         onChangeText={val => setLocationSearch(val)}
-        value={locationSearch} placeholder={"Enter a location"}
+        value={locationSearch} placeholder={"Enter a location..."}
         style={{alignSelf: "flex-end"}} containerStyle={{
         backgroundColor: 'white', borderTopWidth: 0, borderBottomWidth: 0, borderRadius: 25, height: 40, 
-        justifyContent: 'center'}} inputContainerStyle={{
+        justifyContent: 'center',}} inputContainerStyle={{
         backgroundColor: "white", borderRadius: 25,}} inputStyle={{
         fontFamily: "sfprodisplay-light",
-        fontSize: 20
+        fontSize: 18
         }} />  
       <View style={styles.boostContainer}>
         <Button iconRight icon={ <Icon name={"flash"} type={"entypo"} size={15} color={SYSTEM_BLUE}/> } 
@@ -93,6 +93,7 @@ function ExploreScreen(props) {
         titleStyle={styles.listButtonTitle} title={"Hide Matches"} 
         type={"clear"} onPress={() => setListVisible(false)} />
 			  <FlatList
+        showsHorizontalScrollIndicator={false}
 			  styles={styles.matchList}
 		      horizontal
 		      data={Data}

@@ -65,9 +65,9 @@ export default function ProfileScreen(props) {
 	      	marginBottom: "2%", 
 	      	marginTop: "3.5%"}}>{props.name}</Text> }
 	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: SYSTEM_BLUE}}>{props.age}</TextInput>
-	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#D8D8D8"}}>{props.age}</Text> }
-	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{props.bio}</TextInput>
-	      		: props.bio && <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", color: "#757E90"}}>{props.bio}</Text> }
+	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#757E90"}}>{props.age}</Text> }
+	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{props.bio}</TextInput>
+	      		: props.bio && <Text style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: "#292929"}}>{props.bio}</Text> }
   			<View style={{
 	      		flexDirection: 'row',
 	      		flexGrow: 1,
@@ -84,7 +84,7 @@ export default function ProfileScreen(props) {
       	</View>
       </View>
       <View style={{flex: 1}}>
-      	<ScrollView style={{flexGrow: 1}}>
+      	<ScrollView showsVerticalScrollIndicator={false} style={{flexGrow: 1}}>
 	      	<View style={styles.containerMessage}>
 		        <Text style={{fontSize: 16, color: "#757E90"}}>Match Radius</Text>
 	        	<Slider 

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView, RefreshControl } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import MatchCard from '../components/MatchCard';
+import AdCard from '../components/AdCard';
 
 function wait(timeout) {
   return new Promise(resolve => {
@@ -23,28 +24,33 @@ function HomeScreen(props) {
 
 	return (
 	  <SafeAreaView style={styles.container}>
-	  	<ScrollView contentContainerStyle={{ flexGrow: 1}} refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> }
-          >
+	  	<ScrollView showsVerticalScrollIndicator={false}
+	  	contentContainerStyle={{ flexGrow: 1}} refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
+      	}>
 	  		<MatchCard {...props}
 	  		name={"Madison"} age={"21"} 
 	  		tile={require('../assets/images/Michelle.jpeg')} 
 	  		thumbnail={require("../assets/images/MichelleThumb.jpg")} 
 	  		distance={"21"}
-	  		bio="Here for a good time, not a long time!" 
+	  		bio={'Looking at my phone searching for a reason to stop looking at my phone lol'} 
 	  		pinned/>
 	  		<MatchCard {...props}
 	  		name={"Nicole"} age={"19"} 
-	  		tile={require('../assets/images/Nicole.jpg')} 
-	  		thumbnail={require("../assets/images/ness.jpg")} 
+	  		tile={require('../assets/images/ness.jpg')} 
+	  		thumbnail={require("../assets/images/Nicole.jpg")} 
 	  		distance={"17"}
-	  		bio="Only on here for the night!" />
+	  		bio={'Travelling from Calabria, Italy 🌎 \nLooking for a night out with a new friend'} />
+	  		<AdCard {...props} name={"Mercedes-Benz Canada"}  
+	  		tile={require('../assets/images/mercedes.jpg')} 
+	  		thumbnail={require("../assets/images/mercedeslogo.png")}
+	  		bio={'AMG Pride. AMG Power. \nLeases starting from $539/month at your local Mercedes-Benz dealer.'} />
 	  		<MatchCard {...props}
 	  		name={"Kate"} age={"20"} 
 	  		tile={require('../assets/images/Kate.jpg')} 
 	  		thumbnail={require("../assets/images/KateThumb.jpg")} 
 	  		distance={"42"}
-	  		bio="CSS is my one true love" />
+	  		bio={'ig/snap: @galenhammond17'} />
 	  	</ScrollView>
 	  </SafeAreaView>
 	);

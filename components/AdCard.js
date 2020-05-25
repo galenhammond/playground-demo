@@ -1,4 +1,4 @@
-import { Ionicons, SimpleLineIcons, Entypo } from '@expo/vector-icons';
+import { Ionicons, SimpleLineIcons, Entypo, EvilIcons } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 'react-native';
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
@@ -8,14 +8,13 @@ import { Data } from '../assets/data/demo'
 //onPress={props.navigation.navigate('Messages', {screen: "Chat"})
 const SYSTEM_RED = '#ff3a30'
 const BUTTONS = ['Message', 'Buy A Drink', 'Extend', 'Rewind', 'Unmatch', 'Cancel'];
-const UNMATCH_INDEX = 2
-const CANCEL_INDEX = 3
+const CANCEL_INDEX = 1
 
 //TODO: set up power up mapping to more icon
 
 export default function MatchCard(props) {
   const [studState, setStud] = React.useState(false);
-  const BUTTONS = ['Pin ' + props.name + ' for 24 Hours', 'Rewind ' + props.name + "'s Timer", 'Unmatch ' + props.name, 'Cancel'];
+  const BUTTONS = ['View in Browser', 'Cancel'];
 
   return (
   	<Card>
@@ -24,14 +23,13 @@ export default function MatchCard(props) {
 	       <Thumbnail source={props.thumbnail} />
    	 		 <Body>
         		<Text style={styles.headerText}>{props.name}</Text>
-        		<Text note>{props.age}</Text>
+        		<Text note>Sponsored</Text>
       		</Body>
       	</Left>
         <Right>
           <TouchableOpacity onPress={() => ActionSheet.show({
             options: BUTTONS,
             cancelButtonIndex: CANCEL_INDEX,
-            destructiveButtonIndex: UNMATCH_INDEX
           }, 
           buttonIndex => {
             setStud(!studState);
@@ -40,35 +38,31 @@ export default function MatchCard(props) {
           >  
             <Ionicons name="ios-more" size={24} color="#D8D8D8" />
           </TouchableOpacity>
-          {props.pinned ? <Entypo name={'pin'} size={18} color={'#009dff'} />
-          : <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
-          {/*<PillTimer />*/}
         </Right>
     	</CardItem>
 		  <CardItem cardBody>
         <Image source={props.tile} style={{height: 350, width: null, flex: 1}} />
       </CardItem>
-    {/* textColor: #828181*/}
-      {props.bio && <Text style={{fontSize: 16, textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
+      {props.bio && <Text style={{textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#757E90", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
       <CardItem>
       	<Left>
-        	<Button transparent onPress={() => Toast.show({
-            text: "Hang tight! We're still putting this feature together...",
-            buttonText: "Okay",
-            duration: 2500,
-            })}>
-        		<Icon active name="wine" />
-          		<Text style={styles.footerText}>buy a drink</Text>
-        	</Button>
+        <Button transparent>
+            <Icon active name="heart"/> 
+              {/*onPress: color: #960f0f */}
+              <Text style={styles.footerText}>i like this</Text>
+          </Button>
       	</Left>
         	<Body>
           	<Button transparent onPress={() => props.navigation.navigate('Chats')}>
-          		<Icon active name="chatbubbles" />
-            	  <Text style={styles.footerText}>message</Text>
-          	</Button>
+              <Icon active name="information-circle-outline" />
+                <Text style={styles.footerText}>read more</Text>
+            </Button>
         	</Body>
       	<Right>
-        	<Text style={{fontSize: 13}}>{props.distance}m away</Text>
+        	<Button transparent>
+            <Icon active name="share" />
+              <Text style={styles.footerText}>share</Text>
+          </Button>
       	</Right>
       </CardItem>
  	</Card>

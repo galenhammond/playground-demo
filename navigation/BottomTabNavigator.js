@@ -10,6 +10,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HamburgerIcon from "../navigation/HamburgerMenu";
+import Wallet from "../components/Wallet";
 import { SearchBar } from 'react-native-elements';
 import ChatScreen from '../screens/ChatScreen';
 
@@ -27,6 +28,7 @@ function HomeStack({ navigation }) {
      headerStyle: {borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
+     headerRight: props => <Wallet {...props} />,
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
      <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
       headerBackTitle: "Feed"
@@ -43,6 +45,7 @@ function ExploreStack({ navigation }) {
      headerStyle: { borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
+     headerRight: props => <Wallet {...props} />,
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
      <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
       headerBackTitle: "Explore"
@@ -68,6 +71,7 @@ return (
       headerStyle: { borderBottomWidth: 0.5},
       headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
       textAlign: 'center', alignSelf: 'center'},
+      headerRight: props => <Wallet {...props} />,
       headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
       {props => <ProfileScreen {...props} 
       image={require('../assets/images/MichelleThumb.jpg')}

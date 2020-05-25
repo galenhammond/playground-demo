@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, ScrollView, StyleSheet } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { DrawerItemList, DrawerNavigation, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { Thumbnail } from 'native-base'
 import { Ionicons, Entypo } from '@expo/vector-icons'
@@ -14,7 +14,7 @@ export default function CustomDrawerHeader(props) {
     <View style={{
           justifyContent: 'center',
           backgroundColor: '#f5fffe',
-          height: 140,
+          height: 180,
           alignItems: 'left',
           marginLeft: "4%"
         }}>
@@ -41,6 +41,11 @@ export default function CustomDrawerHeader(props) {
           <Text style={{marginLeft: "8%"}}>0</Text>
         </View>
       </View>
+      <View style={styles.tierContainer}>
+        <TouchableOpacity>
+          <Text style={{ color: '#009dff'}}>Upgrade to plus⁺ today!</Text>
+        </TouchableOpacity>
+      </View>
     </View>
     <ScrollView contentContainerStyle={{ flexGrow: 1}}>
       <DrawerItemList {...props} />
@@ -56,10 +61,15 @@ const styles=StyleSheet.create({
     marginLeft: "4%", 
     flexDirection: 'row', 
     justifyContent: 'space-between',
-    paddingRight: "50%"
+    paddingRight: "50%",
+    paddingTop: '1%'
   },
   iconCount: {
     flexDirection: 'row',
+  },
+  tierContainer: {
+    marginLeft: "4%", 
+    paddingTop: '6%'
   },
   online: {
     width: 9,

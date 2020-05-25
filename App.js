@@ -48,6 +48,8 @@ export default function App(props) {
           'sfprodisplay-medium': require('./assets/fonts/SFProDisplay-Medium.ttf'),
           'sfprodisplay-semibold': require('./assets/fonts/SFProDisplay-SemiBold.ttf'),
           'sfprodisplay-thin': require('./assets/fonts/SFProDisplay-Thin.ttf'),
+          'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+          'sofiaprosoft-regular': require('./assets/fonts/SofiaProSoft-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -73,7 +75,7 @@ export default function App(props) {
             <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
             image={require('./assets/images/MichelleThumb.jpg')} 
             name="Michelle" />} >
-              <Drawer.Screen name="Feed" component={BottomTabNavigator} options={{swipeEnabled: false}} />
+              <Drawer.Screen name="Playground" component={BottomTabNavigator} options={{swipeEnabled: false}} />
               <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
             </Drawer.Navigator>
           :
@@ -95,7 +97,7 @@ function SettingsStack({navigation}) {
     <MySettingsStack.Navigator>
       <MySettingsStack.Screen name="Settings" component={SettingsScreen} options={{headerShown: true,
      headerTitle: "playground",
-     headerStyle: {height: 65, borderBottomWidth: 0.5},
+     headerStyle: {borderBottomWidth: 0.5},
      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
      textAlign: 'center', alignSelf: 'center'},
      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> 

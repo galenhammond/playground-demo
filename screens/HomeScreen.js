@@ -4,7 +4,7 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView
 import { ScrollView } from 'react-native-gesture-handler';
 import MatchCard from '../components/MatchCard';
 import AdCard from '../components/AdCard';
-import {Data} from '../assets/data/demo'
+import { Data } from '../assets/data/demo'
 
 function wait(timeout) {
   return new Promise(resolve => {
@@ -14,8 +14,21 @@ function wait(timeout) {
 
 function HomeScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
-
 	const [refreshing, setRefreshing] = React.useState(false);
+
+
+	const sortUsers = (users) => {
+		pinnedUsers = -1
+		users.sort((a,b) => {return a.distance - b.distance});
+		users.map(user => {
+			if (user.pinned) {
+				users.splice(users.indexOf(user), 1);
+				users.unshift(user);
+			}
+		});
+		return users
+	} 
+
 	const onRefresh = React.useCallback(() => {
 	    setRefreshing(true);
 	    //Pull new user info into data variable
@@ -29,7 +42,7 @@ function HomeScreen(props) {
 	  	contentContainerStyle={{ flexGrow: 1}} refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
       	}>
-      		{Data.map(user => {
+      		{sortUsers(Data).map(user => {
       			return (
       				<MatchCard {...props} name={user.name}
       				age={user.age}

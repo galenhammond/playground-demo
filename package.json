@@ -33,6 +33,7 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-gifted-chat": "^0.16.1",
     "react-native-image-picker": "^0.28.0",
+    "react-native-image-swiper": "0.0.8",
     "react-native-location": "^2.5.0",
     "react-native-maps": "0.27.1",
     "react-native-modal": "^11.5.6",
@@ -41,6 +42,7 @@
     "react-native-screens": "~2.2.0",
     "react-native-sideswipe": "^1.5.0",
     "react-native-swipe-list-view": "^3.0.1",
+    "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.9",
     "react-navigation-props-mapper": "^1.0.4"

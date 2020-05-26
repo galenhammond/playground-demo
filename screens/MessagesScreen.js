@@ -70,7 +70,7 @@ function MessagesScreen(props) {
 		*/
   	  	renderItem={({ item }) => (
 	      <TouchableOpacity style={{padding: 20}} onPress={() => props.navigation.navigate('Chats', {avatar: item.image,})}>
-	      	<Thumbnail small source={item.image} />
+	      	<Thumbnail small source={item.thumbnail} />
 	      </TouchableOpacity>
 	      )}
   	  	keyExtractor={(item, index) => index.toString()}
@@ -82,7 +82,7 @@ function MessagesScreen(props) {
 	    renderItem={({ item }) => (
 	      <TouchableOpacity onPress={() => props.navigation.navigate('Chats', {avatar: item.image,})}>
 	        <Message
-	          image={item.image}
+	          image={item.thumbnail}
 	          name={item.name}
 	          lastMessage={item.message}
 	          timeStamp={item.timestamp}

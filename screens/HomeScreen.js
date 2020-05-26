@@ -4,6 +4,7 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView
 import { ScrollView } from 'react-native-gesture-handler';
 import MatchCard from '../components/MatchCard';
 import AdCard from '../components/AdCard';
+import {Data} from '../assets/data/demo'
 
 function wait(timeout) {
   return new Promise(resolve => {
@@ -28,29 +29,24 @@ function HomeScreen(props) {
 	  	contentContainerStyle={{ flexGrow: 1}} refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
       	}>
-	  		<MatchCard {...props}
-	  		name={"Madison"} age={"21"} 
-	  		tile={require('../assets/images/Michelle.jpeg')} 
-	  		thumbnail={require("../assets/images/MichelleThumb.jpg")} 
-	  		distance={"21"}
-	  		bio={'Looking at my phone searching for a reason to stop looking at my phone lol'} 
-	  		pinned/>
-	  		<MatchCard {...props}
-	  		name={"Nicole"} age={"19"} 
-	  		tile={require('../assets/images/ness.jpg')} 
-	  		thumbnail={require("../assets/images/Nicole.jpg")} 
-	  		distance={"17"}
-	  		bio={'Travelling from Calabria, Italy 🌎 \nLooking for a night out with a new friend'} />
+      		{Data.map(user => {
+      			return (
+      				<MatchCard {...props} name={user.name}
+      				age={user.age}
+      				tile={user.images}
+      				thumbnail={user.thumbnail}
+      				bio={user.bio}
+      				distance={user.distance}
+      				pinned={user.pinned}
+      				/>
+      			);
+      		})
+      		}
+
 	  		<AdCard {...props} name={"Mercedes-Benz Canada"}  
 	  		tile={require('../assets/images/mercedes.jpg')} 
 	  		thumbnail={require("../assets/images/mercedeslogo.png")}
 	  		bio={'AMG Pride. AMG Power. \nLeases starting from $539/month at your local Mercedes-Benz dealer.'} />
-	  		<MatchCard {...props}
-	  		name={"Kate"} age={"20"} 
-	  		tile={require('../assets/images/Kate.jpg')} 
-	  		thumbnail={require("../assets/images/KateThumb.jpg")} 
-	  		distance={"42"}
-	  		bio={'ig/snap: @galenhammond17'} />
 	  	</ScrollView>
 	  </SafeAreaView>
 	);

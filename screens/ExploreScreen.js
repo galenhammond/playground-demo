@@ -16,16 +16,16 @@ function ExploreScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
 	const [locationSearch, setLocationSearch] = React.useState();
 	const [isModalVisible, setModalVisible] = React.useState(false);
-	const [modalData, setModalData] = React.useState({});
+	const [userModalData, setUserModalData] = React.useState({});
   const [listVisible, setListVisible] = React.useState(false);
 	//const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
   const onNavigate = (value) => {
     setModalVisible(value);
   }
 
-	const renderModal = (item) => {
-		setModalVisible(true);
-		setModalData(item);
+	const renderModal = (user) => {
+		setUserModalData(user);
+    setModalVisible(true);
 	}
 
 	const closeModal = () => {
@@ -39,10 +39,11 @@ function ExploreScreen(props) {
 			onBackdropPress={closeModal}
 			>
 				<CardItem
-				image={modalData.image} 
-				name={modalData.name} 
-				description={modalData.bio}
-				status={"100m"}
+				images={userModalData.images} 
+        thumbnail={userModalData.thumbnail} 
+				name={userModalData.name} 
+				description={userModalData.bio}
+				status={userModalData.distance + 'm'}
         navigation={props.navigation}
         onNavigate={onNavigate}
 				actions
@@ -101,9 +102,9 @@ function ExploreScreen(props) {
 		      renderItem={({ item }) => (
 			    <TouchableOpacity onPress={() => renderModal(item)}>
 			      <CardItem
-			        image={item.image}
+			        thumbnail={item.thumbnail}
 			        name={item.name}
-			        status={"100m"}
+			        status={item.distance + 'm'}
 			        variant
 			      />
 		        </TouchableOpacity>

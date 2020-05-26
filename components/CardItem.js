@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../assets/styles';
+import Swiper from 'react-native-swiper'
 
 import { Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -12,8 +13,9 @@ const SECONDARY_COLOR = "#5636B8";
 const CardItem = ({
   actions,
   description,
-  image,
+  thumbnail,
   matches,
+  images,
   name,
   onPressLeft,
   onPressRight,
@@ -49,7 +51,10 @@ const CardItem = ({
   return (
     <View style={styles.containerCardItem}>
       {/* IMAGE */}
-      <Image source={image} style={imageStyle} />
+      {variant ?
+        <Image source={thumbnail} style={imageStyle} />
+      : <Image source={thumbnail} style={imageStyle} />
+      }
 
       {/* MATCHES */}
       {matches && (

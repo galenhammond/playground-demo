@@ -2,6 +2,7 @@ import { Ionicons, SimpleLineIcons, Entypo } from '@expo/vector-icons';
 import * as React from 'react';
 import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 'react-native';
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
+import Swiper from 'react-native-swiper'
 import { PillTimer } from '../components/PillTimer'
 import { Data } from '../assets/data/demo'
 
@@ -46,7 +47,14 @@ export default function MatchCard(props) {
         </Right>
     	</CardItem>
 		  <CardItem cardBody>
-        <Image source={props.tile} style={{height: 350, width: null, flex: 1}} />
+        <Swiper showsPagination={false} loop={false} bounces={true} height={350}>
+          {props.tile.map(tile => {
+            return (
+              <Image source={tile} style={{height: 350, width: null, flex: 1}} />
+              );
+            })
+          }
+        </Swiper>
       </CardItem>
     {/* textColor: #828181*/}
       {props.bio && <Text style={{fontSize: 16, textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}

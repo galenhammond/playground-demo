@@ -6,7 +6,7 @@ import { Badge } from 'react-native-elements'
 
 const Message = ({ image, lastMessage, name, timeStamp, unopened, navigation}) => {
   const [isUnopenedMessage, setUnopenedMessage] = React.useState(unopened);
-  
+
   const onMessageOpen = (item) => {
   	setUnopenedMessage(false);
   	navigation.navigate('Chats', {avatar: image});

@@ -17,6 +17,7 @@ export default function MatchCard(props) {
   const BUTTONS = ['Pin ' + props.name + ' for 24 Hours', 'Rewind ' + props.name + "'s Timer", 'Unmatch ' + props.name, 'Cancel'];
   const UNMATCH_INDEX = 2
   const CANCEL_INDEX = 3
+  const LOW_TIME_ALERT = 24000000
 
   const onUnmatch = () => {
     //TODO: Delete user from the data array
@@ -50,8 +51,9 @@ export default function MatchCard(props) {
             >  
               <Ionicons name="ios-more" size={24} color="#D8D8D8" />
             </TouchableOpacity>
-            {props.pinned ? <Entypo name={'pin'} size={18} color={'#009dff'} />
-            : <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
+            {props.pinned && <Entypo name={'pin'} size={18} color={'#009dff'} />}
+            { (!props.pinned && props.matchTime + LOW_TIME_ALERT <= Date.now()) && 
+             <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
             {/*<PillTimer />*/}
           </Right>
       	</CardItem>

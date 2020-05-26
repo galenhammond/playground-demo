@@ -12,7 +12,7 @@ export const Data = [
       require('../images/michelle3.jpg')
     ],
     message: 'Hey!',
-    matchTime: new Date(),
+    matchTime: Date.now(),
     timestamp: "9:48 PM"
   },
   {
@@ -27,7 +27,7 @@ export const Data = [
       require("../images/ness2.jpeg"),
     ],
     message: 'Hey cutie!',
-    matchTime: new Date(),
+    matchTime: Date.now(),
     timestamp: "9:48 PM"
   },
   {
@@ -43,7 +43,7 @@ export const Data = [
       require('../images/nicole3.jpg')
     ],
     message: 'How\'s your night?',
-    matchTime: new Date(),
+    matchTime: Date.now(),
     timestamp: "9:41 PM"
   },
 
@@ -60,7 +60,7 @@ export const Data = [
       require('../images/Kate.jpg'),
     ],
     message: 'What\'s up',
-    matchTime: new Date(),
+    matchTime: Date.now(),
     timestamp: "9:40 PM"
   },
   { 
@@ -76,7 +76,7 @@ export const Data = [
       require('../images/ashley3.jpg'),
     ],
     message: 'Where you at',
-    name: "Nicole",
+    matchTime: Date.now() - 24000000,
     timestamp: "9:36 PM"
   },
   {
@@ -91,6 +91,7 @@ export const Data = [
       require('../images/sarina2.jpg'),
     ],
     message: 'Hey :)',
+    matchTime: Date.now() - 24000000,
     timestamp: "9:33 PM"
   },
 ];

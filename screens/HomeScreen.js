@@ -37,6 +37,7 @@ function HomeScreen(props) {
       				thumbnail={user.thumbnail}
       				bio={user.bio}
       				distance={user.distance}
+      				matchTime={user.matchTime}
       				pinned={user.pinned}
       				/>
       			);

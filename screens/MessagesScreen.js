@@ -80,15 +80,14 @@ function MessagesScreen(props) {
 	    data={Data}
 	    keyExtractor={(item, index) => index.toString()}
 	    renderItem={({ item }) => (
-	      <TouchableOpacity onPress={() => props.navigation.navigate('Chats', {avatar: item.image,})}>
 	        <Message
 	          image={item.thumbnail}
 	          name={item.name}
 	          lastMessage={item.message}
 	          timeStamp={item.timestamp}
-	          opened
+	          unopened
+	          navigation={props.navigation}
 	        />
-	      </TouchableOpacity>
 	    )}
 	  />
     </SafeAreaView>

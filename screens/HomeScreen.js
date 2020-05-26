@@ -13,15 +13,15 @@ function wait(timeout) {
 }
 
 function HomeScreen(props) {
-	//TODO: Inject MatchCards as a callback rather than hard coding them
 	//TODO: Refresh must send and receive up to date data from backend
 
 	const [refreshing, setRefreshing] = React.useState(false);
-	 const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
+	const onRefresh = React.useCallback(() => {
+	    setRefreshing(true);
+	    //Pull new user info into data variable
 
-    wait(2000).then(() => setRefreshing(false));
-  }, [refreshing]);
+	    wait(2000).then(() => setRefreshing(false));
+	  }, [refreshing]);
 
 	return (
 	  <SafeAreaView style={styles.container}>

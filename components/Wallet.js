@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from '@expo/vector-icons';
 import { withBadge, Icon } from 'react-native-elements'
 
-function Wallet(props) {
+function Wallet({notification}) {
     const WalletBadge = withBadge()(Icon);
     return (
         <TouchableOpacity
@@ -15,7 +15,8 @@ function Wallet(props) {
             marginRight: 10
         }}>
 	        <SafeAreaView style={{alignSelf: "center"}}>
-	             <WalletBadge type={'ionicon'} name={'ios-card'} size={28} color={'#D8D8D8'}/>
+	            {notification ? <WalletBadge type={'ionicon'} name={'ios-card'} size={28} color={'#D8D8D8'}/>
+                : <Ionicons name={'ios-card'} size={28} color={'#D8D8D8'} /> }
 	        </SafeAreaView>
         </TouchableOpacity>
     );

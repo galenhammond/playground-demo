@@ -10,7 +10,7 @@ const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_YELLOW = '#ffcc00'
 const SECONDARY_COLOR = "#5636B8";
 
-const CardItem = ({
+const ExploreCard = ({
   actions,
   description,
   thumbnail,
@@ -115,4 +115,4 @@ const CardItem = ({
   );
 };
 
-export default CardItem;
+export default ExploreCard;

@@ -4,8 +4,8 @@ import { Badge } from 'react-native-elements'
 
 //TODO: Slidable message list
 
-const Message = ({ image, lastMessage, name, timeStamp, unopened, navigation}) => {
-  const [isUnopenedMessage, setUnopenedMessage] = React.useState(unopened);
+const Message = ({ image, lastMessage, name, timeStamp, notification, navigation}) => {
+  const [isUnopenedMessage, setUnopenedMessage] = React.useState(notification);
 
   const onMessageOpen = (item) => {
   	setUnopenedMessage(false);

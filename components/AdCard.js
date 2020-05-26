@@ -53,7 +53,7 @@ export default function MatchCard(props) {
           </Button>
       	</Left>
         	<Body>
-          	<Button transparent onPress={() => props.navigation.navigate('Chats')}>
+          	<Button transparent >
               <Icon active name="information-circle-outline" />
                 <Text style={styles.footerText}>read more</Text>
             </Button>

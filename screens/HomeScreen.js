@@ -16,9 +16,7 @@ function HomeScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
 	const [refreshing, setRefreshing] = React.useState(false);
 
-
 	const sortUsers = (users) => {
-		pinnedUsers = -1
 		users.sort((a,b) => {return a.distance - b.distance});
 		users.map(user => {
 			if (user.pinned) {

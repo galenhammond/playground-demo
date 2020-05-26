@@ -16,6 +16,10 @@ import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 function MessagesScreen(props) {
   const [searchText, setSearchText] = React.useState();
 
+  const userSearch = (query, data) => {
+
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 	  <SearchBar lightTheme round
@@ -85,7 +89,7 @@ function MessagesScreen(props) {
 	          name={item.name}
 	          lastMessage={item.message}
 	          timeStamp={item.timestamp}
-	          unopened
+	          notification={true}
 	          navigation={props.navigation}
 	        />
 	    )}

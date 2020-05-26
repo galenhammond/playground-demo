@@ -6,7 +6,7 @@ import { SearchBar, Button, Icon } from 'react-native-elements';
 import MatchCard from '../components/MatchCard';
 import MapView, { Circle } from 'react-native-maps';
 import { Data } from '../assets/data/demo';
-import CardItem from '../components/CardItem';
+import ExploreCard from '../components/ExploreCard';
 import Modal from 'react-native-modal';
 
 const SYSTEM_BLUE = '#007bff'
@@ -38,7 +38,7 @@ function ExploreScreen(props) {
 			isVisible={isModalVisible} 
 			onBackdropPress={closeModal}
 			>
-				<CardItem
+				<ExploreCard
 				images={userModalData.images} 
         thumbnail={userModalData.thumbnail} 
 				name={userModalData.name} 
@@ -101,7 +101,7 @@ function ExploreScreen(props) {
 		      keyExtractor={(item, index) => index.toString()}
 		      renderItem={({ item }) => (
 			    <TouchableOpacity onPress={() => renderModal(item)}>
-			      <CardItem
+			      <ExploreCard
 			        thumbnail={item.thumbnail}
 			        name={item.name}
 			        status={item.distance + 'm'}

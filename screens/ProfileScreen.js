@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Picker, ActionSheet } from 'native-base'
+//import Slider from '@react-native-community/slider';
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'

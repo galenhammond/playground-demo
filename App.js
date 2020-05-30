@@ -6,20 +6,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { Root } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import CustomDrawerHeader  from "./components/DrawerHeader";
 import useLinking from './navigation/useLinking';
 import { VisbilitySwitch } from './components/VisibilitySwitch'
 import HamburgerIcon from "./navigation/HamburgerMenu";
-import SettingsScreen from "./screens/SettingsScreen";
 import LandingScreen from "./screens/LandingScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import SignInScreen from "./screens/SignInScreen";
+import DrawerNavigator from "./navigation/DrawerNavigator";
 
-const Drawer = createDrawerNavigator();
-const LoginStack = createStackNavigator();
-const MySettingsStack = createStackNavigator();
+const PlaygroundLoginStack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -63,6 +58,7 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
+  userLoggedIn ? initialRouteName = 'Playground' : INITIAL_ROUTE_NAME = 'Landing Page';
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
@@ -71,39 +67,18 @@ export default function App(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          {userLoggedIn ?
-            <Drawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
-            image={require('./assets/images/MichelleThumb.jpg')} 
-            name="Michelle" />} >
-              <Drawer.Screen name="Playground" component={BottomTabNavigator} options={{swipeEnabled: false}} />
-              <Drawer.Screen name="Settings" component={SettingsStack} options={{swipeEnabled: false}} />
-            </Drawer.Navigator>
-          :
-            <LoginStack.Navigator>
-              <LoginStack.Screen name="Landing Page" component={LandingScreen} options={{headerShown: false}} />
-              <LoginStack.Screen name="Sign Up" component={SignUpScreen} options={{headerShown: false}} />
-              <LoginStack.Screen name="Sign In" component={SignInScreen} options={{headerShown: false}} />
-            </LoginStack.Navigator>
+            <PlaygroundLoginStack.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+              <PlaygroundLoginStack.Screen name="Landing Page" component={LandingScreen} options={{headerShown: false}} />
+              <PlaygroundLoginStack.Screen name="Sign Up" component={SignUpScreen} options={{headerShown: false}} />
+              <PlaygroundLoginStack.Screen name="Sign In" component={SignInScreen} options={{headerShown: false}} />
+              <PlaygroundLoginStack.Screen name="Playground" component={DrawerNavigator} options={{headerShown: false}}/>
+            </PlaygroundLoginStack.Navigator>
           }
           </NavigationContainer>
         </View>
       </Root>
     );
   }
-}
-
-function SettingsStack({navigation}) {
-  return (
-    <MySettingsStack.Navigator>
-      <MySettingsStack.Screen name="Settings" component={SettingsScreen} options={{headerShown: true,
-     headerTitle: "playground",
-     headerStyle: {borderBottomWidth: 0.5},
-     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-     textAlign: 'center', alignSelf: 'center'},
-     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> 
-   }}/>
-    </MySettingsStack.Navigator>
-  );
 }
 
 const styles = StyleSheet.create({

@@ -69,6 +69,7 @@ export default function MatchCard(props) {
         </CardItem>
       {/* textColor: #828181*/}
         {props.bio && <Text style={{fontSize: 16, textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
+        {/*<Text style={{color: "#D8D8D8", paddingHorizontal: "3%", paddingTop: "2%", fontFamily: "sfprodisplay-light", fontSize: 14}}>43:26</Text>*/}
         <CardItem>
         	<Left>
           	<Button transparent onPress={() => Toast.show({

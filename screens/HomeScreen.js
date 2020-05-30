@@ -12,6 +12,8 @@ function wait(timeout) {
   });
 }
 
+let x = 0;
+
 function HomeScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
 	const [refreshing, setRefreshing] = React.useState(false);

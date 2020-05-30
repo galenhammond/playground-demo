@@ -1,5 +1,6 @@
 export const Data = [
   {
+    id: 1,
     name: "Madison",
     age: '21',
     bio: 'Looking at my phone searching for a reason to stop looking at my phone lol',
@@ -16,6 +17,7 @@ export const Data = [
     timestamp: "9:48 PM"
   },
   {
+    id: 2,
     name: "Vanessa",
     age: '20',
     bio: 'Travelling from Calabria, Italy 🌎 \nLooking for a night out with a new friend',
@@ -31,6 +33,7 @@ export const Data = [
     timestamp: "9:48 PM"
   },
   {
+    id: 3,
     name: "Nicole",
     age: '22',
     bio: '☀️☀️\nig: @vanessafaranda',
@@ -46,8 +49,8 @@ export const Data = [
     matchTime: Date.now(),
     timestamp: "9:41 PM"
   },
-
   {
+    id: 4,
     name: "Kate",
     age: '20',
     bio: 'ig/snap: @galenhammond17',
@@ -64,6 +67,7 @@ export const Data = [
     timestamp: "9:40 PM"
   },
   { 
+    id: 5,
     name: "Ashley",
     age: '21',
     bio: 'so like, can we skip to the part where we meet already :)',
@@ -80,6 +84,7 @@ export const Data = [
     timestamp: "9:36 PM"
   },
   {
+    id: 6,
     name: "Sarina",
     age: '20',
     bio: 'Show me something new 🥂\nAthletes are a plus 🏈🤩',

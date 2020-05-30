@@ -17,15 +17,19 @@ let x = 0;
 function HomeScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
 	const [refreshing, setRefreshing] = React.useState(false);
+	const [matchExpiringNext, setMatchExpiringNext] = React.useState();
 
 	const sortUsers = (users) => {
+		//matchExpiring = null;
 		users.sort((a,b) => {return a.distance - b.distance});
 		users.map(user => {
 			if (user.pinned) {
 				users.splice(users.indexOf(user), 1);
 				users.unshift(user);
 			}
+			//if (user.matchTime < lowestTimeRemaining) matchExpiring = user; 
 		});
+		//setMatchExpiringNext(matchExpiring);
 		return users
 	} 
 
@@ -44,7 +48,9 @@ function HomeScreen(props) {
       	}>
       		{sortUsers(Data).map(user => {
       			return (
-      				<MatchCard {...props} name={user.name}
+      				<MatchCard {...props} 
+      				key={user.id}
+      				name={user.name}
       				age={user.age}
       				tile={user.images}
       				thumbnail={user.thumbnail}

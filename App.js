@@ -58,7 +58,7 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
-  userLoggedIn ? initialRouteName = 'Playground' : INITIAL_ROUTE_NAME = 'Landing Page';
+  userLoggedIn ? INITIAL_ROUTE_NAME = 'Playground' : INITIAL_ROUTE_NAME = 'Landing Page';
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
@@ -73,7 +73,6 @@ export default function App(props) {
               <PlaygroundLoginStack.Screen name="Sign In" component={SignInScreen} options={{headerShown: false}} />
               <PlaygroundLoginStack.Screen name="Playground" component={DrawerNavigator} options={{headerShown: false}}/>
             </PlaygroundLoginStack.Navigator>
-          }
           </NavigationContainer>
         </View>
       </Root>

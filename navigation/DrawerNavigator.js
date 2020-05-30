@@ -4,8 +4,9 @@ import BottomTabNavigator from '../navigation/BottomTabNavigator';
 import SettingsScreen from "../screens/SettingsScreen";
 import { createStackNavigator } from '@react-navigation/stack';
 import CustomDrawerHeader  from "../components/DrawerHeader";
+import HamburgerIcon from './HamburgerMenu';
 
-const PlagroundDrawer = createDrawerNavigator();
+const PlaygroundDrawer = createDrawerNavigator();
 const PlaygroundSettingsStack = createStackNavigator();
 
 function SettingsStack({navigation}) {

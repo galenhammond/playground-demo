@@ -13,6 +13,7 @@ import HamburgerIcon from "../navigation/HamburgerMenu";
 import Wallet from "../components/Wallet";
 import { SearchBar } from 'react-native-elements';
 import ChatScreen from '../screens/ChatScreen';
+import UploadPhotoScreen from '../screens/UploadPhotoScreen'
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -79,6 +80,7 @@ return (
       age="21"
       bio="Here for a good time, not a long time!" /> }
     </MyProfileStack.Screen>
+    <MyProfileStack.Screen name="Upload Photos" component={UploadPhotoScreen} options={{headerBackTitle: 'Profile'}}/>
   </MyProfileStack.Navigator>
   );
 }

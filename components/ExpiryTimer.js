@@ -8,8 +8,8 @@ const getRemaining = (time) => {
     return { mins: formatNumber(mins), secs: formatNumber(secs) };
 }
 
-export default function Timer(props) {
-  const [remainingSecs, setRemainingSecs] = React.useState(600);
+export default function ExpiryTimer(props) {
+  const [remainingSecs, setRemainingSecs] = React.useState(props.setTime);
   const [isActive, setIsActive] = React.useState(true);
   const { mins, secs } = getRemaining(remainingSecs);
 

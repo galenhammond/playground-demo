@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { PillTimer } from '../components/PillTimer'
-import Timer from '../components/MessageTimer'
+import ExpiryTimer from '../components/ExpiryTimer'
 
 export const MatchCounter = (props) => {
 	return (
@@ -15,12 +15,13 @@ export const MatchCounter = (props) => {
 			</View>
 			<View style={styles.timer}>
 				<SimpleLineIcons name="clock" size={20} color={'#757E90'} style={{paddingRight: "2%"}}/>
-				<Timer />
+				<ExpiryTimer setTime={600}/>
 			</View>
 
 		</View>
-		)
+	);
 }
+
 const styles = StyleSheet.create({
 	container: {
 		padding: "6%"

@@ -4,7 +4,6 @@ import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 're
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import Swiper from 'react-native-swiper'
 import { PillTimer } from '../components/PillTimer'
-import { Data } from '../assets/data/demo'
 
 //onPress={props.navigation.navigate('Messages', {screen: "Chat"})
 const SYSTEM_RED = '#ff3a30'

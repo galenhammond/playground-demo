@@ -4,7 +4,7 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView
 import { ScrollView } from 'react-native-gesture-handler';
 import MatchCard from '../components/MatchCard';
 import AdCard from '../components/AdCard';
-import { Data } from '../assets/data/demo'
+import { Data } from '../assets/data/Matches'
 
 function wait(timeout) {
   return new Promise(resolve => {

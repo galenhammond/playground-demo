@@ -14,8 +14,8 @@ const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_BLUE = '#007bff'
 const MAX_RADIUS = 2.5;
-const MAX_AGE = 65;
-const AGE_STEP = 0.02173913;
+const MAX_AGE = 50;
+const AGE_STEP = 0.032258064516129;
 const MINIMUM_AGE = 19;
 const GENDER_STEP = 0.5;
 const CANCEL_BUTTON_INDEX = 2;
@@ -29,7 +29,29 @@ export default function ProfileScreen(props) {
   const [isSliding, setIsSliding] = React.useState(false); //TODO: Set scrollview to freeze when using slider
   const [isEditing, setEditing] = React.useState(false); //TODO: Setup editable callback to pushes changes to backend and setup logic for determing which button was pressed 
 
- 
+  const onEditPress = () => {
+  	if (!isEditing) {
+	  	ActionSheet.show({
+			options: BUTTONS,
+			cancelButtonIndex: CANCEL_BUTTON_INDEX
+		}, 
+		buttonIndex => {
+			switch(buttonIndex) {
+				case 1:
+					setEditing(true);
+					break;
+			case CANCEL_BUTTON_INDEX:
+					setEditing(false);
+					break;
+				default:
+			}
+		});
+	} else {
+		/*Logic to send new edited data to server*/
+		setEditing(false);
+	}
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{
@@ -42,20 +64,14 @@ export default function ProfileScreen(props) {
       		borderBottomWidth: 1,
       		alignItems: "center",
       		justifyContent:"center"}}>
-      		<Button title={"Edit"} type={"clear"} onPress={() => ActionSheet.show({
-      			options: BUTTONS,
-      			destructiveButtonIndex: CANCEL_BUTTON_INDEX
-      		}, 
-      		buttonIndex => {
-      			setEditing(true);
-      		}
-      		)}/>
+      		<Button title={isEditing ? 'Done' : 'Edit'} type={"clear"} onPress={onEditPress}/>
       		<TouchableOpacity>
 		      	<Avatar rounded
 		      	showAccessory={true}
 		      	title={props.name[0].toUpperCase()}
 		      	size={120} 
-		      	source={props.image} />
+		      	source={props.image}
+		      	onPress={() => props.navigation.navigate('Upload Photos')} />
 		    </TouchableOpacity>
 	      	{ isEditing ?  <TextInput style={{fontFamily: "comfortaa-regular", fontSize: 26,
 	      	alignSelf: "center",

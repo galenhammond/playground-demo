@@ -3,7 +3,6 @@ import * as React from 'react';
 import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 'react-native';
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import { PillTimer } from '../components/PillTimer'
-import { Data } from '../assets/data/demo'
 
 //onPress={props.navigation.navigate('Messages', {screen: "Chat"})
 const SYSTEM_RED = '#ff3a30'

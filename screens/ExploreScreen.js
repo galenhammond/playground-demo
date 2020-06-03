@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar, Button, Icon } from 'react-native-elements';
 import MatchCard from '../components/MatchCard';
 import MapView, { Circle } from 'react-native-maps';
-import { Data } from '../assets/data/demo';
+import { Data } from '../assets/data/Matches';
 import ExploreCard from '../components/ExploreCard';
 import Modal from 'react-native-modal';
 

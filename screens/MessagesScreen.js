@@ -6,7 +6,7 @@ import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { SearchBar, Button } from 'react-native-elements';
 import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
-import { Data } from '../assets/data/demo.js';
+import { Data } from '../assets/data/Matches';
 import Message from '../components/Messages';
 import ChatScreen from '../screens/ChatScreen';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';

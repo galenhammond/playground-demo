@@ -8,8 +8,11 @@ import MapView, { Circle } from 'react-native-maps';
 import { Data } from '../assets/data/Matches';
 import ExploreCard from '../components/ExploreCard';
 import Modal from 'react-native-modal';
+import * as Location from 'expo-location';
 
 const SYSTEM_BLUE = '#007bff'
+const LONG_DELTA = 0.121;
+const LAT_DELTA = 0.0422
 
 function ExploreScreen(props) {
 	//TODO: Inject MatchCards as a callback rather than hard coding them
@@ -18,17 +21,60 @@ function ExploreScreen(props) {
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [userModalData, setUserModalData] = React.useState({});
   const [listVisible, setListVisible] = React.useState(false);
-	//const unsubscribe = RNLocation.subscribeToHeadingUpdates(info => console.log(info));
+  const mapRef = React.useRef(null);
+
+  const [userLocation, setUserLocation] = React.useState({
+    longitude: -122.406417,
+    latitude: 37.785834
+  });
+
+  const [mapRegion, setMapRegion] = React.useState({
+    latitude: userLocation.longitude,
+    longitude: userLocation.latitude,
+    latitudeDelta: LAT_DELTA,
+    longitudeDelta: LONG_DELTA
+  });
+
+  React.useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+      }
+
+      let location = await Location.watchPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+        timeout: 10000,
+        distanceInterval: 25,
+      }, _onLocationChange);
+    })();
+  },[]);
+
+  const _onLocationChange = (location) => {
+    /*Logic to send location to Firebase*/
+    setUserLocation(location.coords);
+    setMapRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: LAT_DELTA,
+      longitudeDelta: LONG_DELTA
+    });
+    mapRef.current.animateToRegion({
+      region: mapRegion,
+      duration: 500
+    });
+  }
+
   const onNavigate = (value) => {
     setModalVisible(value);
   }
 
-	const renderModal = (user) => {
+	const _renderModal = (user) => {
 		setUserModalData(user);
     setModalVisible(true);
 	}
 
-	const closeModal = () => {
+	const _closeModal = () => {
 		setModalVisible(false);
 	}
 
@@ -36,7 +82,7 @@ function ExploreScreen(props) {
 		<View style={[styles.container, isModalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
 			<Modal
 			isVisible={isModalVisible} 
-			onBackdropPress={closeModal}
+			onBackdropPress={_closeModal}
 			>
 				<ExploreCard
 				images={userModalData.images} 
@@ -49,24 +95,21 @@ function ExploreScreen(props) {
 				actions
 				/>
 			</Modal>
-			<MapView style={styles.map} initialRegion={{
-		      latitude: 45.250625,
-		      longitude: -75.903906,
-		      latitudeDelta: 0.0622,
-		      longitudeDelta: 0.0121,
-		      }}
-		      //customMapStyle={mapStyle}
-		      provider={'google'}
-		      showsUserLocation
-          showsMyLocationButton
-          followsUserLocation={true}
-		      >
+			<MapView 
+        style={styles.map} 
+        region={mapRegion}
+	      //customMapStyle={mapStyle}
+	      provider={'google'}
+	      showsUserLocation
+        showsMyLocationButton
+        ref={mapRef}
+		  >
         <Circle 
-        center={{latitude: 45.250625, longitude: -75.903906}} 
+        center={{latitude: userLocation.latitude, longitude: userLocation.longitude}} 
         radius={2500} fillColor={'rgba(0, 157, 255, 0.1)'} 
         strokeColor={'rgba(0, 157, 255, 0.1)'} geodesic
           />
-        </MapView>
+      </MapView>
       <SearchBar lightTheme
         onChangeText={val => setLocationSearch(val)}
         value={locationSearch} placeholder={"Enter a location..."}
@@ -87,6 +130,7 @@ function ExploreScreen(props) {
         titleStyle={styles.listButtonTitle} raised title={"Filter"} 
         type={'clear'}/>
       </View>
+      
       {listVisible ?
 		  <View style={styles.listContainer}>
         <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={15}/> } 
@@ -100,7 +144,7 @@ function ExploreScreen(props) {
 		      data={Data}
 		      keyExtractor={(item, index) => index.toString()}
 		      renderItem={({ item }) => (
-			    <TouchableOpacity onPress={() => renderModal(item)}>
+			    <TouchableOpacity onPress={() => _renderModal(item)}>
 			      <ExploreCard
 			        thumbnail={item.thumbnail}
 			        name={item.name}

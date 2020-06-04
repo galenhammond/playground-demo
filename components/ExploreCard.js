@@ -26,10 +26,12 @@ const ExploreCard = ({
 }) => {
   // Custom styling
   const fullWidth = Dimensions.get('window').width;
+  
   const onMessagePress = (navigation) => {
     onNavigate(false);
     navigation.navigate('Chats');
   }
+
   const imageStyle = [
     {
       borderRadius: 8,

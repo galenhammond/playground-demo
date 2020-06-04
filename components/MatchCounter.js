@@ -15,7 +15,7 @@ export const MatchCounter = (props) => {
 			</View>
 			<View style={styles.timer}>
 				<SimpleLineIcons name="clock" size={20} color={'#757E90'} style={{paddingRight: "2%"}}/>
-				<ExpiryTimer setTime={600}/>
+				<ExpiryTimer setTime={600} style={styles.expiryTimer}/>
 			</View>
 
 		</View>
@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		paddingTop: "8%",
 		fontFamily: "comfortaa-light",
-
+	},
+	expiryTimer: {
+		fontSize: 17,
+		color: "#757E90"
 	}
 });

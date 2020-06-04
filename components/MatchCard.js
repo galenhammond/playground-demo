@@ -11,7 +11,6 @@ const SYSTEM_RED = '#ff3a30'
 //TODO: set up power up mapping to more icon
 
 export default function MatchCard(props) {
-  const [buttonClicked, setButtonClicked] = React.useState();
   const [isVisible, setVisible] = React.useState(true);
   const BUTTONS = ['Pin ' + props.name + ' for 24 Hours', 'Rewind ' + props.name + "'s Timer", 'Unmatch ' + props.name, 'Cancel'];
   const UNMATCH_INDEX = 2
@@ -42,9 +41,13 @@ export default function MatchCard(props) {
             }, 
 
             buttonIndex => {
-              setButtonClicked(buttonIndex);
-              console.log(buttonClicked);
-              if (buttonClicked == UNMATCH_INDEX) onUnmatch();
+              switch(buttonIndex) {
+                case UNMATCH_INDEX: 
+                  onUnmatch();
+                  break;
+                default:
+                //do nothing
+              }
             }
             )}
             >  

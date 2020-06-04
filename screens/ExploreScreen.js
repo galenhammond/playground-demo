@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, SafeAreaView, RefreshControl, FlatList, Keyboard } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar, Button, Icon } from 'react-native-elements';
+import ExpiryTimer from '../components/ExpiryTimer'
+import { ActionSheet } from 'native-base'
 import MatchCard from '../components/MatchCard';
 import MapView, { Circle } from 'react-native-maps';
 import { Data } from '../assets/data/Matches';
@@ -12,7 +14,7 @@ import * as Location from 'expo-location';
 
 const SYSTEM_BLUE = '#007bff'
 const LONG_DELTA = 0.121;
-const LAT_DELTA = 0.0422
+const LAT_DELTA = 0.0422;
 
 function ExploreScreen(props) {
 	//TODO: Inject MatchCards as a callback rather than hard coding them
@@ -21,6 +23,7 @@ function ExploreScreen(props) {
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [userModalData, setUserModalData] = React.useState({});
   const [listVisible, setListVisible] = React.useState(false);
+  const [isBoosted, setBoosted] = React.useState(false);
   const mapRef = React.useRef(null);
 
   const [userLocation, setUserLocation] = React.useState({
@@ -65,6 +68,11 @@ function ExploreScreen(props) {
     });
   }
 
+  const useBoost = () => {
+    setBoosted(true);
+    /*Decrease users boost stash*/
+  }
+
   const onNavigate = (value) => {
     setModalVisible(value);
   }
@@ -106,7 +114,7 @@ function ExploreScreen(props) {
 		  >
         <Circle 
         center={{latitude: userLocation.latitude, longitude: userLocation.longitude}} 
-        radius={2500} fillColor={'rgba(0, 157, 255, 0.1)'} 
+        radius={isBoosted ? 5000 : 2500} fillColor={'rgba(0, 157, 255, 0.1)'} 
         strokeColor={'rgba(0, 157, 255, 0.1)'} geodesic
           />
       </MapView>
@@ -121,16 +129,48 @@ function ExploreScreen(props) {
         fontSize: 18
         }} />  
       <View style={styles.boostContainer}>
-        <Button iconRight icon={ <Icon name={"flash"} type={"entypo"} size={15} color={SYSTEM_BLUE}/> } 
-        containerStyle={styles.boostButtonContainer} 
-        titleStyle={styles.listButtonTitle} raised title={"Boost"} 
+        <Button 
+        iconRight 
+        icon={ <Icon name={"flash"} type={"entypo"} size={15} color={SYSTEM_BLUE}/> } 
+        containerStyle={styles.boostedButtonContainer} 
+        titleStyle={styles.listButtonTitle} 
+        raised 
+        title={"Boost"}
+        onPress={useBoost} 
         type={'clear'}/>
-         <Button iconRight icon={ <Icon name={"filter"} type={"antdesign"} size={15} color={SYSTEM_BLUE}/> } 
+        {isBoosted && 
+          (<TouchableOpacity style={styles.listButtonTitle, {flexDirection: 'row',}} 
+            onPress={() => ActionSheet.show({
+              title: 'WARNING: Ending this boost prematurely will result in the loss of the remainder of the boost',
+              options: ['End Boost', 'Cancel'],
+              cancelButtonIndex: 1,
+              destructiveButtonIndex: 0,
+            }, 
+
+            buttonIndex => {
+              switch(buttonIndex) {
+                case 0: 
+                  setBoosted(false);
+                  break;
+                default:
+                  //do nothing
+              } 
+            }
+            )}>
+            <Text>Boosted for </Text>  
+              <ExpiryTimer setTime={3600}/>
+          </TouchableOpacity>
+          )}
+         <Button 
+         iconRight 
+         icon={ <Icon name={"filter"} type={"antdesign"} size={15} color={SYSTEM_BLUE}/> } 
         containerStyle={styles.boostButtonContainer} 
-        titleStyle={styles.listButtonTitle} raised title={"Filter"} 
+        titleStyle={styles.listButtonTitle} 
+        raised 
+        title={"Filter"} 
         type={'clear'}/>
       </View>
-      
+
       {listVisible ?
 		  <View style={styles.listContainer}>
         <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={15}/> } 
@@ -361,6 +401,13 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   boostButtonContainer: {
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: '#fafafa',
+    width: "22%",
+    borderRadius: 25,
+  },
+  boostedButtonContainer: {
     justifyContent: 'center',
     alignSelf: 'flex-start',
     backgroundColor: '#fafafa',

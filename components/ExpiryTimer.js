@@ -27,6 +27,6 @@ export default function ExpiryTimer(props) {
 
 
   return (
-	<Text style={{fontSize: 17, color: "#757E90"}}>{`${mins}:${secs}`}</Text>
+	<Text style={props.style}>{`${mins}:${secs}`}</Text>
   );
 }

@@ -1,17 +1,11 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { SearchBar, Button } from 'react-native-elements';
 import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
 import { Data } from '../assets/data/Matches';
 import Message from '../components/Messages';
 import ChatScreen from '../screens/ChatScreen';
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
-
-//TODO: Implement pull down to refresh
 
 function MessagesScreen(props) {
   const [searchText, setSearchText] = React.useState();
@@ -25,7 +19,7 @@ function MessagesScreen(props) {
 	  <SearchBar lightTheme round
 	  onChangeText={val => setSearchText(val)}
 	  value={searchText}
-	  placeholder="17 matches..." //Source this from props/redux store
+	  placeholder={Data.length +" matches..."} //Source this from props/redux store
 	  containerStyle={{
 	  	backgroundColor: 'white',
 	  	borderBottomWidth: 0,
@@ -51,7 +45,7 @@ function MessagesScreen(props) {
 	  //onChange={props.onChange}
 	    />
   	  <View>
-  	  	<MatchCounter counter="12" timer="9:22"/>
+  	  	<MatchCounter counter={Data.length} />
   	  </View>
   	  <View style={{flexDirection: "row",
   	  alignSelf: 'center',
@@ -104,4 +98,4 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 });
-export default withMappedNavigationParams()(MessagesScreen);
+export default MessagesScreen;

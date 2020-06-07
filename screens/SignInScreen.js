@@ -5,6 +5,12 @@ import { Button } from 'react-native-elements';
 export default function SignInPage(props) {
 	const [userEmail, setUserEmail] = React.useState();
 	const [userPassword, setUserPassword] = React.useState();
+
+	const _onSignIn = () => {
+		/*OAuth verification logic*/
+		props.userSignedIn(true);
+		props.navigation.navigate("Playground");
+	}
 	return (
 		<KeyboardAvoidingView behavior='padding' style={styles.container}>
 			<View style={styles.titleContainer}>
@@ -25,7 +31,7 @@ export default function SignInPage(props) {
 				 onChange={val => setUserPassword(val)} textAlign={'center'} />
 			</View>
 			<View style={styles.buttonContainer}>
-				<Button title={"Sign In"} type={"clear"} onPress={() => props.navigation.navigate("Feed")}/>
+				<Button title={"Sign In"} type={"clear"} onPress={_onSignIn}/>
 			</View>
 		</KeyboardAvoidingView>
 	)

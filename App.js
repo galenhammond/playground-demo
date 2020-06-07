@@ -19,7 +19,7 @@ const PlaygroundLoginStack = createStackNavigator();
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
-  const [userLoggedIn, setUserLoggedIn] = React.useState(true);
+  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
@@ -70,8 +70,10 @@ export default function App(props) {
             <PlaygroundLoginStack.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
               <PlaygroundLoginStack.Screen name="Landing Page" component={LandingScreen} options={{headerShown: false}} />
               <PlaygroundLoginStack.Screen name="Sign Up" component={SignUpScreen} options={{headerShown: false}} />
-              <PlaygroundLoginStack.Screen name="Sign In" component={SignInScreen} options={{headerShown: false}} />
-              <PlaygroundLoginStack.Screen name="Playground" component={DrawerNavigator} options={{headerShown: false}}/>
+              <PlaygroundLoginStack.Screen name="Sign In" options={{headerShown: false}}>
+                {props => <SignInScreen {...props} userSignedIn={setUserLoggedIn} /> }
+              </PlaygroundLoginStack.Screen>
+              <PlaygroundLoginStack.Screen name="Playground" component={DrawerNavigator} options={{headerShown: false, gestureEnabled: false}}/>
             </PlaygroundLoginStack.Navigator>
           </NavigationContainer>
         </View>

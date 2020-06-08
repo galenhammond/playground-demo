@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
 export default function SignUpScreen(props) {
+	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
 	const [userFirstName, setUserFirstName] = React.useState();
 	const [userAge, setUserAge] = React.useState();
 	const [userEmail, setUserEmail] = React.useState();
@@ -44,11 +45,23 @@ export default function SignUpScreen(props) {
 	    }
 	};
 
+	const _onRegister = (user) => {
+		console.log(userCredentials);
+		/*OAuth verification logic*/
+		firebaseSDK.registerUser(user, 
+			/*onSuccess callback*/
+			() => {
+				props.navigation.navigate("Playground");
+			}, e => console.log(e)
+		)
+	}
+
 	return (
 		<KeyboardAvoidingView behavior="padding" style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Let's get you setup</Text>
 			</View>
+
 			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Name</Text>
 			</View>
@@ -56,6 +69,7 @@ export default function SignUpScreen(props) {
 				<TextInput style={styles.inputText} placeholder={'John Smith'} 
 				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
 			</View>
+
 			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Age</Text>
 			</View>
@@ -63,15 +77,42 @@ export default function SignUpScreen(props) {
 				<TextInput style={styles.inputText} placeholder={'22'} 
 				 onChange={val => setUserAge(val)} textAlign={'center'} />
 			</View>
+
 			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Email</Text>
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'john.smith@playground.ca'} 
-				 onChange={val => setUserEmail(val)} textAlign={'center'} />
+				 onChangeText={val => {
+				 	const email = val; 
+				 	setUserCredentials(prevState => {
+				 		return {...prevState, email: email}
+				 	});
+				 }}
+				 keyboardType={'email-address'}
+				 autoCapitalize={'none'}
+				 textAlign={'center'} />
 			</View>
 			<View style={styles.subTitleContainer}>
 			</View>
+
+			<View style={styles.subTitleContainer}>
+				<Text style={styles.subTitleText}>Password</Text>
+			</View>
+			<View style={styles.inputContainer}>
+				<TextInput style={styles.inputText} placeholder={'hunter12'} 
+				 onChangeText={val => {
+				 	const password = val; 
+				 	setUserCredentials(prevState => {
+				 		return {...prevState, password: password}
+				 	});
+				 }}
+				 textAlign={'center'}
+				 autoCapitalize={'none'} />
+			</View>
+			<View style={styles.subTitleContainer}>
+			</View>
+
 			<View style={styles.inputContainer}>
 				<Button title={userPicturesUploaded ? "Upload Another Picture" : "Upload Picture"} type={"clear"} onPress={_pickImage}/>
 			</View>
@@ -82,8 +123,7 @@ export default function SignUpScreen(props) {
 				})
 			}
 			<View style={styles.buttonContainer}>
-				{userPicturesUploaded ? <Button title={"Continue"} type={"clear"} />
-				: <Button disabled title={"Continue"} type={"clear"} /> }
+				 <Button disabled={false} title={"Sign Up"} type={"clear"} onPress={() => _onRegister(userCredentials)}/> 
 			</View>
 		</KeyboardAvoidingView>
 	)

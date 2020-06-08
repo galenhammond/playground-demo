@@ -1,37 +1,62 @@
 import * as React from 'react';
-import {View, SafeAreaView, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, SafeAreaView, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
+import firebaseSDK from '../server/fire.js';
 
 export default function SignInPage(props) {
-	const [userEmail, setUserEmail] = React.useState();
-	const [userPassword, setUserPassword] = React.useState();
+	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
 
-	const _onSignIn = () => {
+	const _onSignIn = (user) => {
 		/*OAuth verification logic*/
-		props.userSignedIn(true);
-		props.navigation.navigate("Playground");
+		firebaseSDK.loginUser(user, 
+			/*onSuccess callback*/
+			async (success) => {
+				props.userSignedIn(true);
+				props.navigation.navigate("Playground");
+			}, e => console.log(e)
+		);
 	}
 	return (
 		<KeyboardAvoidingView behavior='padding' style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Sign In</Text>
 			</View>
+
 			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Email</Text>
 			</View>
+
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'Enter email'} 
-				 onChange={val => setUserEmail(val)} textAlign={'center'}
+				 onChangeText={val => {
+				 	const email = val; 
+				 	setUserCredentials(prevState => {
+				 		return {...prevState, email: email}
+				 	});
+				 }}  
+				 textAlign={'center'}
+				 autoCapitalize={'none'}
 				 keyboardType={'email-address'} />
-			</View><View style={styles.subTitleContainer}>
+			</View>
+
+			<View style={styles.subTitleContainer}>
 				<Text style={styles.subTitleText}>Password</Text>
 			</View>
+
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'Enter password'} 
-				 onChange={val => setUserPassword(val)} textAlign={'center'} />
+				 onChangeText={val => {
+				 	const password = val; 
+				 	setUserCredentials(prevState => {
+				 		return {...prevState, password: password}
+				 	});
+				 }} 
+				 textAlign={'center'}
+				 autoCapitalize={'none'} />
 			</View>
+
 			<View style={styles.buttonContainer}>
-				<Button title={"Sign In"} type={"clear"} onPress={_onSignIn}/>
+				<Button title={"Sign In"} type={"clear"} onPress={() => _onSignIn(userCredentials)}/>
 			</View>
 		</KeyboardAvoidingView>
 	)

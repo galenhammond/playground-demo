@@ -13,6 +13,7 @@ import LandingScreen from "./screens/LandingScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import SignInScreen from "./screens/SignInScreen";
 import DrawerNavigator from "./navigation/DrawerNavigator";
+import firebaseSDK from './server/fire.js';
 
 const PlaygroundLoginStack = createStackNavigator();
 
@@ -31,6 +32,8 @@ export default function App(props) {
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
+
+        //Check if user signed in
 
         // Load fonts
         await Font.loadAsync({

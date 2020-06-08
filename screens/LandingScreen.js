@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 
 export default function LandingScreen(props) {
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.titleContainer}>

@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { Entypo } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import { AuthContext } from '../navigation/AuthProvider';
 
 export default function SignUpScreen(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
@@ -13,6 +14,8 @@ export default function SignUpScreen(props) {
 	const [userPictures, setUserPictures] = React.useState([]);
 	const [userPicturesUploaded, setUserPicturesUploaded] = React.useState(false);
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+	const { register } = React.useContext(AuthContext);
+
 
 	React.useEffect(() => {
 		getPermissionAsync();
@@ -48,7 +51,7 @@ export default function SignUpScreen(props) {
 	const _onRegister = (user) => {
 		console.log(userCredentials);
 		/*OAuth verification logic*/
-		firebaseSDK.registerUser(user, 
+		register(user, 
 			/*onSuccess callback*/
 			() => {
 				props.navigation.navigate("Playground");

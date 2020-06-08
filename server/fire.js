@@ -38,6 +38,13 @@ class FirebaseSDK extends React.Component {
 	  }
   }
 
+  async logoutUser(success, reject) {
+  	await firebase
+  	.auth()
+  	.signOut()
+  	.then(success, reject);
+  }
+
   async registerUser(user, success, reject) {
   	await firebase
   	.auth()

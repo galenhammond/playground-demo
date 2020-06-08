@@ -1,8 +1,9 @@
 import React from 'react'
 import { Text, View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { DrawerItemList, DrawerNavigation, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import { Thumbnail } from 'native-base'
+import { Thumbnail, ActionSheet } from 'native-base'
 import { Ionicons, Entypo } from '@expo/vector-icons'
+import firebaseSDK from '../server/fire'
 
 const ONLINE_STATUS = "#46A575";
 const GRAY = "#757E90";
@@ -18,11 +19,31 @@ export default function CustomDrawerHeader(props) {
           alignItems: 'left',
           marginLeft: "4%"
         }}>
-      <View style={{flexDirection:'row', paddingVertical: "2%", alignItems: 'center'}}>
+      <TouchableOpacity style={{flexDirection:'row', paddingVertical: "2%", alignItems: 'center'}} onPress={() => {
+        ActionSheet.show({
+              options: ['Log Out', 'Cancel'],
+              cancelButtonIndex: 1,
+              destructiveButtonIndex: 0,
+            },
+            buttonIndex => {
+              switch(buttonIndex) {
+                case 0: 
+                  firebaseSDK.logoutUser(
+                    () => {
+                      console.log("Logged Out");
+                  }, () => {
+                    console.log("An error occured");
+                  });
+                  break;
+                default:
+                //do nothing
+              }
+        });
+      }} >
         <Thumbnail small source={props.image} style={{ marginBottom: "4%"}}/>
         <Text style={{ color: 'black', fontSize: 30, marginLeft: "4%", fontFamily: "comfortaa-regular" }}>{props.name}</Text>
         <View style={styles.online} />
-      </View>
+      </TouchableOpacity>
       <View style={styles.iconContainer}>
         <View style={styles.iconCount}>
           <Ionicons name={'ios-wine'} size={18} color={'#009dff'} />

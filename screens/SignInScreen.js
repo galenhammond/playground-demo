@@ -2,17 +2,17 @@ import * as React from 'react';
 import {View, SafeAreaView, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import firebaseSDK from '../server/fire.js';
+import { AuthContext } from '../navigation/AuthProvider';
 
 export default function SignInPage(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
+	const { login, setUser } = React.useContext(AuthContext)
 
 	const _onSignIn = (user) => {
 		/*OAuth verification logic*/
-		firebaseSDK.loginUser(user, 
+		login(user, 
 			/*onSuccess callback*/
 			async (success) => {
-				props.userSignedIn(true);
-				props.navigation.navigate("Playground");
 			}, e => console.log(e)
 		);
 	}

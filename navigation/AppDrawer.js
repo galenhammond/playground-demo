@@ -23,7 +23,7 @@ function SettingsStack({navigation}) {
   );
 }
 
-function DrawerNavigator({navigation, route}) {
+function AppDrawer({navigation, route}) {
 	return (
 		<PlaygroundDrawer.Navigator drawerContent={props => <CustomDrawerHeader {...props} 
         image={require('../assets/images/MichelleThumb.jpg')} 
@@ -33,4 +33,4 @@ function DrawerNavigator({navigation, route}) {
         </PlaygroundDrawer.Navigator>
 	)
 }
-export default DrawerNavigator;
+export default AppDrawer;

@@ -54,7 +54,7 @@ export default function SignUpScreen(props) {
 		register(user, 
 			/*onSuccess callback*/
 			() => {
-				props.navigation.navigate("Playground");
+				props.storeUserToken();
 			}, e => console.log(e)
 		)
 	}

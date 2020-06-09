@@ -42,7 +42,7 @@ function ExploreScreen(props) {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        /*setErrorMsg('Permission to access location was denied');*/
       }
 
       let location = await Location.watchPositionAsync({
@@ -62,10 +62,14 @@ function ExploreScreen(props) {
       latitudeDelta: LAT_DELTA,
       longitudeDelta: LONG_DELTA
     });
-    mapRef.current.animateToRegion({
-      region: mapRegion,
-      duration: 500
-    });
+    try {
+      mapRef.current.animateToRegion({
+        region: mapRegion,
+        duration: 500
+      });
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   const useBoost = () => {

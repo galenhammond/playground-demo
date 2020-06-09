@@ -6,13 +6,14 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 export default function SignInPage(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
-	const { login, setUser } = React.useContext(AuthContext)
+	const { login, setUser } = React.useContext(AuthContext);
 
 	const _onSignIn = (user) => {
 		/*OAuth verification logic*/
 		login(user, 
 			/*onSuccess callback*/
-			async (success) => {
+			() => {
+				props.storeUserToken();
 			}, e => console.log(e)
 		);
 	}

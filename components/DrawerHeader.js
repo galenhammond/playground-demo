@@ -1,15 +1,17 @@
 import React from 'react'
-import { Text, View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native'
 import { DrawerItemList, DrawerNavigation, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { Thumbnail, ActionSheet } from 'native-base'
 import { Ionicons, Entypo } from '@expo/vector-icons'
-import firebaseSDK from '../server/fire'
+import { AuthContext } from '../navigation/AuthProvider'
 
 const ONLINE_STATUS = "#46A575";
 const GRAY = "#757E90";
 const SYSTEM_BLUE = '#007bff'
 
 export default function CustomDrawerHeader(props) {
+  const { logout } = React.useContext(AuthContext);
+
   return (
   <View style={{flex: 1}}>
     <View style={{
@@ -25,11 +27,17 @@ export default function CustomDrawerHeader(props) {
               cancelButtonIndex: 1,
               destructiveButtonIndex: 0,
             },
+
             buttonIndex => {
               switch(buttonIndex) {
                 case 0: 
-                  firebaseSDK.logoutUser(
-                    () => {
+                  logout(
+                    async (success) => {
+                      try {
+                        await AsyncStorage.removeItem('@Playground_token');
+                      } catch(e) {
+                        console.log('Unable to remove login token');
+                      }
                       console.log("Logged Out");
                   }, () => {
                     console.log("An error occured");

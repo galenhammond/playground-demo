@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,33 +18,26 @@ export default function Playground(props) {
   const { user, setUser } = React.useContext(AuthContext);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
-  const [userLoggedIn, setUserLoggedIn] = React.useState(false);
+  const [usePersistedLogin, setPersistedLogin] = React.useState(false);
   const containerRef = React.useRef();
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        if (!firebase.apps.length) {
-          firebase.initializeApp({
-            apiKey: API_KEY,
-            authDomain: AUTH_DOMAIN,
-            databaseURL: DATABASE_URL,
-            projectId: PROJECT_ID,
-            storageBucket: STORAGE_BUCKET,
-            messagingSenderId: MESSAGING_SENDING_ID,
-            appId: APP_ID,
-            measurementId: MEASUREMENT_ID
-          });
-        }
-
-        firebase.auth().onAuthStateChanged((userUpdate) => {
-          setUser(userUpdate);
-        });
 
         SplashScreen.preventAutoHide();
 
-        // Load our initial navigation state
+        //Check if login token exists
+        try {
+          persistToken = await AsyncStorage.getItem('@Playground_token');
+          if (persistToken) {
+            setPersistedLogin(true);
+          }
+          console.log('Login key found');
+        } catch(e) {
+          console.log('No login key found');
+        }
 
         // Load fonts
         await Font.loadAsync({
@@ -65,12 +58,32 @@ export default function Playground(props) {
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
       }
     }
 
     loadResourcesAndDataAsync();
-    INITIAL_ROUTE_NAME = 'Playground';
+
+    if (!firebase.apps.length) {
+          firebase.initializeApp({
+            apiKey: API_KEY,
+            authDomain: AUTH_DOMAIN,
+            databaseURL: DATABASE_URL,
+            projectId: PROJECT_ID,
+            storageBucket: STORAGE_BUCKET,
+            messagingSenderId: MESSAGING_SENDING_ID,
+            appId: APP_ID,
+            measurementId: MEASUREMENT_ID
+          });
+        }
+
+    firebase.auth().onAuthStateChanged(userUpdate => {
+      console.log("Changed");
+      if (!userUpdate) setPersistedLogin(false);
+      setUser(userUpdate);
+      console.log(userUpdate);
+      SplashScreen.hide();
+    });
+
   }, []);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -81,7 +94,7 @@ export default function Playground(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef}>
-            {user ? <AppDrawer/> : <LoginStack/>}
+          {(user || usePersistedLogin) ? <AppDrawer/> : <LoginStack/>}
           </NavigationContainer>
         </View>
       </Root>

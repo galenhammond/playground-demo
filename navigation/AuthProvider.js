@@ -4,12 +4,15 @@ import firebaseSDK from '../server/fire';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserDocument, setCurrentUserDocument] = useState(null);
   return (
     <AuthContext.Provider
       value={{
-        user,
-        setUser,
+        currentUser,
+        setCurrentUser,
+        currentUserDocument,
+        setCurrentUserDocument,
         login: firebaseSDK.loginUser,
         register: firebaseSDK.registerUser,
         logout: firebaseSDK.logoutUser

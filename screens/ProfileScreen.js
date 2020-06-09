@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Picker, ActionSheet } from 'native-base'
+import { AuthContext } from '../navigation/AuthProvider'
 //import Slider from '@react-native-community/slider';
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
@@ -22,6 +23,7 @@ const CANCEL_BUTTON_INDEX = 2;
 const BUTTONS = ["Add/Replace Photos", "Edit Details", "Cancel"];
 
 export default function ProfileScreen(props) {
+  const { currentUser, currentUserDocument } = React.useContext(AuthContext);
   const [userMatchRadius, setUserMatchRadius] = React.useState(MAX_RADIUS);
   const [userVisible, setUserVisible] = React.useState(true);
   const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
@@ -73,18 +75,21 @@ export default function ProfileScreen(props) {
 		      	source={props.image}
 		      	onPress={() => props.navigation.navigate('Upload Photos')} />
 		    </TouchableOpacity>
+
 	      	{ isEditing ?  <TextInput style={{fontFamily: "comfortaa-regular", fontSize: 26,
 	      	alignSelf: "center",
 	      	marginBottom: "2%", 
-	      	marginTop: "3.5%", color: SYSTEM_BLUE}}>{props.name}</TextInput>
+	      	marginTop: "3.5%", color: SYSTEM_BLUE}}>{currentUser ? currentUser.displayName : null}</TextInput>
 	      		: <Text style={{fontFamily: "comfortaa-regular", fontSize: 26,
 	      	alignSelf: "center",
 	      	marginBottom: "2%", 
-	      	marginTop: "3.5%"}}>{props.name}</Text> }
-	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: SYSTEM_BLUE}}>{props.age}</TextInput>
-	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#757E90"}}>{props.age}</Text> }
+	      	marginTop: "3.5%"}}>{currentUser ? currentUser.displayName : null}</Text> }
+
+	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: SYSTEM_BLUE}}>{currentUserDocument ? currentUserDocument.age : null}</TextInput>
+	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#757E90"}}>{currentUserDocument ? currentUserDocument.age : null}</Text> }
 	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{props.bio}</TextInput>
 	      		: props.bio && <Text style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: "#292929"}}>{props.bio}</Text> }
+  			
   			<View style={{
 	      		flexDirection: 'row',
 	      		flexGrow: 1,
@@ -100,6 +105,7 @@ export default function ProfileScreen(props) {
 			</View>
       	</View>
       </View>
+
       <View style={{flex: 1}}>
       	<ScrollView showsVerticalScrollIndicator={false} style={{flexGrow: 1}}>
 	      	<View style={styles.containerMessage}>
@@ -111,6 +117,7 @@ export default function ProfileScreen(props) {
 	        	<Text style={{alignSelf: 'center'}}>{userMatchRadius.toFixed(1)} km</Text>
 		        <Text style={styles.message}>Set max visibility range</Text>
 		    </View>
+
 		    <View style={styles.containerMessage}>
 		        <Text style={{fontSize: 16, color: "#757E90"}}>Age Filter</Text>
 	        	<Slider 
@@ -120,6 +127,7 @@ export default function ProfileScreen(props) {
 	        	<Text style={{alignSelf: 'center'}}>{((userAgeFilter / AGE_STEP) + MINIMUM_AGE).toFixed(0)}</Text>
 		        <Text style={styles.message}>Set max age range</Text>
 		    </View>
+
 		    <View style={styles.containerMessage}>
 		        <Text style={{fontSize: 16, color: "#757E90"}}>Gender Preference</Text>
 	        	<Slider 

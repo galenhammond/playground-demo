@@ -1,6 +1,7 @@
 import * as React from 'react';
 import firebase from 'firebase';
 import 'firebase/auth';
+import 'firebase/firestore';
 import 'firebase/database';
 import 'firebase/storage';
 import {API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDING_ID, APP_ID, MEASUREMENT_ID} from 'react-native-dotenv'
@@ -10,19 +11,7 @@ class FirebaseSDK extends React.Component {
   	super(props);
     this._init();
   }
-
-  componentDidMount() {
-  	firebase.auth().onAuthStateChanged(user => {
-  		if (user) {
-  			/* update react context to show user logged in */
-  			console.log(user);
-  		} else {
-  			/* update react context to show user logged out */
-  			console.log(user);
-  		}
-  	})
-  }
-
+  
   _init() {
   	if (!firebase.apps.length) {
 	  	firebase.initializeApp({
@@ -59,10 +48,39 @@ class FirebaseSDK extends React.Component {
   	.then(success, reject);
   }
 
+  async updateUserAuthProfile(data, success, reject) {
+  	await firebase
+  	.auth()
+  	.currentUser
+  	.updateProfile(data)
+  	.then(success, reject);
+  } 
+
+  async createUserDocument(uid, data) {
+  	try {
+  		/*Create user in firestore*/
+  		await firebase.firestore().collection('users').doc(uid).set(data);
+  	} catch(e) {
+  		console.log(e);
+  	}
+  }
+
+  async updateUserDocument(uid, data) {
+  	/*Update user in firestore*/
+  	try {
+  		await firebase.firestore().collection('users').doc(uid).update(data);
+  	} catch(e) {
+  		console.log(e);
+  	}
+  }
+
   currentUser() {
     return firebase.auth().currentUser;
   }
 
+  newTimestamp() {
+  	return firebase.firestore.Timestamp.now();
+  }
 }
 
 firebaseSDK = new FirebaseSDK();

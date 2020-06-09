@@ -10,7 +10,7 @@ const GRAY = "#757E90";
 const SYSTEM_BLUE = '#007bff'
 
 export default function CustomDrawerHeader(props) {
-  const { logout } = React.useContext(AuthContext);
+  const { logout, currentUser } = React.useContext(AuthContext);
 
   return (
   <View style={{flex: 1}}>
@@ -49,7 +49,7 @@ export default function CustomDrawerHeader(props) {
         });
       }} >
         <Thumbnail small source={props.image} style={{ marginBottom: "4%"}}/>
-        <Text style={{ color: 'black', fontSize: 30, marginLeft: "4%", fontFamily: "comfortaa-regular" }}>{props.name}</Text>
+        <Text style={{ color: 'black', fontSize: 30, marginLeft: "4%", fontFamily: "comfortaa-regular" }}>{currentUser ? currentUser.displayName : null}</Text>
         <View style={styles.online} />
       </TouchableOpacity>
       <View style={styles.iconContainer}>

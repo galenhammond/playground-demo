@@ -5,14 +5,11 @@ import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { AuthContext } from '../navigation/AuthProvider';
+import firebaseSDK from '../server/fire'
 
 export default function SignUpScreen(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
-	const [userFirstName, setUserFirstName] = React.useState();
-	const [userAge, setUserAge] = React.useState();
-	const [userEmail, setUserEmail] = React.useState();
-	const [userPictures, setUserPictures] = React.useState([]);
-	const [userPicturesUploaded, setUserPicturesUploaded] = React.useState(false);
+	const [userData, setUserData] = React.useState({})
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
 	const { register } = React.useContext(AuthContext);
 
@@ -49,14 +46,17 @@ export default function SignUpScreen(props) {
 	};
 
 	const _onRegister = (user) => {
-		console.log(userCredentials);
-		/*OAuth verification logic*/
 		register(user, 
 			/*onSuccess callback*/
-			() => {
-				props.storeUserToken();
+			(createdUser) => {
+				firebaseSDK.updateUserAuthProfile({
+					displayName: userData.name
+					/*photoUrl: thumbnail*/
+				}, null, null);
+				firebaseSDK.createUserDocument(createdUser.user.uid, userData);
+				props.storePersistenceToken();
 			}, e => console.log(e)
-		)
+		);
 	}
 
 	return (
@@ -66,11 +66,17 @@ export default function SignUpScreen(props) {
 			</View>
 
 			<View style={styles.subTitleContainer}>
-				<Text style={styles.subTitleText}>Name</Text>
+				<Text style={styles.subTitleText}>First Name</Text>
 			</View>
 			<View style={styles.inputContainer}>
-				<TextInput style={styles.inputText} placeholder={'John Smith'} 
-				 onChange={val => setUserFirstName(val)} textAlign={'center'} />
+				<TextInput style={styles.inputText} placeholder={'Ash'} 
+				 onChangeText={val => {
+				 	const name = val; 
+				 	setUserData(prevState => {
+				 		return {...prevState, name: name}
+				 	});
+				 }} 
+				 textAlign={'center'} />
 			</View>
 
 			<View style={styles.subTitleContainer}>
@@ -78,7 +84,13 @@ export default function SignUpScreen(props) {
 			</View>
 			<View style={styles.inputContainer}>
 				<TextInput style={styles.inputText} placeholder={'22'} 
-				 onChange={val => setUserAge(val)} textAlign={'center'} />
+				 onChangeText={val => {
+				 	const age = val; 
+				 	setUserData(prevState => {
+				 		return {...prevState, age: age}
+				 	});
+				 }} 
+				 textAlign={'center'} />
 			</View>
 
 			<View style={styles.subTitleContainer}>
@@ -103,7 +115,9 @@ export default function SignUpScreen(props) {
 				<Text style={styles.subTitleText}>Password</Text>
 			</View>
 			<View style={styles.inputContainer}>
-				<TextInput style={styles.inputText} placeholder={'hunter12'} 
+				<TextInput style={styles.inputText} 
+				placeholder={'hunter12'} 
+				secureTextEntry={true}
 				 onChangeText={val => {
 				 	const password = val; 
 				 	setUserCredentials(prevState => {
@@ -115,16 +129,7 @@ export default function SignUpScreen(props) {
 			</View>
 			<View style={styles.subTitleContainer}>
 			</View>
-
-			<View style={styles.inputContainer}>
-				<Button title={userPicturesUploaded ? "Upload Another Picture" : "Upload Picture"} type={"clear"} onPress={_pickImage}/>
-			</View>
-			{userPictures.map(picture => {
-				<View>
-					<Image source={{uri: picture.uri}} style={{height: 52.5, width: 70, flex: 1}} />
-				</View>
-				})
-			}
+			
 			<View style={styles.buttonContainer}>
 				 <Button disabled={false} title={"Sign Up"} type={"clear"} onPress={() => _onRegister(userCredentials)}/> 
 			</View>

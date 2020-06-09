@@ -13,12 +13,14 @@ import { AuthProvider } from './navigation/AuthProvider'
 import { AuthContext } from './navigation/AuthProvider';
 import { createStackNavigator } from '@react-navigation/stack';
 import firebase from 'firebase'
+import 'firebase/firestore'
 
 export default function Playground(props) {
-  const { user, setUser } = React.useContext(AuthContext);
+  const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument } = React.useContext(AuthContext);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
   const [usePersistedLogin, setPersistedLogin] = React.useState(false);
+  const [userID, setUserID] = React.useState(' ');
   const containerRef = React.useRef();
 
   // Load any resources or data that we need prior to rendering the app
@@ -34,9 +36,8 @@ export default function Playground(props) {
           if (persistToken) {
             setPersistedLogin(true);
           }
-          console.log('Login key found');
         } catch(e) {
-          console.log('No login key found');
+            console.log(e);
         }
 
         // Load fonts
@@ -64,25 +65,35 @@ export default function Playground(props) {
     loadResourcesAndDataAsync();
 
     if (!firebase.apps.length) {
-          firebase.initializeApp({
-            apiKey: API_KEY,
-            authDomain: AUTH_DOMAIN,
-            databaseURL: DATABASE_URL,
-            projectId: PROJECT_ID,
-            storageBucket: STORAGE_BUCKET,
-            messagingSenderId: MESSAGING_SENDING_ID,
-            appId: APP_ID,
-            measurementId: MEASUREMENT_ID
-          });
-        }
+      firebase.initializeApp({
+        apiKey: API_KEY,
+        authDomain: AUTH_DOMAIN,
+        databaseURL: DATABASE_URL,
+        projectId: PROJECT_ID,
+        storageBucket: STORAGE_BUCKET,
+        messagingSenderId: MESSAGING_SENDING_ID,
+        appId: APP_ID,
+        measurementId: MEASUREMENT_ID
+      });
+    }
 
-    firebase.auth().onAuthStateChanged(userUpdate => {
-      console.log("Changed");
-      if (!userUpdate) setPersistedLogin(false);
-      setUser(userUpdate);
-      console.log(userUpdate);
+    const unsubAuth = firebase.auth().onAuthStateChanged(user => {
+      if (!user) setPersistedLogin(false);
+      setCurrentUser(user);
+      if (user) setUserID(user.uid);
       SplashScreen.hide();
     });
+
+    const unsubDB = firebase.firestore().collection('users').doc(userID).onSnapshot(docSnapshot => {
+      setCurrentUserDocument(docSnapshot.data());
+    }, err => {
+      console.log('Unable to update user document snapshot');
+    });
+
+    return () => {
+      unsubAuth();
+      unsubDB();
+    }
 
   }, []);
 
@@ -94,7 +105,7 @@ export default function Playground(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef}>
-          {(user || usePersistedLogin) ? <AppDrawer/> : <LoginStack/>}
+          {(currentUser || usePersistedLogin) ? <AppDrawer/> : <LoginStack/>}
           </NavigationContainer>
         </View>
       </Root>

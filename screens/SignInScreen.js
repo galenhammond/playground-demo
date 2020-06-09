@@ -6,14 +6,14 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 export default function SignInPage(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
-	const { login, setUser } = React.useContext(AuthContext);
+	const { login } = React.useContext(AuthContext);
 
 	const _onSignIn = (user) => {
 		/*OAuth verification logic*/
 		login(user, 
 			/*onSuccess callback*/
 			() => {
-				props.storeUserToken();
+				props.storePersistenceToken();
 			}, e => console.log(e)
 		);
 	}
@@ -45,7 +45,9 @@ export default function SignInPage(props) {
 			</View>
 
 			<View style={styles.inputContainer}>
-				<TextInput style={styles.inputText} placeholder={'Enter password'} 
+				<TextInput style={styles.inputText} 
+				placeholder={'Enter password'} 
+				secureTextEntry={true}
 				 onChangeText={val => {
 				 	const password = val; 
 				 	setUserCredentials(prevState => {

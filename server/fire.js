@@ -11,7 +11,7 @@ class FirebaseSDK extends React.Component {
   	super(props);
     this._init();
   }
-  
+
   _init() {
   	if (!firebase.apps.length) {
 	  	firebase.initializeApp({
@@ -65,6 +65,15 @@ class FirebaseSDK extends React.Component {
   	}
   }
 
+  async retrieveUserDocument(uid) {
+  	await firebase.firestore().collection('users').doc(uid).get()
+  	.then(doc => {
+  		if (!doc.exists) return doc.exists;
+  		return doc.data();
+  	})
+
+  }
+
   async updateUserDocument(uid, data) {
   	/*Update user in firestore*/
   	try {
@@ -78,9 +87,36 @@ class FirebaseSDK extends React.Component {
     return firebase.auth().currentUser;
   }
 
-  newTimestamp() {
+  getTimestamp() {
   	return firebase.firestore.Timestamp.now();
   }
+
+  uuidv4() {
+  	return Math.random() * 16;
+  }
+
+  async uploadUserImage(uid, imageUri) {
+  	try {
+	  	const blob = await new Promise((resolve, reject) => {
+	        const xhr = new XMLHttpRequest();
+	        xhr.onload = () => {
+	            resolve(xhr.response);
+	        };
+	        xhr.responseType = 'blob';
+	        xhr.open('GET', imageUri, true);
+	        xhr.send(null);
+	    });
+	    const ref = firebase
+	        .storage()
+	        .ref()
+	        .child(`userImages/${uid}/${this.uuidv4()}`);
+	    let snapshot = await ref.put(blob);
+	    return await snapshot.ref.getDownloadURL();
+	} catch(e) {
+		console.log(e)
+	}
+  }
+
 }
 
 firebaseSDK = new FirebaseSDK();

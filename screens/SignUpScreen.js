@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View, SafeAreaView, KeyboardAvoidingView, TextInput, Text, StyleSheet, Platform, Image } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, SafeAreaView, KeyboardAvoidingView, TextInput, Text, StyleSheet, Platform, Image, TouchableOpacity } from 'react-native';
+import { Button, Avatar } from 'react-native-elements';
 import { Entypo } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -27,42 +27,40 @@ export default function SignUpScreen(props) {
 
   	const _pickImage = async () => {
 	    try {
-	    	let result = await ImagePicker.launchImageLibraryAsync({
+	    	let image = await ImagePicker.launchImageLibraryAsync({
 		        mediaTypes: ImagePicker.MediaTypeOptions.Image,
 		        allowsEditing: true,
 		        aspect: [4, 3],
 		        quality: 1
 	      	});
-	    	if (!result.cancelled) {
-	    		setUserPictures(prevState => [...prevState, result]);
-	    		setUserPicturesUploaded(true);
-	    		console.log(userPictures);
-	    		console.log(result);
+	    	if (!image.cancelled) {
+	    		setUserData(prevState => {
+	    			return {...prevState, 
+	    				thumbnail: image.uri,
+	    			}
+	    		});
 	    	}
-	    	//console.log(result);
 	    } catch (E) {
 	    	console.log(E);
 	    }
 	};
 
-	const _onRegister = (user) => {
-		register(user, 
-			/*onSuccess callback*/
-			(createdUser) => {
-				firebaseSDK.updateUserAuthProfile({
-					displayName: userData.name
-					/*photoUrl: thumbnail*/
-				}, null, null);
-				firebaseSDK.createUserDocument(createdUser.user.uid, userData);
-				props.storePersistenceToken();
-			}, e => console.log(e)
-		);
-	}
-
 	return (
 		<KeyboardAvoidingView behavior="padding" style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Let's get you setup</Text>
+			</View>
+
+			<View style={styles.subTitleContainer}>
+				<Text style={styles.subTitleText}>Upload Profile Picture</Text>
+			</View>
+			<View style={styles.inputContainer}>
+				<Avatar rounded
+				showAccessory={true}
+		      	title={userData.name ? userData.name[0].toUpperCase() : 'A'}
+		      	size={120} 
+		      	source={userData.thumbnail ? {uri: userData.thumbnail} : null}
+		      	onPress={_pickImage}/>
 			</View>
 
 			<View style={styles.subTitleContainer}>
@@ -127,11 +125,13 @@ export default function SignUpScreen(props) {
 				 textAlign={'center'}
 				 autoCapitalize={'none'} />
 			</View>
-			<View style={styles.subTitleContainer}>
-			</View>
-			
 			<View style={styles.buttonContainer}>
-				 <Button disabled={false} title={"Sign Up"} type={"clear"} onPress={() => _onRegister(userCredentials)}/> 
+				 <Button disabled={(userData && userCredentials) ? false : true} title={"Continue"} type={"clear"} 
+				 onPress={() => {
+				 	props.navigation.navigate('Setup User', {
+				 		userData: userData, userCredentials: userCredentials,
+				 	 });
+				 }}/> 
 			</View>
 		</KeyboardAvoidingView>
 	)

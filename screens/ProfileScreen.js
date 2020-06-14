@@ -1,12 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Slider, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput } from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import { Avatar, Button } from 'react-native-elements'
-import { AntDesign } from '@expo/vector-icons'; 
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'; 
 import { Picker, ActionSheet } from 'native-base'
 import { AuthContext } from '../navigation/AuthProvider'
 //import Slider from '@react-native-community/slider';
@@ -24,10 +22,10 @@ const BUTTONS = ["Add/Replace Photos", "Edit Details", "Cancel"];
 
 export default function ProfileScreen(props) {
   const { currentUser, currentUserDocument } = React.useContext(AuthContext);
-  const [userMatchRadius, setUserMatchRadius] = React.useState(MAX_RADIUS);
+  const [userMatchRadius, setUserMatchRadius] = React.useState(currentUserDocument.match_radius);
   const [userVisible, setUserVisible] = React.useState(true);
-  const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
-  const [userGenderPreference, setUserGenderPreference] = React.useState(GENDER_STEP);
+  const [userAgeFilter, setUserAgeFilter] = React.useState(currentUserDocument.age_filter);
+  const [userGenderPreference, setUserGenderPreference] = React.useState(currentUserDocument.gender_prefernece);
   const [isSliding, setIsSliding] = React.useState(false); //TODO: Set scrollview to freeze when using slider
   const [isEditing, setEditing] = React.useState(false); //TODO: Setup editable callback to pushes changes to backend and setup logic for determing which button was pressed 
 
@@ -70,9 +68,9 @@ export default function ProfileScreen(props) {
       		<TouchableOpacity>
 		      	<Avatar rounded
 		      	showAccessory={true}
-		      	title={props.name[0].toUpperCase()}
+		      	title={'A'}
 		      	size={120} 
-		      	source={props.image}
+		      	source={currentUserDocument ? {uri: currentUserDocument.thumbnail} : null}
 		      	onPress={() => props.navigation.navigate('Upload Photos')} />
 		    </TouchableOpacity>
 
@@ -87,8 +85,8 @@ export default function ProfileScreen(props) {
 
 	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: SYSTEM_BLUE}}>{currentUserDocument ? currentUserDocument.age : null}</TextInput>
 	      		: <Text style={{fontFamily: "sfprodisplay-regular", fontSize: 16, textAlign: "center", marginBottom: "2%", color: "#757E90"}}>{currentUserDocument ? currentUserDocument.age : null}</Text> }
-	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{props.bio}</TextInput>
-	      		: props.bio && <Text style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: "#292929"}}>{props.bio}</Text> }
+	      	{ isEditing ? <TextInput onSubmitEditing={() => setEditing(false)} style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: SYSTEM_BLUE}}>{currentUserDocument ? currentUserDocument.bio : ''}</TextInput>
+	      		: <Text style={{fontFamily: "sfprodisplay-light", fontSize: 16, textAlign: "center", color: "#292929"}}>{currentUserDocument ? currentUserDocument.bio : ''}</Text> }
   			
   			<View style={{
 	      		flexDirection: 'row',

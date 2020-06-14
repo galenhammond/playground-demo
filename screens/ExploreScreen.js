@@ -39,18 +39,24 @@ function ExploreScreen(props) {
   });
 
   React.useEffect(() => {
+    var location;
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         /*setErrorMsg('Permission to access location was denied');*/
       }
 
-      let location = await Location.watchPositionAsync({
+      location = await Location.watchPositionAsync({
         accuracy: Location.Accuracy.Highest,
         timeout: 10000,
         distanceInterval: 25,
       }, _onLocationChange);
     })();
+
+    //Unsub to locatiom updates here
+    /*return () => {
+      location.remove();
+    }*/
   },[]);
 
   const _onLocationChange = (location) => {

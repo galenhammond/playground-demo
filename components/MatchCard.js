@@ -31,7 +31,7 @@ export default function MatchCard(props) {
      	 		 <Body>
           		<Text style={styles.headerText}>{props.name}</Text>
           		<Text note>{props.age}</Text>
-        		</Body>
+        	 </Body>
         	</Left>
           <Right>
             <TouchableOpacity onPress={() => ActionSheet.show({

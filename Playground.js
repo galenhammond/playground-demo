@@ -18,6 +18,7 @@ import 'firebase/firestore'
 export default function Playground(props) {
   const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument } = React.useContext(AuthContext);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [initialLoadComplete, setInitialLoadComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
   const [usePersistedLogin, setPersistedLogin] = React.useState(false);
   const [userID, setUserID] = React.useState(' ');
@@ -31,13 +32,26 @@ export default function Playground(props) {
         SplashScreen.preventAutoHide();
 
         //Check if login token exists
-        try {
+        /*try {
           persistToken = await AsyncStorage.getItem('@Playground_token');
           if (persistToken) {
             setPersistedLogin(true);
           }
         } catch(e) {
             console.log(e);
+        }*/
+
+        if (!firebase.apps.length) {
+          firebase.initializeApp({
+            apiKey: API_KEY,
+            authDomain: AUTH_DOMAIN,
+            databaseURL: DATABASE_URL,
+            projectId: PROJECT_ID,
+            storageBucket: STORAGE_BUCKET,
+            messagingSenderId: MESSAGING_SENDING_ID,
+            appId: APP_ID,
+            measurementId: MEASUREMENT_ID
+          });
         }
 
         // Load fonts
@@ -64,31 +78,31 @@ export default function Playground(props) {
 
     loadResourcesAndDataAsync();
 
-    if (!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: API_KEY,
-        authDomain: AUTH_DOMAIN,
-        databaseURL: DATABASE_URL,
-        projectId: PROJECT_ID,
-        storageBucket: STORAGE_BUCKET,
-        messagingSenderId: MESSAGING_SENDING_ID,
-        appId: APP_ID,
-        measurementId: MEASUREMENT_ID
-      });
-    }
+    setCurrentUser(firebaseSDK.currentUser);
+    if (currentUser) setUserID(currentUser.uid);
 
     const unsubAuth = firebase.auth().onAuthStateChanged(user => {
-      if (!user) setPersistedLogin(false);
+      /*if (!user) setPersistedLogin(false);*/
       setCurrentUser(user);
       if (user) setUserID(user.uid);
+      console.log("User: " + user);
+      if (user) {
+        const unsubDB = firebase.firestore().collection('users').doc(user.uid).onSnapshot(docSnapshot => {
+          console.log("Listening for document changes");
+          setCurrentUserDocument(docSnapshot.data());
+          console.log("Document: " + docSnapshot.data());
+        }, err => {
+          console.log('Unable to update user document snapshot');
+        });
+      }
       SplashScreen.hide();
     });
 
-    const unsubDB = firebase.firestore().collection('users').doc(userID).onSnapshot(docSnapshot => {
-      setCurrentUserDocument(docSnapshot.data());
-    }, err => {
-      console.log('Unable to update user document snapshot');
-    });
+    if (!initialLoadComplete) {
+      setCurrentUserDocument(firebaseSDK.retrieveUserDocument(userID));
+      console.log('Retrieved user document');
+      setInitialLoadComplete(true);
+    }
 
     return () => {
       unsubAuth();
@@ -105,7 +119,7 @@ export default function Playground(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef}>
-          {(currentUser || usePersistedLogin) ? <AppDrawer/> : <LoginStack/>}
+          {currentUser ? <AppDrawer/> : <LoginStack/>}
           </NavigationContainer>
         </View>
       </Root>

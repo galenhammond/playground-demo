@@ -318,7 +318,7 @@ export default StyleSheet.create({
 		alignItems: "center",
 		marginLeft: 10,
 		height: 50,
-		borderRadius: 25,
+		borderRadius: 13,
 		backgroundColor: SYSTEM_BLUE,
 		paddingHorizontal: 20
 	},
@@ -338,5 +338,101 @@ export default StyleSheet.create({
 		fontFamily: 'comfortaa-regular',
 		height: 20,
 		paddingBottom: 7
+	},
+
+	//EXPLORE
+	exploreModalProfileItem: {
+		width: 225,
+		backgroundColor: SYSTEM_BLUE,
+		paddingVertical: 7,
+		paddingHorizontal: 20,
+		borderRadius: 20,
+		textAlign: "center",
+		alignSelf: "center"
+	},
+
+	//MISC
+	themeButtonItem: {
+		width: 225,
+		backgroundColor: SYSTEM_BLUE,
+		paddingVertical: 7,
+		paddingHorizontal: 20,
+		borderRadius: 20,
+		textAlign: "center",
+		alignSelf: "center"
+	},
+	containerEditProfileItem: {
+		backgroundColor: WHITE,
+		paddingHorizontal: 10,
+		paddingBottom: 25,
+		margin: 20,
+		borderRadius: 8,
+		shadowOpacity: 0.05,
+		shadowRadius: 10,
+		shadowColor: BLACK,
+		shadowOffset: { height: 0, width: 0 }
+	},
+	editProfileDragableImage: {
+		marginTop: 30,
+		alignSelf: 'center',
+		width: 80,
+		height: 80,
+		borderRadius: 8
+	},
+	matchesEditProfileItem: {
+		width: 180,
+		marginTop: -15,
+		backgroundColor: SYSTEM_BLUE,
+		paddingVertical: 7,
+		paddingHorizontal: 20,
+		borderRadius: 20,
+		textAlign: "center",
+		alignSelf: "center"
+	},
+	matchesAddImageItem: {
+		width: 131,
+		backgroundColor: SYSTEM_BLUE,
+		marginTop: 20,
+		paddingVertical: 7,
+		paddingHorizontal: 20,
+		borderRadius: 20,
+		textAlign: "center",
+		alignSelf: "center"
+	},
+
+	feedButtonItem: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		width: 120,
+		backgroundColor: SYSTEM_BLUE,
+		paddingVertical: 7,
+		paddingHorizontal: 15,
+		borderRadius: 10,
+		textAlign: "center",
+		alignSelf: "center"
+	},
+
+	feedButtonItem2: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		width: 110,
+		backgroundColor: SYSTEM_BLUE,
+		paddingVertical: 7,
+		paddingHorizontal: 15,
+		borderRadius: 10,
+		textAlign: "center",
+		alignSelf: "center",
+		marginLeft: '-8%'
+	},
+	matchCardButton: {
+		fontSize: 13, 
+		paddingLeft: 12, 
+		color: 'white'
+	},
+	matchDistanceText: {
+		fontSize: 13, 
+		color: '#88bbf2'
 	}
 });

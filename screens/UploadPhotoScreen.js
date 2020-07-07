@@ -1,18 +1,34 @@
+import { Ionicons, EvilIcons, Feather } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { View, SafeAreaView, KeyboardAvoidingView, TextInput, StyleSheet, Platform, Image, TouchableOpacity, FlatList, ScrollView, Slider } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import MatchCard from '../components/MatchCard';
-import { Entypo, MaterialCommunityIcons, AntDesign  } from '@expo/vector-icons'; 
-import * as Permissions from 'expo-permissions';
-import { AuthContext } from '../navigation/AuthProvider';
+import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput, Image, ImageBackground } from 'react-native';
+import { Avatar, Button } from 'react-native-elements'
+import * as Permissions from 'expo-permissions'
+import { VisibilitySwitch } from '../components/VisibilitySwitch'
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'; 
+import { Picker, ActionSheet } from 'native-base'
+import { AuthContext } from '../navigation/AuthProvider'
 import firebaseSDK from '../server/fire'
-import ImagePicker from 'expo-image-picker';
-import { DeckSwiper, Button, Card, CardItem, Thumbnail, Text, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
-import Swiper from 'react-native-swiper'
+import styles from '../assets/styles';
+import SortableGrid from 'react-native-sortable-grid'
 
+const MAX_IMAGES = 9
 
 export default function UploadPhotoScreen(props) {
 	const { currentUser, currentUserDocument } = React.useContext(AuthContext);
+	const [ userData, setUserData ] = React.useState({
+		bio: currentUserDocument.bio,
+		barStatus: currentUserDocument.barStatus,
+		interests: currentUserDocument.interests
+	});
+
+	const userMadeChanges = (obj) => {
+	    for (var key in obj) {
+	        if (obj[key] !== null && obj[key] != "")
+	            return true;
+	    }
+	    return false;
+	}
 	const getPermissionAsync = async () => {
 	    if (Platform.OS == 'ios') {
 	    	const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -36,144 +52,112 @@ export default function UploadPhotoScreen(props) {
 	    }
 	};
 
+	const onFinishedEditing = () => {
+		const userUpdateData = {
+			bio: userData.bio,
+			bar_status: userData.barStatus,
+			interests: userData.interests
+		};
+		if (userMadeChanges(userUpdateData)) firebaseSDK.updateUserDocument(currentUser.uid, userUpdateData);
+		props.navigation.goBack();
+	}
+
 	React.useEffect(() => {
 		getPermissionAsync();
 	})
 
 	return (
-		<View style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<Card>
-			    	<CardItem>
-			  	    	<Left>
-			  	       <Thumbnail source={currentUserDocument && {uri: currentUserDocument.thumbnail}} />
-			     	 		<Body>
-				          		<Text style={styles.headerText}>{currentUser.displayName}</Text>
-				          		<Text note>{currentUserDocument.age}</Text>
-			        		</Body>
-			        	</Left>
-			          <Right>
-			          </Right>
-			      	</CardItem>
-			  		<CardItem cardBody>
-			          <Swiper showsPagination={false} loop={false} bounces={true} height={350}>
-			            {currentUserDocument && currentUserDocument.images.map((image, i) => {
-			              return (
-			                <Image key={i} source={{uri: image}} style={{height: 350, width: null, flex: 1}} />
-			                );
-			              })
-			            }
-			          </Swiper>
-			        </CardItem>
-			        {/* textColor: #828181*/}
-			        <TextInput 
-			        placeholder={currentUserDocument.bio} 
-			        onChangeText={val => {
+		<SafeAreaView>
+			<View style={styles.containerEditProfileItem}>
+		    	<View style={styles.matchesEditProfileItem}>
+		        	<Text style={styles.matchesTextProfileItem}>Update Images</Text>
+		      	</View>
+			    <SortableGrid itemsPerRow={3} style={{justifyContent: 'center', alignItems: 'center'}}
+			    	blockTransitionDuration={400}
+					activeBlockCenteringDuration={200}
+					dragActivationTreshold={200}
+					onDragRelease={itemOrder => console.log("Drag was released, the blocks are in the following order: ", itemOrder) }
+					onDragStart={() => console.log("Some block is being dragged now!")}>
+					{
+					    currentUserDocument.images.map((image, index) => {
+					    	return (
+					      		<Image key={index} source={{uri: image}} style={styles.editProfileDragableImage} />
+						    )}
+					    )
+					}
+				</SortableGrid>
+				<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => onFinishedEditing()}>
+			    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
+			    </TouchableOpacity>
+		    </View>
+		    
+			<View style={styles.containerEditProfileItem}>
+				<View style={styles.matchesEditProfileItem}>
+		        	<Text style={styles.matchesTextProfileItem}>Update Details</Text>
+		      	</View>
+			    <Text style={styles.name}>{currentUser.displayName}</Text>
+
+			    <Text style={styles.descriptionProfileItem}>
+			    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
+			    </Text>
+
+		      	<View style={styles.info}>
+		        	<Text style={styles.iconProfile}>
+		        		<Ionicons name="ios-person" size={24} color="#757E90" />
+		        	</Text>
+
+		        	<TextInput style={styles.infoContent} onChangeText={val => {
 					 	const bio = val; 
 					 	setUserData(prevState => {
 					 		return {...prevState, bio: bio}
 					 	});
-					 }} 
-					 textAlign={'left'}
-					 style={{fontSize: 16, fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}></TextInput>
-			        {/*<Text style={{color: "#D8D8D8", paddingHorizontal: "3%", paddingTop: "2%", fontFamily: "sfprodisplay-light", fontSize: 14}}>43:26</Text>*/}
-			        <CardItem>
-			        	<Left>
-			          	<Button transparent>
-			          		<Icon active name="wine" />
-			            		<Text style={styles.footerText}>buy a drink</Text>
-			          	</Button>
-			        	</Left>
-			          	<Body>
-			            	<Button transparent>
-			            		<Icon active name="chatbubbles" />
-			              	  <Text style={styles.footerText}>message</Text>
-			            	</Button>
-			          	</Body>
-			        	<Right>
-			          	<Text style={{fontSize: 13}}>23m away</Text>
-			        	</Right>
-			        </CardItem>
-		   		</Card>
-		   		<View style={{flexGrow: 1}}>
-		   			<View style={styles.containerMessage}>
-		   				<Button style={{alignSelf: 'center'}} transparent onPress={() => _pickImage()}>
-				        	<Text style={{fontSize: 16}}>{currentUserDocument.images.length ? 'Upload Another Image' : 'Upload Image'}</Text>
-				        </Button>
-		   				<Button style={{alignSelf: 'center'}} transparent onPress={null}>
-				        	<Text style={{fontSize: 16}}>Finish Editing</Text>
-				        </Button>
-				    </View>
-				</View>
-			</ScrollView>
-		</View>
+					 }}
+					 placeholder={'Ready to roll'}
+					 >{currentUserDocument.bio ? currentUserDocument.bio : null}</TextInput>
+		      	</View>
+
+		      	<View style={styles.info}>
+		        	<Text style={styles.iconProfile}>
+		        		<Ionicons name="ios-pin" size={24} color="#757E90" />
+		        	</Text>
+		        	<TextInput style={styles.infoContent} onChangeText={val => {
+					 	const barStatus = val; 
+					 	setUserData(prevState => {
+					 		return {...prevState, barStatus: barStatus}
+					 	});
+					 }}
+					 placeholder={"Barley Mow..."}
+					 >{currentUserDocument.bar_status ? currentUserDocument.bar_status : null}</TextInput>
+		      	</View>
+
+		      	<View style={styles.info}>
+		        	<Text style={styles.iconProfile}>
+		        		<Feather name="hash" size={24} color="#757E90" />
+		        	</Text>
+		        	<TextInput style={styles.infoContent} onChangeText={val => {
+					 	const interests = val; 
+					 	setUserData(prevState => {
+					 		return {...prevState, interests: interests}
+					 	});
+					 }}
+					 placeholder={"Friends, music, and nights out..."}
+					 >{currentUserDocument.interests ? currentUserDocument.interests : null}</TextInput>
+		      	</View>
+
+		      	<View style={styles.info}>
+		        	<Text style={styles.iconProfile}>
+		        		<EvilIcons name="calendar" size={24} color="#757E90" />
+		        	</Text>
+		        	<Text style={styles.infoContent}>Last seen: 24 hrs ago</Text>
+		      	</View>
+		    </View>
+
+		    <View>
+			    <TouchableOpacity style={styles.themeButtonItem} onPress={() => onFinishedEditing()}>
+			    	<Text style={styles.matchesTextProfileItem}>Finish Editing</Text>
+			    </TouchableOpacity>
+		   	</View>
+		</SafeAreaView>
 	);
 }
 	
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		width: '100%',
-		backgroundColor: '#FFFFFF',
-		justifyContent: 'space-between'
-	}, 
-	titleContainer: {
-		alignItems: 'center',
-	},
-	titleText: {
-		paddingTop: '10%',
-		textAlign: 'center',
-		color: '#000000',
-		fontFamily: "comfortaa-light",
-		fontSize: 28,
-	},
-	subTitleContainer: {
-		alignItems: 'center',
-		width: '80%',
-	},
-	subTitleText: {
-		color: 'black',
-		fontFamily: "sfprodisplay-light",
-		fontSize: 20,
-	},
-	inputContainer: {
-		width: '100%',
-		alignItems: 'center',
-	},
-	inputText: {
-		fontFamily: "sfprodisplay-light",
-		width: '70%',
-		color: '#757E90',
-		borderBottomWidth: 1,
-		borderRadius: 20,
-		borderColor: '#D8D8D8',
-		fontSize: 21,
-	},
-	buttonContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingBottom: 20
-	},
-	headerText: {
-		fontFamily: 'sfprodisplay-regular',
-	},
-	lowerText: {
-		fontFamily: "comfortaa-regular"
-	},
-	containerMessage: {
-		flexGrow: 1,
-		alignItems: "stretch",
-		justifyContent: "center",
-		flexDirection: "column",
-		paddingHorizontal: 20,
-		paddingVertical: "3%",
-		borderBottomWidth: 0.5,
-		borderColor: "#D8D8D8"
-	},
-	message: {
-		color: "#757E90",
-		fontSize: 12,
-		paddingTop: 5
-	},
-})

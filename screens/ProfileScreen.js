@@ -74,39 +74,43 @@ export default function ProfileScreen(props) {
 	        		{props.matchProfile ? 'MATCH' :  'Welcome!'}
 	        	</Text>
 	      	</View>
+	      	<View style={{flex: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'center'}}>
+	      		<Avatar rounded source={{uri: currentUserDocument.thumbnail}} size={'medium'} avatarStyle={{alignSelf: 'flex-start'}}/>
+		      	<View style={{alignSelf: 'center', marginLeft: '-15%', width: '95%', justifyContent:'center'}}> 
+				    <Text style={styles.name}>{currentUser.displayName}</Text>
 
-		    <Text style={styles.name}>{currentUser.displayName}</Text>
-
-		    <Text style={styles.descriptionProfileItem}>
-		    	{currentUserDocument.age} - {currentUserDocument.age}
-		    </Text>
+				    <Text style={styles.descriptionProfileItem}>
+				    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
+				    </Text>
+				</View>
+			</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<Ionicons name="ios-person" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>{currentUserDocument.bio}</Text>
+	        	<Text style={styles.infoContent}>{currentUserDocument.bio ? currentUserDocument.bio : null}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<Ionicons name="ios-pin" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Barley Mow</Text>
+	        	<Text style={styles.infoContent}>{currentUserDocument.bar_status ? currentUserDocument.bar_status : null}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<Feather name="hash" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Gym, day drinking, and music</Text>
+	        	<Text style={styles.infoContent}>{currentUserDocument.interests ? currentUserDocument.interests : null}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<EvilIcons name="calendar" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Last seen: 24 hrs ago</Text>
+	        	<Text style={styles.infoContent}>Last seen: 24 hours ago</Text>
 	      	</View>
 	    </View>
 	    <View style={styles.actionsProfile}>
@@ -116,7 +120,7 @@ export default function ProfileScreen(props) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? null : () => onEditPress()}>
+          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? null : () => props.navigation.navigate("Edit Profile")}>
             <Text style={styles.iconButton}>
               {/*<Icon name="chat" />*/}
             </Text>

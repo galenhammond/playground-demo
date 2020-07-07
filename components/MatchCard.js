@@ -4,6 +4,7 @@ import { StyleSheet, Platform, Image, FlatList, View, TouchableOpacity} from 're
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import Swiper from 'react-native-swiper'
 import { PillTimer } from '../components/PillTimer'
+import styles from '../assets/styles';
 
 //onPress={props.navigation.navigate('Messages', {screen: "Chat"})
 const SYSTEM_RED = '#ff3a30'
@@ -29,7 +30,7 @@ export default function MatchCard(props) {
   	    	<Left>
   	       <Thumbnail source={props.thumbnail} />
      	 		 <Body>
-          		<Text style={styles.headerText}>{props.name}</Text>
+          		<Text style={{fontFamily: 'sfprodisplay-regular'}}>{props.name}</Text>
           		<Text note>{props.age}</Text>
         	 </Body>
         	</Left>
@@ -70,39 +71,34 @@ export default function MatchCard(props) {
           </Swiper>
         </CardItem>
       {/* textColor: #828181*/}
-        {props.bio && <Text style={{fontSize: 16, textAlign: 'left', fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
+        {props.bio && <Text style={{fontSize: 13, textAlign: 'left', color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
         {/*<Text style={{color: "#D8D8D8", paddingHorizontal: "3%", paddingTop: "2%", fontFamily: "sfprodisplay-light", fontSize: 14}}>43:26</Text>*/}
         <CardItem>
-        	<Left>
-          	<Button transparent onPress={() => Toast.show({
-              text: "Hang tight! We're still putting this feature together...",
-              buttonText: "Okay",
-              duration: 2500,
-              })}>
-          		<Icon active name="wine" />
-            		<Text style={styles.footerText}>buy a drink</Text>
-          	</Button>
-        	</Left>
-          	<Body>
-            	<Button transparent onPress={() => props.navigation.navigate('Chats')}>
-            		<Icon active name="chatbubbles" />
-              	  <Text style={styles.footerText}>message</Text>
-            	</Button>
-          	</Body>
-        	<Right>
-          	<Text style={{fontSize: 13}}>{props.distance}m away</Text>
-        	</Right>
+        	<View style={{flex: 1, flexDirection: 'row',  alignItems: 'center', justifyContent: 'space-between'}}>
+          	<TouchableOpacity style={styles.feedButtonItem} onPress={() => 
+              Toast.show({
+                text: "Hang tight! We're still putting this feature together...",
+                buttonText: "Okay",
+                duration: 2500,
+                })}>
+              <Text style={{color: 'white'}}>
+                <Ionicons name="ios-wine" size={20} />
+              </Text>
+              <Text style={styles.matchCardButton}>buy a drink</Text>
+            </TouchableOpacity>
+          	<TouchableOpacity style={styles.feedButtonItem2} onPress={() => props.navigation.navigate('Chats')}>
+              <Text style={{color: 'white'}}>
+                <Ionicons name="ios-chatbubbles" size={20} />
+              </Text>
+            	<Text style={styles.matchCardButton}>message</Text>
+          	</TouchableOpacity>
+            <View>
+            	<Text style={styles.matchDistanceText}>{props.distance}m away</Text>
+            </View>
+          </View>
         </CardItem>
    	</Card>
   );
 }
 
-const styles = StyleSheet.create({
-	headerText: {
-		fontFamily: 'sfprodisplay-regular',
-	},
-	lowerText: {
-		fontFamily: "comfortaa-regular"
-	}
-});
 	

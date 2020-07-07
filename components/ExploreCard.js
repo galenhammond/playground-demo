@@ -85,6 +85,15 @@ const ExploreCard = ({
         </View>
       )}
 
+    {/*VIEW PROFILE*/}
+    {!variant && (
+      <TouchableOpacity style={styles.exploreModalProfileItem}>
+        <Text style={styles.matchesTextProfileItem}>
+          View {name}'s Profile
+        </Text>
+      </TouchableOpacity>
+    )}
+
       {/* ACTIONS */}
       {actions && (
         <View style={styles.actionsCardItem}>

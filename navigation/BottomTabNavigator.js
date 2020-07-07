@@ -80,7 +80,7 @@ return (
       age="21"
       bio="Here for a good time, not a long time!" /> }
     </MyProfileStack.Screen>
-    <MyProfileStack.Screen name="Upload Photos" component={UploadPhotoScreen} options={{headerBackTitle: 'Profile'}}/>
+    <MyProfileStack.Screen name="Edit Profile" component={UploadPhotoScreen} options={{headerBackTitle: 'Profile'}}/>
   </MyProfileStack.Navigator>
   );
 }

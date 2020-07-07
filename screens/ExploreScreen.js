@@ -141,7 +141,7 @@ function ExploreScreen(props) {
       <View style={styles.boostContainer}>
         <Button 
         iconRight 
-        icon={ <Icon name={"flash"} type={"entypo"} size={15} color={SYSTEM_BLUE}/> } 
+        icon={ <Icon name={"flash"} type={"entypo"} size={13} color={SYSTEM_BLUE}/> } 
         containerStyle={styles.boostedButtonContainer} 
         titleStyle={styles.listButtonTitle} 
         raised 
@@ -173,7 +173,7 @@ function ExploreScreen(props) {
           )}
          <Button 
          iconRight 
-         icon={ <Icon name={"filter"} type={"antdesign"} size={15} color={SYSTEM_BLUE}/> } 
+         icon={ <Icon name={"filter"} type={"antdesign"} size={13} color={SYSTEM_BLUE}/> } 
         containerStyle={styles.boostButtonContainer} 
         titleStyle={styles.listButtonTitle} 
         raised 
@@ -183,7 +183,7 @@ function ExploreScreen(props) {
 
       {listVisible ?
 		  <View style={styles.listContainer}>
-        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={15}/> } 
+        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={13}/> } 
         containerStyle={styles.listCloseButtonContainer} 
         titleStyle={styles.listButtonTitle} title={"Hide Matches"} 
         type={"clear"} onPress={() => setListVisible(false)} />
@@ -205,7 +205,7 @@ function ExploreScreen(props) {
 		    	)}
 		  	  />
         </View>
-        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={15}/> } 
+        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13}/> } 
         containerStyle={styles.listOpenButtonContainer} 
         titleStyle={styles.listButtonTitle} raised title={"Show Matches"} 
         type={'clear'} onPress={() => setListVisible(true)} />
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'white',
     width: "40%",
-    borderRadius: 25,
+    borderRadius: 13,
     position: 'absolute',
     bottom: 10
   },
@@ -403,26 +403,29 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'white',
     width: "40%",
-    borderRadius: 25,
+    borderRadius: 13,
   },
   listButtonTitle: {
-    fontSize: 15,
-    paddingHorizontal: 5,
+    fontSize: 13,
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+    fontFamily: 'comfortaa-regular',
     color: 'black'
   },
   boostButtonContainer: {
     justifyContent: 'center',
     alignSelf: 'flex-start',
+    alignItems: 'center',
     backgroundColor: '#fafafa',
     width: "22%",
-    borderRadius: 25,
+    borderRadius: 10,
   },
   boostedButtonContainer: {
     justifyContent: 'center',
     alignSelf: 'flex-start',
     backgroundColor: '#fafafa',
     width: "22%",
-    borderRadius: 25,
+    borderRadius: 10,
   },
   boostContainer: {
     paddingVertical: 10,

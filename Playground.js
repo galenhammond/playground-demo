@@ -87,6 +87,11 @@ export default function Playground(props) {
       if (user) setUserID(user.uid);
       console.log("User: " + user);
       if (user) {
+       /* if (!initialLoadComplete) {
+          setCurrentUserDocument(firebaseSDK.retrieveUserDocument(user.uid));
+          console.log('Retrieved user document');
+          setInitialLoadComplete(true);
+        }*/
         const unsubDB = firebase.firestore().collection('users').doc(user.uid).onSnapshot(docSnapshot => {
           console.log("Listening for document changes");
           setCurrentUserDocument(docSnapshot.data());
@@ -97,12 +102,6 @@ export default function Playground(props) {
       }
       SplashScreen.hide();
     });
-
-    if (!initialLoadComplete) {
-      setCurrentUserDocument(firebaseSDK.retrieveUserDocument(userID));
-      console.log('Retrieved user document');
-      setInitialLoadComplete(true);
-    }
 
     return () => {
       unsubAuth();
@@ -119,7 +118,7 @@ export default function Playground(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef}>
-          {currentUser ? <AppDrawer/> : <LoginStack/>}
+          {currentUserDocument ? <AppDrawer/> : <LoginStack/>}
           </NavigationContainer>
         </View>
       </Root>

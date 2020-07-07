@@ -1,4 +1,4 @@
-import { Ionicons, EvilIcons, Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput, Image, ImageBackground } from 'react-native';
@@ -12,7 +12,7 @@ import styles from '../assets/styles';
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const SYSTEM_GREEN = '#30bf54'
-const SYSTEM_BLUE = '#add5ff'
+const SYSTEM_BLUE = '#007bff'
 const MAX_RADIUS = 2.5;
 const MAX_AGE = 50;
 const AGE_STEP = 0.032258064516129;
@@ -71,7 +71,6 @@ export default function ProfileScreen(props) {
 	    <View style={styles.containerProfileItem}>
 	    	<View style={styles.matchesProfileItem}>
 	        	<Text style={styles.matchesTextProfileItem}>
-	        		{props.matchProfile ? 'MATCH' :  'Welcome!'}
 	        	</Text>
 	      	</View>
 
@@ -83,52 +82,46 @@ export default function ProfileScreen(props) {
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
-	        		<Ionicons name="ios-person" size={24} color="#757E90" />
 	        	</Text>
 	        	<Text style={styles.infoContent}>{currentUserDocument.bio}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
-	        		<Ionicons name="ios-pin" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Barley Mow</Text>
+	        	<Text style={styles.infoContent}>TODO</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
-	        		<Feather name="hash" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Gym, day drinking, and music</Text>
+	        	<Text style={styles.infoContent}>TODO</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
-	        		<EvilIcons name="calendar" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>Last seen: 24 hrs ago</Text>
+	        	<Text style={styles.infoContent}>TODO</Text>
 	      	</View>
 	    </View>
 	    <View style={styles.actionsProfile}>
           <TouchableOpacity style={styles.circledButton}>
             <Text style={styles.iconButton}>
-              <EvilIcons name="share-apple" size={24} />
+              {/*Icon name="optionsH"*/}
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? null : () => onEditPress()}>
+          <TouchableOpacity style={styles.roundedButton}>
             <Text style={styles.iconButton}>
               {/*<Icon name="chat" />*/}
             </Text>
-            <Text style={styles.textButton}>{props.matchProfile ? 'Start chatting' : 'Edit Profile'}</Text>
+            <Text style={styles.textButton}>Start chatting</Text>
           </TouchableOpacity>
         </View>
-        <View style={{paddingVertical: 50}}>
-	    {currentUserDocument.images.map((image, id) => {
-			return (
-				<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500} }/>
-			);
-	        })
+        <View>
+        {currentUserDocument.images.map(image => {
+        	<Image source={{uri: image}} style={{width: null, height: 500}} />
+        })
     	}
     	</View>
       </ScrollView>

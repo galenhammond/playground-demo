@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, ScrollView, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableOpacity, AsyncStorage, Switch, SafeAreaView } from 'react-native'
 import { DrawerItemList, DrawerNavigation, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { Thumbnail, ActionSheet } from 'native-base'
 import { Ionicons, Entypo } from '@expo/vector-icons'
@@ -7,13 +7,15 @@ import { AuthContext } from '../navigation/AuthProvider'
 
 const ONLINE_STATUS = "#46A575";
 const GRAY = "#757E90";
+const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_BLUE = '#007bff'
 
 export default function CustomDrawerHeader(props) {
-  const { logout, currentUser, currentUserDocument } = React.useContext(AuthContext);
+  const { logout, currentUser, currentUserDocument, setCurrentUserDocument } = React.useContext(AuthContext);
+  const [userVisible, setUserVisible] = React.useState(true);
 
   return (
-  <View style={{flex: 1}}>
+  <SafeAreaView style={{flex: 1}}>
     <View style={{
           justifyContent: 'center',
           backgroundColor: '#f5fffe',
@@ -35,6 +37,7 @@ export default function CustomDrawerHeader(props) {
                     async (success) => {
                       try {
                         await AsyncStorage.removeItem('@Playground_token');
+                        setCurrentUserDocument(null);
                       } catch(e) {
                         console.log('Unable to remove login token');
                       }
@@ -54,20 +57,20 @@ export default function CustomDrawerHeader(props) {
       </TouchableOpacity>
       <View style={styles.iconContainer}>
         <View style={styles.iconCount}>
-          <Ionicons name={'ios-wine'} size={18} color={'#009dff'} />
-          <Text style={{marginLeft: "8%"}}>1</Text>
+          <Ionicons name={'ios-wine'} size={18} color={'#add5ff'} />
+          <Text style={{marginLeft: "8%"}}>{currentUserDocument.powerups.buy_a_drink.remaining}</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'pin'} size={18} color={'#009dff'} />
-          <Text style={{marginLeft: "8%"}}>3</Text>
+          <Entypo name={'pin'} size={18} color={'#add5ff'} />
+          <Text style={{marginLeft: "8%"}}>{currentUserDocument.powerups.pin.remaining}</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'flash'} size={18} color={'#009dff'} />
-          <Text style={{marginLeft: "8%"}}>1</Text>
+          <Entypo name={'flash'} size={18} color={'#add5ff'} />
+          <Text style={{marginLeft: "8%"}}>{currentUserDocument.powerups.boost.remaining}</Text>
         </View>
         <View style={styles.iconCount}>
-          <Entypo name={'back-in-time'} size={18} color={'#009dff'} />
-          <Text style={{marginLeft: "8%"}}>0</Text>
+          <Entypo name={'back-in-time'} size={18} color={'#add5ff'} />
+          <Text style={{marginLeft: "8%"}}>{currentUserDocument.powerups.rewind.remaining}</Text>
         </View>
       </View>
       <View style={styles.tierContainer}>
@@ -75,11 +78,24 @@ export default function CustomDrawerHeader(props) {
           <Text style={{ color: '#009dff'}}>Upgrade to plus⁺ today!</Text>
         </TouchableOpacity>
       </View>
+       <View style={{
+            flexDirection: 'row',
+            marginVertical: '4%',
+            alignItems: "center",
+            justifyContent:"space-even",
+            marginLeft: "4%"
+             }}>
+             { userVisible ?
+        <Text style={{paddingRight: 10, color: SYSTEM_GREEN}}>Visible</Text> 
+        : <Text style={{paddingRight: 10, color: "#757E90" }}>Visible</Text> 
+        }
+        <Switch value={userVisible} onValueChange={val => {setUserVisible(val)} }/>
+      </View>
     </View>
     <ScrollView contentContainerStyle={{ flexGrow: 1}}>
       <DrawerItemList {...props} />
     </ScrollView>
-  </View>
+  </SafeAreaView>
   );
 }
 //#d9fffd

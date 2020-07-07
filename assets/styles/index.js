@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const PRIMARY_COLOR = "#7444C0";
 const SECONDARY_COLOR = "#5636B8";
+const SYSTEM_BLUE = '#add5ff'
 const WHITE = "#FFFFFF";
 const GRAY = "#757E90";
 const DARK_GRAY = "#363636";
@@ -14,8 +15,6 @@ const STAR_ACTIONS = "#FFA200";
 const LIKE_ACTIONS = "#B644B2";
 const DISLIKE_ACTIONS = "#363636";
 const FLASH_ACTIONS = "#5028D7";
-
-const ICON_FONT = "tinderclone";
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
@@ -40,7 +39,7 @@ export default StyleSheet.create({
 		borderRadius: 20
 	},
 	matchesTextCardItem: {
-		fontFamily: ICON_FONT,
+		fontFamily:'comfortaa-regular',
 		color: WHITE
 	},
 	descriptionCardItem: {
@@ -102,21 +101,21 @@ export default StyleSheet.create({
 		shadowOffset: { height: 10, width: 0 }
 	},
 	star: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: STAR_ACTIONS
 	},
 	like: {
 		fontSize: 25,
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: LIKE_ACTIONS
 	},
 	dislike: {
 		fontSize: 25,
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: DISLIKE_ACTIONS
 	},
 	flash: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: FLASH_ACTIONS
 	},
 
@@ -132,7 +131,7 @@ export default StyleSheet.create({
 		shadowOffset: { height: 0, width: 0 }
 	},
 	cityText: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: DARK_GRAY,
 		fontSize: 13
 	},
@@ -149,7 +148,7 @@ export default StyleSheet.create({
 		shadowOffset: { height: 0, width: 0 }
 	},
 	filtersText: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		color: DARK_GRAY,
 		fontSize: 13
 	},
@@ -192,7 +191,7 @@ export default StyleSheet.create({
 	matchesProfileItem: {
 		width: 131,
 		marginTop: -15,
-		backgroundColor: PRIMARY_COLOR,
+		backgroundColor: SYSTEM_BLUE,
 		paddingVertical: 7,
 		paddingHorizontal: 20,
 		borderRadius: 20,
@@ -200,7 +199,8 @@ export default StyleSheet.create({
 		alignSelf: "center"
 	},
 	matchesTextProfileItem: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
+		textAlign: 'center',
 		color: WHITE
 	},
 	name: {
@@ -222,7 +222,7 @@ export default StyleSheet.create({
 		alignItems: "center"
 	},
 	iconProfile: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		fontSize: 12,
 		color: DARK_GRAY,
 		paddingHorizontal: 10
@@ -248,7 +248,7 @@ export default StyleSheet.create({
 	},
 	title: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY },
 	icon: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		fontSize: 20,
 		color: DARK_GRAY,
 		paddingRight: 10
@@ -278,7 +278,7 @@ export default StyleSheet.create({
 		height: 450
 	},
 	topIconLeft: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		fontSize: 20,
 		color: WHITE,
 		paddingLeft: 20,
@@ -286,7 +286,7 @@ export default StyleSheet.create({
 		transform: [{ rotate: "90deg" }]
 	},
 	topIconRight: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		fontSize: 20,
 		color: WHITE,
 		paddingRight: 20
@@ -296,9 +296,9 @@ export default StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center"
 	},
-	iconButton: { fontFamily: ICON_FONT, fontSize: 20, color: WHITE },
+	iconButton: { fontFamily: 'comfortaa-regular', fontSize: 20, color: WHITE },
 	textButton: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		fontSize: 15,
 		color: WHITE,
 		paddingLeft: 5
@@ -307,7 +307,7 @@ export default StyleSheet.create({
 		width: 50,
 		height: 50,
 		borderRadius: 25,
-		backgroundColor: PRIMARY_COLOR,
+		backgroundColor: SYSTEM_BLUE,
 		justifyContent: "center",
 		alignItems: "center",
 		marginRight: 10
@@ -319,7 +319,7 @@ export default StyleSheet.create({
 		marginLeft: 10,
 		height: 50,
 		borderRadius: 25,
-		backgroundColor: SECONDARY_COLOR,
+		backgroundColor: SYSTEM_BLUE,
 		paddingHorizontal: 20
 	},
 
@@ -335,7 +335,7 @@ export default StyleSheet.create({
 		textTransform: "uppercase"
 	},
 	iconMenu: {
-		fontFamily: ICON_FONT,
+		fontFamily: 'comfortaa-regular',
 		height: 20,
 		paddingBottom: 7
 	}

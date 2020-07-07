@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as geofirex from 'geofirex'; 
 import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -83,6 +84,32 @@ class FirebaseSDK extends React.Component {
   	}
   }
 
+  async uploadUserImage(uid, imageUri) {
+    try {
+      const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = () => {
+              resolve(xhr.response);
+          };
+          xhr.responseType = 'blob';
+          xhr.open('GET', imageUri, true);
+          xhr.send(null);
+      });
+      const ref = firebase
+          .storage()
+          .ref()
+          .child(`userImages/${uid}/${this.uuidv4()}`);
+      let snapshot = await ref.put(blob);
+      return await snapshot.ref.getDownloadURL();
+  } catch(e) {
+    console.log(e)
+    }
+  }
+
+  getGeopoint(long, lat) {
+    return geo.point(long,lat);
+  }
+
   currentUser() {
     return firebase.auth().currentUser;
   }
@@ -93,28 +120,6 @@ class FirebaseSDK extends React.Component {
 
   uuidv4() {
   	return Math.random() * 16;
-  }
-
-  async uploadUserImage(uid, imageUri) {
-  	try {
-	  	const blob = await new Promise((resolve, reject) => {
-	        const xhr = new XMLHttpRequest();
-	        xhr.onload = () => {
-	            resolve(xhr.response);
-	        };
-	        xhr.responseType = 'blob';
-	        xhr.open('GET', imageUri, true);
-	        xhr.send(null);
-	    });
-	    const ref = firebase
-	        .storage()
-	        .ref()
-	        .child(`userImages/${uid}/${this.uuidv4()}`);
-	    let snapshot = await ref.put(blob);
-	    return await snapshot.ref.getDownloadURL();
-	} catch(e) {
-		console.log(e)
-	}
   }
 
 }

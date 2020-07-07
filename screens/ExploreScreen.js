@@ -12,7 +12,7 @@ import ExploreCard from '../components/ExploreCard';
 import Modal from 'react-native-modal';
 import * as Location from 'expo-location';
 
-const SYSTEM_BLUE = '#007bff'
+const SYSTEM_BLUE = '#add5ff'
 const LONG_DELTA = 0.121;
 const LAT_DELTA = 0.0422;
 

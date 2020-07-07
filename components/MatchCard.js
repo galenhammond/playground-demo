@@ -53,7 +53,7 @@ export default function MatchCard(props) {
             >  
               <Ionicons name="ios-more" size={24} color="#D8D8D8" />
             </TouchableOpacity>
-            {props.pinned && <Entypo name={'pin'} size={18} color={'#009dff'} />}
+            {props.pinned && <Entypo name={'pin'} size={18} color={'#add5ff'} />}
             { (!props.pinned && props.matchTime + LOW_TIME_ALERT <= Date.now()) && 
              <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
             {/*<PillTimer />*/}

@@ -9,6 +9,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import firebaseSDK from '../server/fire'
 import { DeckSwiper, Button, Card, CardItem, Thumbnail, Text, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import Swiper from 'react-native-swiper'
+import * as Location from 'expo-location'
 
 const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_BLUE = '#007bff'
@@ -31,12 +32,26 @@ export default function SetupUserCardScreen(props) {
 
 	React.useEffect(() => {
 		getPermissionAsync();
+		/*const location = Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Highest});
+		setUserData(prevState => {
+			return {
+				...prevState,
+				location: {
+					longitude: location.coords.longitude,
+					latitude: location.coords.latitude
+				}
+			}
+		})*/
 	});
 
 	const getPermissionAsync = async () => {
 	    if (Platform.OS == 'ios') {
 	    	const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-	    	if (status !== 'granted') alert('Please enable camera roll permissions to upload images from your device');
+	    	if ( status !== 'granted') alert('Please enable camera roll permissions to upload images from your device');
+	    	/*let { locationStatus } = await Location.requestPermissionsAsync(Permissions.LOCATION);
+	        if (locationStatus !== 'granted') {
+		        /*setErrorMsg('Permission to access location was denied');
+     		}*/
 	    }
   	}
 
@@ -73,9 +88,29 @@ export default function SetupUserCardScreen(props) {
 						bio: userData.bio,
 						thumbnail: tasks[0],
 						images: tasks.slice(1),
+						visible: true,
+						powerups: {
+							buy_a_drink: {
+								remaining: 1,
+								timestamp: null
+							},
+							pin: {
+								remaining: 3,
+								timestamp: null
+							},
+							boost: {
+								remaining: 1,
+								timestamp: null
+							},
+							rewind: {
+								remaining: 0,
+								timestamp: null
+							}
+						},
 						match_radius: userMatchRadius,
 						gender_preference: userGenderPreference,
 						age_filter: userAgeFilter
+						//location: firebaseSDK.getGeopoint(userData.location.longitude, userData.location.latitude)
 					};
 					firebaseSDK.updateUserAuthProfile({
 						displayName: userData.name,

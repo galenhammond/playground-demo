@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
 		fontFamily: "comfortaa-regular",
 		fontSize: 48,
 		justifyContent: "center",
-		alignSelf: "center"
+		alignSelf: "center",
+		color: '#add5ff'
 	},
 	footer: {
 		fontFamily: "comfortaa-regular",

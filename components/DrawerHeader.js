@@ -4,6 +4,7 @@ import { DrawerItemList, DrawerNavigation, DrawerContentScrollView, DrawerItem }
 import { Thumbnail, ActionSheet } from 'native-base'
 import { Ionicons, Entypo } from '@expo/vector-icons'
 import { AuthContext } from '../navigation/AuthProvider'
+import * as ImagePicker from 'expo-image-picker';
 
 const ONLINE_STATUS = "#46A575";
 const GRAY = "#757E90";

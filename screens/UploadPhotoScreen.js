@@ -5,20 +5,25 @@ import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, Touch
 import { Avatar, Button } from 'react-native-elements'
 import * as Permissions from 'expo-permissions'
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
+import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'; 
 import { Picker, ActionSheet } from 'native-base'
 import { AuthContext } from '../navigation/AuthProvider'
 import firebaseSDK from '../server/fire'
 import styles from '../assets/styles';
 import SortableGrid from 'react-native-sortable-grid'
+import 'firebase/firestore'
 
 const MAX_IMAGES = 9
 
 export default function UploadPhotoScreen(props) {
-	const { currentUser, currentUserDocument } = React.useContext(AuthContext);
+	const { currentUser, currentUserDocument, firebase } = React.useContext(AuthContext);
+	const [ userImagesToUpload, setUserImagesToUpload ] = React.useState([...currentUserDocument.images]);
+	const [ userImagesToRemove, setUserImagesToRemove ] = React.useState([null]);
+	const gridRef = React.useRef(null);
 	const [ userData, setUserData ] = React.useState({
 		bio: currentUserDocument.bio,
-		barStatus: currentUserDocument.barStatus,
+		barStatus: currentUserDocument.bar_status,
 		interests: currentUserDocument.interests
 	});
 
@@ -29,6 +34,7 @@ export default function UploadPhotoScreen(props) {
 	    }
 	    return false;
 	}
+
 	const getPermissionAsync = async () => {
 	    if (Platform.OS == 'ios') {
 	    	const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -45,20 +51,51 @@ export default function UploadPhotoScreen(props) {
 		        quality: 1
 	      	});
 	    	if (!image.cancelled) {
-	    		setImages(prevState => [...prevState, image.uri]);
+	    		firebaseSDK.uploadUserImage(currentUser.uid, image.uri).then((imageUrl) => {
+		    		console.log(imageUrl);
+		    		setUserImagesToUpload(prevState => [...prevState, imageUrl]);
+		    	})
     		}
 	    } catch (e) {
 	    	console.log(e);
 	    }
 	};
 
+	const _rearrangeImages = (imageArray, itemOrder) => {
+		var rearrangedImageArray = []
+		for (var i = 0; i < imageArray.length; i++) {
+			index = itemOrder.itemOrder[i].key;
+			rearrangedImageArray[i] = imageArray[index];
+		}
+		console.log(rearrangedImageArray);
+		return rearrangedImageArray;
+	}
+
+	const _removeImage = (imageArray, item) => {
+		for (i = 0; i < imageArray.length; i++) {
+			index = item.item.key;
+			setUserImagesToRemove(prevState => [...prevState, imageArray[index]]);
+			imageArray.splice(index, 1);
+		}
+		return true;
+	}
+
 	const onFinishedEditing = () => {
+		var removeImages = null;
 		const userUpdateData = {
 			bio: userData.bio,
 			bar_status: userData.barStatus,
-			interests: userData.interests
+			interests: userData.interests,
+			images: firebase.firestore.FieldValue.arrayUnion(...userImagesToUpload),
 		};
-		if (userMadeChanges(userUpdateData)) firebaseSDK.updateUserDocument(currentUser.uid, userUpdateData);
+		if (userImagesToRemove) {
+			removeImages = {
+				images: firebase.firestore.FieldValue.arrayRemove(...userImagesToRemove)
+			};
+		}
+
+		if (userMadeChanges(userUpdateData) || userImagesToUpload != currentUserDocument.images) firebaseSDK.updateUserDocument(currentUser.uid, userUpdateData);
+		if (removeImages) firebaseSDK.updateUserDocument(currentUser.uid, removeImages);
 		props.navigation.goBack();
 	}
 
@@ -72,25 +109,27 @@ export default function UploadPhotoScreen(props) {
 		    	<View style={styles.matchesEditProfileItem}>
 		        	<Text style={styles.matchesTextProfileItem}>Update Images</Text>
 		      	</View>
-			    <SortableGrid itemsPerRow={3} style={{justifyContent: 'center', alignItems: 'center'}}
+			    <SortableGrid itemsPerRow={3}
+			    	ref={gridRef}
 			    	blockTransitionDuration={400}
 					activeBlockCenteringDuration={200}
 					dragActivationTreshold={200}
-					onDragRelease={itemOrder => console.log("Drag was released, the blocks are in the following order: ", itemOrder) }
+					onDeleteItem={(item) => _removeImage(userImagesToUpload, item)}
+					onDragRelease={itemOrder => setUserImagesToUpload(_rearrangeImages(userImagesToUpload, itemOrder)) }
 					onDragStart={() => console.log("Some block is being dragged now!")}>
 					{
-					    currentUserDocument.images.map((image, index) => {
+					    userImagesToUpload.map((image, index) => {
 					    	return (
-					      		<Image key={index} source={{uri: image}} style={styles.editProfileDragableImage} />
+					      		<Image key={index} onTap={() => gridRef.current.toggleDeleteMode()} source={{uri: image}} style={styles.editProfileDragableImage} />
 						    )}
 					    )
 					}
 				</SortableGrid>
-				<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => onFinishedEditing()}>
+				<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => _pickImage()}>
 			    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
 			    </TouchableOpacity>
 		    </View>
-		    
+
 			<View style={styles.containerEditProfileItem}>
 				<View style={styles.matchesEditProfileItem}>
 		        	<Text style={styles.matchesTextProfileItem}>Update Details</Text>
@@ -148,13 +187,13 @@ export default function UploadPhotoScreen(props) {
 		        	<Text style={styles.iconProfile}>
 		        		<EvilIcons name="calendar" size={24} color="#757E90" />
 		        	</Text>
-		        	<Text style={styles.infoContent}>Last seen: 24 hrs ago</Text>
+		        	<Text style={styles.infoContent}>Last seen: 24 hours ago</Text>
 		      	</View>
 		    </View>
 
 		    <View>
 			    <TouchableOpacity style={styles.themeButtonItem} onPress={() => onFinishedEditing()}>
-			    	<Text style={styles.matchesTextProfileItem}>Finish Editing</Text>
+			    	<Text style={styles.confirmationButtonText}>Finish Editing</Text>
 			    </TouchableOpacity>
 		   	</View>
 		</SafeAreaView>

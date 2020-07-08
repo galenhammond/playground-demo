@@ -12,17 +12,23 @@ import LoginStack from './navigation/LoginStack'
 import { AuthProvider } from './navigation/AuthProvider'
 import { AuthContext } from './navigation/AuthProvider';
 import { createStackNavigator } from '@react-navigation/stack';
-import firebase from 'firebase'
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import 'firebase/firestore'
 
 export default function Playground(props) {
-  const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument } = React.useContext(AuthContext);
+  const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument, firebase } = React.useContext(AuthContext);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
   const [usePersistedLogin, setPersistedLogin] = React.useState(false);
   const [userID, setUserID] = React.useState(' ');
   const containerRef = React.useRef();
+
+  const getPermissionAsync = async () => {
+      let { locationStatus } = await Location.requestPermissionsAsync(Permissions.LOCATION);
+      if ( locationStatus !== 'granted') alert('Please enable location permissions from your device');
+  }
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -40,19 +46,6 @@ export default function Playground(props) {
         } catch(e) {
             console.log(e);
         }*/
-
-        if (!firebase.apps.length) {
-          firebase.initializeApp({
-            apiKey: API_KEY,
-            authDomain: AUTH_DOMAIN,
-            databaseURL: DATABASE_URL,
-            projectId: PROJECT_ID,
-            storageBucket: STORAGE_BUCKET,
-            messagingSenderId: MESSAGING_SENDING_ID,
-            appId: APP_ID,
-            measurementId: MEASUREMENT_ID
-          });
-        }
 
         // Load fonts
         await Font.loadAsync({

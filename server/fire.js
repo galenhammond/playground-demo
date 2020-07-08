@@ -26,6 +26,7 @@ class FirebaseSDK extends React.Component {
 		    measurementId: MEASUREMENT_ID
 		});
 	  }
+    this.geo = geofirex.init(firebase);
   }
 
   async logoutUser(success, reject) {
@@ -106,8 +107,13 @@ class FirebaseSDK extends React.Component {
     }
   }
 
-  getGeopoint(long, lat) {
-    return geo.point(long,lat);
+  async getUserQuery(collection, center, radius, field) {
+    const geoRef = this.geo.query(collection);
+    return await geoRef.within(center, radius, field);
+  }
+
+  getGeopoint(lat, long) {
+    return this.geo.point(lat,long);
   }
 
   currentUser() {

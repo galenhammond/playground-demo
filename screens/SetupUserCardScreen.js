@@ -76,10 +76,10 @@ export default function SetupUserCardScreen(props) {
 			/*onSuccess callback*/
 			async (createdUser) => {
 				const promises = []
+				promises.push(firebaseSDK.uploadUserImage(createdUser.user.uid, userData.thumbnail));
 				images.forEach(async (image) => {
 					promises.push(firebaseSDK.uploadUserImage(createdUser.user.uid, image));
 				});
-				promises.push(firebaseSDK.uploadUserImage(createdUser.user.uid, userData.thumbnail));
 				Promise.all(promises).then( async function(createdUser, userData, tasks) {
 					console.log(tasks);
 					const data = {

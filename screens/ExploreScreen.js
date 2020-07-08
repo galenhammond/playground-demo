@@ -9,8 +9,10 @@ import MatchCard from '../components/MatchCard';
 import MapView, { Circle } from 'react-native-maps';
 import { Data } from '../assets/data/Matches';
 import ExploreCard from '../components/ExploreCard';
+import { AuthContext } from '../navigation/AuthProvider'
 import Modal from 'react-native-modal';
 import * as Location from 'expo-location';
+import firebaseSDK from '../server/fire'
 
 const SYSTEM_BLUE = '#add5ff'
 const LONG_DELTA = 0.121;
@@ -19,6 +21,7 @@ const LAT_DELTA = 0.0422;
 function ExploreScreen(props) {
 	//TODO: Inject MatchCards as a callback rather than hard coding them
 	//TODO: Refresh must send and receive up to date data from backend
+  const { currentUser, currentUserDocument } = React.useContext(AuthContext);
 	const [locationSearch, setLocationSearch] = React.useState();
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [userModalData, setUserModalData] = React.useState({});
@@ -68,6 +71,8 @@ function ExploreScreen(props) {
       latitudeDelta: LAT_DELTA,
       longitudeDelta: LONG_DELTA
     });
+    var geopoint = firebaseSDK.getGeopoint(location.coords.latitude, location.coords.longitude);
+    firebaseSDK.updateUserDocument(currentUser.uid, {location: geopoint});
     try {
       mapRef.current.animateToRegion({
         region: mapRegion,
@@ -98,6 +103,7 @@ function ExploreScreen(props) {
 
 	return (
 		<View style={[styles.container, isModalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
+
 			<Modal
 			isVisible={isModalVisible} 
 			onBackdropPress={_closeModal}
@@ -113,6 +119,7 @@ function ExploreScreen(props) {
 				actions
 				/>
 			</Modal>
+
 			<MapView 
         style={styles.map} 
         region={mapRegion}
@@ -120,14 +127,15 @@ function ExploreScreen(props) {
 	      provider={'google'}
 	      showsUserLocation
         showsMyLocationButton
-        ref={mapRef}
-		  >
+        ref={mapRef}>
+        
         <Circle 
         center={{latitude: userLocation.latitude, longitude: userLocation.longitude}} 
         radius={isBoosted ? 5000 : 2500} fillColor={'rgba(0, 157, 255, 0.1)'} 
-        strokeColor={'rgba(0, 157, 255, 0.1)'} geodesic
-          />
+        strokeColor={'rgba(0, 157, 255, 0.1)'} geodesic />
+
       </MapView>
+
       <SearchBar lightTheme
         onChangeText={val => setLocationSearch(val)}
         value={locationSearch} placeholder={"Enter a location..."}
@@ -138,7 +146,9 @@ function ExploreScreen(props) {
         fontFamily: "sfprodisplay-light",
         fontSize: 18
         }} />  
+
       <View style={styles.boostContainer}>
+
         <Button 
         iconRight 
         icon={ <Icon name={"flash"} type={"entypo"} size={13} color={SYSTEM_BLUE}/> } 
@@ -183,10 +193,12 @@ function ExploreScreen(props) {
 
       {listVisible ?
 		  <View style={styles.listContainer}>
-        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={13}/> } 
+
+        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={13} color={'white'}/> } 
         containerStyle={styles.listCloseButtonContainer} 
-        titleStyle={styles.listButtonTitle} title={"Hide Matches"} 
+        titleStyle={styles.listButtonBottomTitle} title={"Hide Matches"} 
         type={"clear"} onPress={() => setListVisible(false)} />
+
 			  <FlatList
         showsHorizontalScrollIndicator={false}
 			  styles={styles.matchList}
@@ -205,11 +217,13 @@ function ExploreScreen(props) {
 		    	)}
 		  	  />
         </View>
-        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13}/> } 
+
+        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13} color={'white'}/> } 
         containerStyle={styles.listOpenButtonContainer} 
-        titleStyle={styles.listButtonTitle} raised title={"Show Matches"} 
+        titleStyle={styles.listButtonBottomTitle} raised title={"Show Matches"} 
         type={'clear'} onPress={() => setListVisible(true)} />
     }
+
 	</View>
 	);
 }
@@ -393,17 +407,17 @@ const styles = StyleSheet.create({
 	},
   listOpenButtonContainer: {
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#add5ff',
     width: "40%",
-    borderRadius: 13,
+    borderRadius: 10,
     position: 'absolute',
     bottom: 10
   },
   listCloseButtonContainer: {
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#add5ff',
     width: "40%",
-    borderRadius: 13,
+    borderRadius: 10,
   },
   listButtonTitle: {
     fontSize: 13,
@@ -411,6 +425,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
     fontFamily: 'comfortaa-regular',
     color: 'black'
+  },
+  listButtonBottomTitle: {
+    fontSize: 13,
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+    fontFamily: 'comfortaa-regular',
+    color: 'white'
   },
   boostButtonContainer: {
     justifyContent: 'center',

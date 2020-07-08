@@ -62,9 +62,9 @@ export default function MatchCard(props) {
       	</CardItem>
   		  <CardItem cardBody>
           <Swiper showsPagination={false} loop={false} bounces={true} height={350}>
-            {props.tile.map((tile, i) => {
+            {props.tile.map((tile, index) => {
               return (
-                <Image key={i} source={tile} style={{height: 350, width: null, flex: 1}} />
+                <Image key={index} source={{uri: tile}} style={{height: 350, width: null, flex: 1}} />
                 );
               })
             }

@@ -1,53 +1,46 @@
-import { Ionicons, EvilIcons, Feather } from '@expo/vector-icons';
+import { Ionicons, EvilIcons, Feather, SimpleLineIcons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput, Image, ImageBackground } from 'react-native';
 import { Avatar, Button } from 'react-native-elements'
+import * as Permissions from 'expo-permissions'
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'; 
 import { Picker, ActionSheet } from 'native-base'
 import { AuthContext } from '../navigation/AuthProvider'
 import styles from '../assets/styles';
+import firebaseSDK from '../server/fire'
 //import Slider from '@react-native-community/slider';
-
-const DIMENSION_WIDTH = Dimensions.get("window").width;
-const SYSTEM_GREEN = '#30bf54'
-const SYSTEM_BLUE = '#add5ff'
-const MAX_RADIUS = 2.5;
-const MAX_AGE = 50;
-const AGE_STEP = 0.032258064516129;
-const MINIMUM_AGE = 19;
-const GENDER_STEP = 0.5;
-const CANCEL_BUTTON_INDEX = 2;
-const BUTTONS = ["Add/Replace Photos", "Edit Details", "Cancel"];
 
 export default function ProfileScreen(props) {
   const { currentUser, currentUserDocument } = React.useContext(AuthContext);
-  const [isEditing, setEditing] = React.useState(false); //TODO: Setup editable callback to pushes changes to backend and setup logic for determing which button was pressed 
-  const [userVisible, setUserVisible] = React.useState(true);
   
-  const onEditPress = () => {
-  	if (!isEditing) {
-	  	ActionSheet.show({
-			options: BUTTONS,
-			cancelButtonIndex: CANCEL_BUTTON_INDEX
-		}, 
-		buttonIndex => {
-			switch(buttonIndex) {
-				case 1:
-					setEditing(true);
-					break;
-			case CANCEL_BUTTON_INDEX:
-					setEditing(false);
-					break;
-				default:
-			}
-		});
-	} else {
-		/*Logic to send new edited data to server*/
-		setEditing(false);
-	}
-  }
+  const _pickImage = async () => {
+	    try {
+	    	let image = await ImagePicker.launchImageLibraryAsync({
+		        mediaTypes: ImagePicker.MediaTypeOptions.Image,
+		        allowsEditing: true,
+		        aspect: [4, 3],
+		        quality: 1
+	      	});
+	    	if (!image.cancelled) {
+	    		firebaseSDK.uploadUserImage(currentUser.uid, image.uri).then(imageUrl => {
+	    			firebaseSDK.updateUserDocument(currentUser.uid, {thumbnail: imageUrl});
+	    		});
+    		}
+	    } catch (e) {
+	    	console.log(e);
+	    }
+    };
+
+  const getPermissionAsync = async () => {
+	    if (Platform.OS == 'ios') {
+	    	const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+	    	if (status !== 'granted') alert('Please enable camera roll permissions to upload images from your device');
+	    }
+  	}
+
+
 
   return (
   	 <View
@@ -63,7 +56,7 @@ export default function ProfileScreen(props) {
             	</TouchableOpacity>
             	<TouchableOpacity>
               		<Text style={styles.topIconRight}>
-               		{/*	Icon name="optionsV"*/}
+               			<Ionicons name={'ios-more'} size={24} color={'#D8D8D8'} />
               		</Text>
             	</TouchableOpacity>
           	</View>
@@ -71,12 +64,30 @@ export default function ProfileScreen(props) {
 	    <View style={styles.containerProfileItem}>
 	    	<View style={styles.matchesProfileItem}>
 	        	<Text style={styles.matchesTextProfileItem}>
-	        		{props.matchProfile ? 'MATCH' :  'Welcome!'}
+	        		{props.matchProfile ? 'Matched' :  'Welcome!'}
 	        	</Text>
 	      	</View>
 	      	<View style={{flex: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'center'}}>
-	      		<Avatar rounded source={{uri: currentUserDocument.thumbnail}} size={'medium'} avatarStyle={{alignSelf: 'flex-start'}}/>
-		      	<View style={{alignSelf: 'center', marginLeft: '-15%', width: '95%', justifyContent:'center'}}> 
+
+	      		<TouchableOpacity onPress={() => ActionSheet.show({
+		              options: [' Change Profile Picture', 'Cancel'],
+		              cancelButtonIndex: 1,
+            		},
+            		buttonIndex => {
+		              switch(buttonIndex) {
+		                case 0:
+		                	_pickImage();
+		                	break;
+		                default:
+		                //do nothing
+		              }
+		            })
+	      		}>
+		      		<Image source={{uri: currentUserDocument.thumbnail}} 
+		      		style={{alignSelf: 'flex-start', borderRadius: 30, width: 50, height: 50, marginVertical: 15}}  />
+		      	</TouchableOpacity>
+
+		      	<View style={{alignSelf: 'center', marginLeft: '-15%', width: '94%', justifyContent:'center'}}> 
 				    <Text style={styles.name}>{currentUser.displayName}</Text>
 
 				    <Text style={styles.descriptionProfileItem}>
@@ -101,7 +112,7 @@ export default function ProfileScreen(props) {
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
-	        		<Feather name="hash" size={24} color="#757E90" />
+	        		<Feather name="hash" size={24} color="#757E90"/>
 	        	</Text>
 	        	<Text style={styles.infoContent}>{currentUserDocument.interests ? currentUserDocument.interests : null}</Text>
 	      	</View>

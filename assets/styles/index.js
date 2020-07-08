@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions } from "react-native";
 const PRIMARY_COLOR = "#7444C0";
 const SECONDARY_COLOR = "#5636B8";
 const SYSTEM_BLUE = '#add5ff'
+const SYSTEM_DEEP_BLUE = '#88bbf2'
 const WHITE = "#FFFFFF";
 const GRAY = "#757E90";
 const DARK_GRAY = "#363636";
@@ -189,7 +190,7 @@ export default StyleSheet.create({
 		shadowOffset: { height: 0, width: 0 }
 	},
 	matchesProfileItem: {
-		width: 131,
+		width: 151,
 		marginTop: -15,
 		backgroundColor: SYSTEM_BLUE,
 		paddingVertical: 7,
@@ -304,10 +305,10 @@ export default StyleSheet.create({
 		paddingLeft: 5
 	},
 	circledButton: {
-		width: 50,
-		height: 50,
+		width: 45,
+		height: 45,
 		borderRadius: 25,
-		backgroundColor: SYSTEM_BLUE,
+		backgroundColor: SYSTEM_DEEP_BLUE,
 		justifyContent: "center",
 		alignItems: "center",
 		marginRight: 10
@@ -317,10 +318,10 @@ export default StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginLeft: 10,
-		height: 50,
+		height: 45,
 		borderRadius: 13,
-		backgroundColor: SYSTEM_BLUE,
-		paddingHorizontal: 20
+		backgroundColor: SYSTEM_DEEP_BLUE,
+		paddingHorizontal: 15
 	},
 
 	// MENU
@@ -353,11 +354,13 @@ export default StyleSheet.create({
 
 	//MISC
 	themeButtonItem: {
-		width: 225,
-		backgroundColor: SYSTEM_BLUE,
+		width: 250,
+		backgroundColor: SYSTEM_DEEP_BLUE,
+		height: 35,
+		justifyContent: 'center',
 		paddingVertical: 7,
 		paddingHorizontal: 20,
-		borderRadius: 20,
+		borderRadius: 10,
 		textAlign: "center",
 		alignSelf: "center"
 	},
@@ -391,11 +394,11 @@ export default StyleSheet.create({
 	},
 	matchesAddImageItem: {
 		width: 131,
-		backgroundColor: SYSTEM_BLUE,
+		backgroundColor: SYSTEM_DEEP_BLUE,
 		marginTop: 20,
 		paddingVertical: 7,
 		paddingHorizontal: 20,
-		borderRadius: 20,
+		borderRadius: 10,
 		textAlign: "center",
 		alignSelf: "center"
 	},
@@ -434,5 +437,11 @@ export default StyleSheet.create({
 	matchDistanceText: {
 		fontSize: 13, 
 		color: '#88bbf2'
-	}
+	},
+	confirmationButtonText: {
+		fontFamily: 'comfortaa-regular',
+		textAlign: 'center',
+		color: WHITE,
+		fontSize: 16
+	},
 });

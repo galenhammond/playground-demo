@@ -76,6 +76,17 @@ class FirebaseSDK extends React.Component {
 
   }
 
+  async createUserConversation(uid, uid2) {
+    try {
+      await firebase.firestore().collection('users').doc(uid).get()
+      .then(async doc => {
+        if (!doc.exists) await firebase.firestore().collection('conversations').doc(uid + '_' + uid2).set({lastMessage: '', messages: []});
+      })
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   async updateUserDocument(uid, data) {
   	/*Update user in firestore*/
   	try {

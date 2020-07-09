@@ -14,75 +14,79 @@ import Wallet from "../components/Wallet";
 import { SearchBar } from 'react-native-elements';
 import ChatScreen from '../screens/ChatScreen';
 import UploadPhotoScreen from '../screens/UploadPhotoScreen'
+import { AuthContext } from '../navigation/AuthProvider'
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 const MyHomeStack = createStackNavigator();
+const MyExploreStack = createStackNavigator();
 const MyMessagesStack = createStackNavigator();
 const MyProfileStack = createStackNavigator();
 
 function HomeStack({ navigation }) {
   return (
     <MyHomeStack.Navigator>
-      <MyHomeStack.Screen name="home" component={HomeScreen} options={{headerShown: true,
-     headerTitle: "playground",
-     headerStyle: {borderBottomWidth: 0.5},
-     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-     textAlign: 'center', alignSelf: 'center'},
-     headerRight: props => <Wallet {...props} />,
-     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
-     <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
-      headerBackTitle: "Feed"
-     }}/>
+      <MyHomeStack.Screen name="Home" component={HomeScreen} options={{headerShown: true,
+        headerTitle: "playground",
+        headerStyle: {borderBottomWidth: 0.5},
+        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+        textAlign: 'center', alignSelf: 'center'},
+        headerRight: props => <Wallet {...props} />,
+        headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}} />
+      <MyHomeStack.Screen name="Chats" component={ChatScreen} 
+        options={{headerBackTitle: " "}} />
+      <MyHomeStack.Screen name="Match Profile" component={ProfileScreen} options={{
+        headerTitle: "playground",
+        headerBackTitle: " ",
+        headerStyle: { borderBottomWidth: 0.5},
+        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+        textAlign: 'center', alignSelf: 'center'},
+        headerRight: props => <Wallet {...props} />}} />
     </MyHomeStack.Navigator>
   );
 }
 
 function ExploreStack({ navigation }) {
   return (
-    <MyHomeStack.Navigator>
-      <MyHomeStack.Screen name="Explore" component={ExploreScreen} options={{headerShown: true,
-     headerTitle: "playground",
-     headerStyle: { borderBottomWidth: 0.5},
-     headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-     textAlign: 'center', alignSelf: 'center'},
-     headerRight: props => <Wallet {...props} />,
-     headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
-     <MyHomeStack.Screen name="Chats" component={ChatScreen} options={{
-      headerBackTitle: "Explore"
-     }}/>
-    </MyHomeStack.Navigator>
+    <MyExploreStack.Navigator>
+      <MyExploreStack.Screen name="Explore" component={ExploreScreen} options={{headerShown: true,
+        headerTitle: "playground",
+        headerStyle: { borderBottomWidth: 0.5},
+        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+        textAlign: 'center', alignSelf: 'center'},
+        headerRight: props => <Wallet {...props} />,
+        headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
+      <MyExploreStack.Screen name="Chats" component={ChatScreen} 
+        options={{headerBackTitle: " "}} />
+    </MyExploreStack.Navigator>
   );
 }
 
 function MessagesStack(props) {
-return (
-  <MyMessagesStack.Navigator initialRouteName={"messages"}>
-    <MyMessagesStack.Screen name="Messages" component={MessagesScreen} options={{ headerShown: false, }} />
-    <MyMessagesStack.Screen name="Chats" component={ChatScreen} options={{ title: props.userFirstName }} />
-  </MyMessagesStack.Navigator>
-  );
+  return (
+    <MyMessagesStack.Navigator initialRouteName={"messages"}>
+      <MyMessagesStack.Screen name="Messages" component={MessagesScreen} options={{ headerShown: false, }} />
+      <MyMessagesStack.Screen name="Chats" component={ChatScreen} options={{ title: props.userFirstName, headerBackTitle: " " }} />
+    </MyMessagesStack.Navigator>
+    );
 }
 
 function ProfileStack({ navigation }) {
-return (
-  <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
-    <MyProfileStack.Screen name="Profile" options={{
-      headerTitle: "playground",
-      headerStyle: { borderBottomWidth: 0.5},
-      headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
-      textAlign: 'center', alignSelf: 'center'},
-      headerRight: props => <Wallet {...props} />,
-      headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
-      {props => <ProfileScreen {...props} 
-      image={require('../assets/images/MichelleThumb.jpg')}
-      name="Michelle"
-      age="21"
-      bio="Here for a good time, not a long time!" /> }
-    </MyProfileStack.Screen>
-    <MyProfileStack.Screen name="Edit Profile" component={UploadPhotoScreen} options={{headerBackTitle: 'Profile'}}/>
-  </MyProfileStack.Navigator>
-  );
+  const { currentUserDocument } = React.useContext(AuthContext);
+  return (
+    <MyProfileStack.Navigator screenOptions={{headerShown: true}}>
+      <MyProfileStack.Screen name="Profile" options={{
+        headerTitle: "playground",
+        headerStyle: { borderBottomWidth: 0.5},
+        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+        textAlign: 'center', alignSelf: 'center'},
+        headerRight: props => <Wallet {...props} />,
+        headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}}>
+          { props => <ProfileScreen {...props} currentUserDocument={currentUserDocument} /> }
+        </MyProfileStack.Screen>
+      <MyProfileStack.Screen name="Edit Profile" component={UploadPhotoScreen} options={{headerBackTitle: ' '}}/>
+    </MyProfileStack.Navigator>
+    );
 }
 
 function BottomTabNavigator({ navigation, route }) {
@@ -113,16 +117,14 @@ function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Chats',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-chatbubbles" />,
-        }}
-      />
+        }} />
       <BottomTab.Screen
         name="Profile"
         component={ProfileStack}
         options={{
           title: 'Profile',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={Ionicons} focused={focused} name="ios-contact" />,
-        }}
-      />
+        }} />
     </BottomTab.Navigator>
   );
 }

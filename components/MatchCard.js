@@ -28,11 +28,13 @@ export default function MatchCard(props) {
     	<Card>
     		<CardItem>
   	    	<Left>
-  	       <Thumbnail source={props.thumbnail} />
-     	 		 <Body>
-          		<Text style={{fontFamily: 'sfprodisplay-regular'}}>{props.name}</Text>
-          		<Text note>{props.age}</Text>
-        	 </Body>
+           <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => props.navigation.navigate("Match Profile", { matchDocument: props.matchDocument, matchProfile: true } )}>
+  	         <Thumbnail source={{uri: props.matchDocument.thumbnail}} />
+       	 		 <Body>
+            		<Text style={{fontFamily: 'sfprodisplay-regular'}}>{props.matchDocument.name}</Text>
+            		<Text note>{props.matchDocument.age}</Text>
+          	 </Body>
+           </TouchableOpacity>
         	</Left>
           <Right>
             <TouchableOpacity onPress={() => ActionSheet.show({
@@ -62,7 +64,7 @@ export default function MatchCard(props) {
       	</CardItem>
   		  <CardItem cardBody>
           <Swiper showsPagination={false} loop={false} bounces={true} height={350}>
-            {props.tile.map((tile, index) => {
+            {props.matchDocument.images.map((tile, index) => {
               return (
                 <Image key={index} source={{uri: tile}} style={{height: 350, width: null, flex: 1}} />
                 );
@@ -71,7 +73,7 @@ export default function MatchCard(props) {
           </Swiper>
         </CardItem>
       {/* textColor: #828181*/}
-        {props.bio && <Text style={{fontSize: 13, textAlign: 'left', color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.bio}</Text>}
+        {props.matchDocument.bio && <Text style={{fontSize: 13, textAlign: 'left', color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}>{props.matchDocument.bio}</Text>}
         {/*<Text style={{color: "#D8D8D8", paddingHorizontal: "3%", paddingTop: "2%", fontFamily: "sfprodisplay-light", fontSize: 14}}>43:26</Text>*/}
         <CardItem>
         	<View style={{flex: 1, flexDirection: 'row',  alignItems: 'center', justifyContent: 'space-between'}}>
@@ -93,7 +95,7 @@ export default function MatchCard(props) {
             	<Text style={styles.matchCardButton}>message</Text>
           	</TouchableOpacity>
             <View>
-            	<Text style={styles.matchDistanceText}>{props.distance}m away</Text>
+            	<Text style={styles.matchDistanceText}>{props.matchDocument.hitMetadata.distance.toFixed(1)} km away</Text>
             </View>
           </View>
         </CardItem>

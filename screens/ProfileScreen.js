@@ -10,11 +10,12 @@ import { Picker, ActionSheet } from 'native-base'
 import { AuthContext } from '../navigation/AuthProvider'
 import styles from '../assets/styles';
 import firebaseSDK from '../server/fire'
+import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 //import Slider from '@react-native-community/slider';
 
-export default function ProfileScreen(props) {
-  const { currentUser, currentUserDocument } = React.useContext(AuthContext);
-  
+function ProfileScreen(props) {
+  const { currentUser } = React.useContext(AuthContext);
+
   const _pickImage = async () => {
 	    try {
 	    	let image = await ImagePicker.launchImageLibraryAsync({
@@ -40,14 +41,10 @@ export default function ProfileScreen(props) {
 	    }
   	}
 
-
-
   return (
-  	 <View
-      style={styles.bg}
-    >
+  	 <View style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
-      	<ImageBackground source={{uri: currentUserDocument.thumbnail}} style={styles.photo}>
+      	<ImageBackground source={{uri: props.matchProfile ?  props.matchDocument.thumbnail : props.currentUserDocument.thumbnail}} style={styles.photo}>
         	<View style={styles.top}>
         		<TouchableOpacity>
               		<Text style={styles.topIconLeft}>
@@ -64,7 +61,7 @@ export default function ProfileScreen(props) {
 	    <View style={styles.containerProfileItem}>
 	    	<View style={styles.matchesProfileItem}>
 	        	<Text style={styles.matchesTextProfileItem}>
-	        		{props.matchProfile ? 'Matched' :  'Welcome!'}
+	        		{props.matchProfile ? 'Matched!' :  'Welcome!'}
 	        	</Text>
 	      	</View>
 	      	<View style={{flex: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'center'}}>
@@ -83,15 +80,15 @@ export default function ProfileScreen(props) {
 		              }
 		            })
 	      		}>
-		      		<Image source={{uri: currentUserDocument.thumbnail}} 
+		      		<Image source={{uri: props.matchProfile ?  props.matchDocument.thumbnail : props.currentUserDocument.thumbnail}} 
 		      		style={{alignSelf: 'flex-start', borderRadius: 30, width: 50, height: 50, marginVertical: 15}}  />
 		      	</TouchableOpacity>
 
 		      	<View style={{alignSelf: 'center', marginLeft: '-15%', width: '94%', justifyContent:'center'}}> 
-				    <Text style={styles.name}>{currentUser.displayName}</Text>
+				    <Text style={styles.name}>{props.matchProfile ?  props.matchDocument.name : props.name}</Text>
 
 				    <Text style={styles.descriptionProfileItem}>
-				    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
+				    	{props.matchProfile ?  props.matchDocument.age : props.currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
 				    </Text>
 				</View>
 			</View>
@@ -100,21 +97,21 @@ export default function ProfileScreen(props) {
 	        	<Text style={styles.iconProfile}>
 	        		<Ionicons name="ios-person" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>{currentUserDocument.bio ? currentUserDocument.bio : null}</Text>
+	        	<Text style={styles.infoContent}>{props.matchProfile ?  props.matchDocument.bio : props.currentUserDocument.bio}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<Ionicons name="ios-pin" size={24} color="#757E90" />
 	        	</Text>
-	        	<Text style={styles.infoContent}>{currentUserDocument.bar_status ? currentUserDocument.bar_status : null}</Text>
+	        	<Text style={styles.infoContent}>{props.matchProfile ?  props.matchDocument.bar_status : props.currentUserDocument.bar_status}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
 	        	<Text style={styles.iconProfile}>
 	        		<Feather name="hash" size={24} color="#757E90"/>
 	        	</Text>
-	        	<Text style={styles.infoContent}>{currentUserDocument.interests ? currentUserDocument.interests : null}</Text>
+	        	<Text style={styles.infoContent}>{props.matchProfile ?  props.matchDocument.interests : props.currentUserDocument.interests}</Text>
 	      	</View>
 
 	      	<View style={styles.info}>
@@ -131,7 +128,7 @@ export default function ProfileScreen(props) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? null : () => props.navigation.navigate("Edit Profile")}>
+          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? () => props.navigation.navigate("Chats") : () => props.navigation.navigate("Edit Profile")}>
             <Text style={styles.iconButton}>
               {/*<Icon name="chat" />*/}
             </Text>
@@ -139,15 +136,19 @@ export default function ProfileScreen(props) {
           </TouchableOpacity>
         </View>
         <View style={{paddingVertical: 50}}>
-	    {currentUserDocument.images.map((image, id) => {
+	    {props.matchProfile ?  props.matchDocument.images.map((image, id) => {
 			return (
-				<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500} }/>
-			);
-	        })
+				<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500}} />
+			)}) 
+			: props.currentUserDocument.images.map((image, id) => {
+				return (
+					<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500}} />
+				)})
     	}
     	</View>
       </ScrollView>
     </View>
   );
-};
+}
+export default withMappedNavigationParams()(ProfileScreen);
 

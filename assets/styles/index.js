@@ -229,6 +229,7 @@ export default StyleSheet.create({
 		paddingHorizontal: 10
 	},
 	infoContent: {
+		flexShrink: 1,
 		color: GRAY,
 		fontSize: 13
 	},

@@ -1,7 +1,7 @@
 import { Ionicons, EvilIcons, Feather } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions, TextInput, Image, ImageBackground } from 'react-native';
+import { Slider, ScrollView, Switch, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, Dimensions, TextInput, Image, ImageBackground } from 'react-native';
 import { Avatar, Button } from 'react-native-elements'
 import * as Permissions from 'expo-permissions'
 import { VisibilitySwitch } from '../components/VisibilitySwitch'
@@ -104,99 +104,101 @@ export default function UploadPhotoScreen(props) {
 	})
 
 	return (
-		<SafeAreaView>
-			<View style={styles.containerEditProfileItem}>
-		    	<View style={styles.matchesEditProfileItem}>
-		        	<Text style={styles.matchesTextProfileItem}>Update Images</Text>
-		      	</View>
-			    <SortableGrid itemsPerRow={3}
-			    	ref={gridRef}
-			    	blockTransitionDuration={400}
-					activeBlockCenteringDuration={200}
-					dragActivationTreshold={200}
-					onDeleteItem={(item) => _removeImage(userImagesToUpload, item)}
-					onDragRelease={itemOrder => setUserImagesToUpload(_rearrangeImages(userImagesToUpload, itemOrder)) }
-					onDragStart={() => console.log("Some block is being dragged now!")}>
-					{
-					    userImagesToUpload.map((image, index) => {
-					    	return (
-					      		<Image key={index} onTap={() => gridRef.current.toggleDeleteMode()} source={{uri: image}} style={styles.editProfileDragableImage} />
-						    )}
-					    )
-					}
-				</SortableGrid>
-				<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => _pickImage()}>
-			    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
-			    </TouchableOpacity>
-		    </View>
+		<KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
+			<ScrollView>
+				<View style={styles.containerEditProfileItem}>
+			    	<View style={styles.matchesEditProfileItem}>
+			        	<Text style={styles.matchesTextProfileItem}>Update Images</Text>
+			      	</View>
+				    <SortableGrid itemsPerRow={3}
+				    	ref={gridRef}
+				    	blockTransitionDuration={400}
+						activeBlockCenteringDuration={200}
+						dragActivationTreshold={200}
+						onDeleteItem={(item) => _removeImage(userImagesToUpload, item)}
+						onDragRelease={itemOrder => setUserImagesToUpload(_rearrangeImages(userImagesToUpload, itemOrder)) }
+						onDragStart={() => console.log("Some block is being dragged now!")}>
+						{
+						    userImagesToUpload.map((image, index) => {
+						    	return (
+						      		<Image key={index} onTap={() => gridRef.current.toggleDeleteMode()} source={{uri: image}} style={styles.editProfileDragableImage} />
+							    )}
+						    )
+						}
+					</SortableGrid>
+					<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => _pickImage()}>
+				    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
+				    </TouchableOpacity>
+			    </View>
 
-			<View style={styles.containerEditProfileItem}>
-				<View style={styles.matchesEditProfileItem}>
-		        	<Text style={styles.matchesTextProfileItem}>Update Details</Text>
-		      	</View>
-			    <Text style={styles.name}>{currentUser.displayName}</Text>
+				<View style={styles.containerEditProfileItem}>
+					<View style={styles.matchesEditProfileItem}>
+			        	<Text style={styles.matchesTextProfileItem}>Update Details</Text>
+			      	</View>
+				    <Text style={styles.name}>{currentUser.displayName}</Text>
 
-			    <Text style={styles.descriptionProfileItem}>
-			    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
-			    </Text>
+				    <Text style={styles.descriptionProfileItem}>
+				    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
+				    </Text>
 
-		      	<View style={styles.info}>
-		        	<Text style={styles.iconProfile}>
-		        		<Ionicons name="ios-person" size={24} color="#757E90" />
-		        	</Text>
+			      	<View style={styles.info}>
+			        	<Text style={styles.iconProfile}>
+			        		<Ionicons name="ios-person" size={24} color="#757E90" />
+			        	</Text>
 
-		        	<TextInput style={styles.infoContent} onChangeText={val => {
-					 	const bio = val; 
-					 	setUserData(prevState => {
-					 		return {...prevState, bio: bio}
-					 	});
-					 }}
-					 placeholder={'Ready to roll'}
-					 >{currentUserDocument.bio ? currentUserDocument.bio : null}</TextInput>
-		      	</View>
+			        	<TextInput style={styles.infoContent} onChangeText={val => {
+						 	const bio = val; 
+						 	setUserData(prevState => {
+						 		return {...prevState, bio: bio}
+						 	});
+						 }}
+						 placeholder={'Ready to roll'}
+						 >{currentUserDocument.bio ? currentUserDocument.bio : null}</TextInput>
+			      	</View>
 
-		      	<View style={styles.info}>
-		        	<Text style={styles.iconProfile}>
-		        		<Ionicons name="ios-pin" size={24} color="#757E90" />
-		        	</Text>
-		        	<TextInput style={styles.infoContent} onChangeText={val => {
-					 	const barStatus = val; 
-					 	setUserData(prevState => {
-					 		return {...prevState, barStatus: barStatus}
-					 	});
-					 }}
-					 placeholder={"Barley Mow..."}
-					 >{currentUserDocument.bar_status ? currentUserDocument.bar_status : null}</TextInput>
-		      	</View>
+			      	<View style={styles.info}>
+			        	<Text style={styles.iconProfile}>
+			        		<Ionicons name="ios-pin" size={24} color="#757E90" />
+			        	</Text>
+			        	<TextInput style={styles.infoContent} onChangeText={val => {
+						 	const barStatus = val; 
+						 	setUserData(prevState => {
+						 		return {...prevState, barStatus: barStatus}
+						 	});
+						 }}
+						 placeholder={"Barley Mow..."}
+						 >{currentUserDocument.bar_status ? currentUserDocument.bar_status : null}</TextInput>
+			      	</View>
 
-		      	<View style={styles.info}>
-		        	<Text style={styles.iconProfile}>
-		        		<Feather name="hash" size={24} color="#757E90" />
-		        	</Text>
-		        	<TextInput style={styles.infoContent} onChangeText={val => {
-					 	const interests = val; 
-					 	setUserData(prevState => {
-					 		return {...prevState, interests: interests}
-					 	});
-					 }}
-					 placeholder={"Friends, music, and nights out..."}
-					 >{currentUserDocument.interests ? currentUserDocument.interests : null}</TextInput>
-		      	</View>
+			      	<View style={styles.info}>
+			        	<Text style={styles.iconProfile}>
+			        		<Feather name="hash" size={24} color="#757E90" />
+			        	</Text>
+			        	<TextInput style={styles.infoContent} onChangeText={val => {
+						 	const interests = val; 
+						 	setUserData(prevState => {
+						 		return {...prevState, interests: interests}
+						 	});
+						 }}
+						 placeholder={"Friends, music, and nights out..."}
+						 >{currentUserDocument.interests ? currentUserDocument.interests : null}</TextInput>
+			      	</View>
 
-		      	<View style={styles.info}>
-		        	<Text style={styles.iconProfile}>
-		        		<EvilIcons name="calendar" size={24} color="#757E90" />
-		        	</Text>
-		        	<Text style={styles.infoContent}>Last seen: 24 hours ago</Text>
-		      	</View>
-		    </View>
+			      	<View style={styles.info}>
+			        	<Text style={styles.iconProfile}>
+			        		<EvilIcons name="calendar" size={24} color="#757E90" />
+			        	</Text>
+			        	<Text style={styles.infoContent}>Last seen: 24 hours ago</Text>
+			      	</View>
+			    </View>
 
-		    <View>
-			    <TouchableOpacity style={styles.themeButtonItem} onPress={() => onFinishedEditing()}>
-			    	<Text style={styles.confirmationButtonText}>Finish Editing</Text>
-			    </TouchableOpacity>
-		   	</View>
-		</SafeAreaView>
+			    <View>
+				    <TouchableOpacity style={styles.themeButtonItem} onPress={() => onFinishedEditing()}>
+				    	<Text style={styles.confirmationButtonText}>Finish Editing</Text>
+				    </TouchableOpacity>
+			   	</View>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 }
 	

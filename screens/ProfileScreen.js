@@ -85,7 +85,7 @@ function ProfileScreen(props) {
 		      	</TouchableOpacity>
 
 		      	<View style={{alignSelf: 'center', marginLeft: '-15%', width: '94%', justifyContent:'center'}}> 
-				    <Text style={styles.name}>{props.matchProfile ?  props.matchDocument.name : props.name}</Text>
+				    <Text style={styles.name}>{props.matchProfile ?  props.matchDocument.name : props.currentUserDocument.name}</Text>
 
 				    <Text style={styles.descriptionProfileItem}>
 				    	{props.matchProfile ?  props.matchDocument.age : props.currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}
@@ -128,7 +128,7 @@ function ProfileScreen(props) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? () => props.navigation.navigate("Chats") : () => props.navigation.navigate("Edit Profile")}>
+          <TouchableOpacity style={styles.roundedButton} onPress={props.matchProfile ? () => props.navigation.navigate("Chats", {matchDocument: props.matchDocument}) : () => props.navigation.navigate("Edit Profile")}>
             <Text style={styles.iconButton}>
               {/*<Icon name="chat" />*/}
             </Text>

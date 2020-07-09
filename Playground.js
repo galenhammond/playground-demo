@@ -17,7 +17,7 @@ import * as Permissions from 'expo-permissions';
 import 'firebase/firestore'
 
 export default function Playground(props) {
-  const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument, firebase } = React.useContext(AuthContext);
+  const { currentUser, setCurrentUser, currentUserDocument, setCurrentUserDocument, firebase, setUserMatches } = React.useContext(AuthContext);
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState('');
@@ -29,7 +29,7 @@ export default function Playground(props) {
       let { locationStatus } = await Location.requestPermissionsAsync(Permissions.LOCATION);
       if ( locationStatus !== 'granted') alert('Please enable location permissions from your device');
   }
-
+  
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {

@@ -13,7 +13,7 @@ const SYSTEM_RED = '#ff3a30'
 
 export default function MatchCard(props) {
   const [isVisible, setVisible] = React.useState(true);
-  const BUTTONS = ['Pin ' + props.name + ' for 24 Hours', 'Rewind ' + props.name + "'s Timer", 'Unmatch ' + props.name, 'Cancel'];
+  const BUTTONS = ['Pin ' + props.matchDocument.name + ' for 24 Hours', 'Rewind ' + props.matchDocument.name + "'s Timer", 'Unmatch ' + props.matchDocument.name, 'Cancel'];
   const UNMATCH_INDEX = 2
   const CANCEL_INDEX = 3
   const LOW_TIME_ALERT = 24000000
@@ -57,8 +57,8 @@ export default function MatchCard(props) {
               <Ionicons name="ios-more" size={24} color="#D8D8D8" />
             </TouchableOpacity>
             {props.pinned && <Entypo name={'pin'} size={18} color={'#add5ff'} />}
-            { (!props.pinned && props.matchTime + LOW_TIME_ALERT <= Date.now()) && 
-             <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> }
+            {/* (!props.pinned && props.matchTime + LOW_TIME_ALERT <= Date.now()) && 
+             <SimpleLineIcons name="clock" size={15} color={SYSTEM_RED} /> */}
             {/*<PillTimer />*/}
           </Right>
       	</CardItem>
@@ -88,14 +88,14 @@ export default function MatchCard(props) {
               </Text>
               <Text style={styles.matchCardButton}>buy a drink</Text>
             </TouchableOpacity>
-          	<TouchableOpacity style={styles.feedButtonItem2} onPress={() => props.navigation.navigate('Chats')}>
+          	<TouchableOpacity style={styles.feedButtonItem2} onPress={() => props.navigation.navigate('Chats', {matchDocument: props.matchDocument})}>
               <Text style={{color: 'white'}}>
                 <Ionicons name="ios-chatbubbles" size={20} />
               </Text>
             	<Text style={styles.matchCardButton}>message</Text>
           	</TouchableOpacity>
             <View>
-            	<Text style={styles.matchDistanceText}>{props.matchDocument.hitMetadata.distance.toFixed(1)} km away</Text>
+            	<Text style={styles.matchDistanceText}>{props.matchDocument.hitMetadata.distance} km away</Text>
             </View>
           </View>
         </CardItem>

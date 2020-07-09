@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, FlatList } from
 import { SearchBar, Button } from 'react-native-elements';
 import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
+import { AuthContext } from '../navigation/AuthProvider'
 import { Data } from '../assets/data/Matches';
 import Message from '../components/Messages';
 import ChatScreen from '../screens/ChatScreen';
+import { DateConversion } from '../utils/EpochTimeConversion'
 
 function MessagesScreen(props) {
   const [searchText, setSearchText] = React.useState();
+  const { currentUser, currentUserDocument, userMatches } = React.useContext(AuthContext);
 
   const userSearch = (query, data) => {
 
@@ -19,7 +22,7 @@ function MessagesScreen(props) {
 	  <SearchBar lightTheme round
 	  onChangeText={val => setSearchText(val)}
 	  value={searchText}
-	  placeholder={Data.length +" matches..."} //Source this from props/redux store
+	  placeholder={userMatches.size === 1 ? userMatches.size  + " match..." : userMatches.size +" matches..."} 
 	  containerStyle={{
 	  	backgroundColor: 'white',
 	  	borderBottomWidth: 0,
@@ -45,7 +48,7 @@ function MessagesScreen(props) {
 	  //onChange={props.onChange}
 	    />
   	  <View>
-  	  	<MatchCounter counter={Data.length} />
+  	  	<MatchCounter counter={userMatches.size} />
   	  </View>
   	  <View style={{flexDirection: "row",
   	  alignSelf: 'center',
@@ -60,29 +63,31 @@ function MessagesScreen(props) {
 
   	  	}}
   	  	horizontal
-  	  	data={Data}
+  	  	data={[...userMatches]}
   	  	//TODO: Center elements in list at all times
   	  	/* contentContainerStyle={{
   	  		alignSelf: "center",
   	  		justifyContent: "center",}}
 		*/
   	  	renderItem={({ item }) => (
-	      <TouchableOpacity style={{padding: 20}} onPress={() => props.navigation.navigate('Chats', {avatar: item.image})}>
-	      	<Thumbnail small source={item.thumbnail} />
+	      <TouchableOpacity style={{padding: 20}} onPress={() => props.navigation.navigate('Chats', {matchDocument: item})}>
+	      	<Thumbnail small source={{uri: item.thumbnail}} />
 	      </TouchableOpacity>
 	      )}
   	  	keyExtractor={(item, index) => index.toString()}
 	    />
   	  </View>
 	  	<FlatList
-	    data={Data}
+	    data={[...userMatches]}
 	    keyExtractor={(item, index) => index.toString()}
 	    renderItem={({ item }) => (
 	        <Message
+	        //TODO: this will be real message data
 	          image={item.thumbnail}
 	          name={item.name}
-	          lastMessage={item.message}
-	          timeStamp={item.timestamp}
+	          lastMessage={item.message ? item.message : "Start a conversation with " + item.name + "!"}
+	          timeStamp={DateConversion(Date.now()-360000)}
+	          matchDocument={item}
 	          notification={true}
 	          navigation={props.navigation}
 	        />

@@ -22,8 +22,7 @@ function HomeScreen(props) {
 	//TODO: Refresh must send and receive up to date data from backend
 	const [refreshing, setRefreshing] = React.useState(false);
 	const [matchExpiringNext, setMatchExpiringNext] = React.useState();
-	const { currentUser, currentUserDocument, firebase, geo } = React.useContext(AuthContext);
-	const [ userMatches, setUserMatches ] = React.useState(new Set([]));
+	const { currentUser, currentUserDocument, firebase, geo, userMatches, setUserMatches } = React.useContext(AuthContext);
 
 	const sortUsers = (users) => {
 		//matchExpiring = null;
@@ -39,14 +38,6 @@ function HomeScreen(props) {
 		return users
 	} 
 
-	const onRefresh = React.useCallback(() => {
-	    setRefreshing(true);
-	    //Pull new user info into data variable
-	    _queryMatches();
-
-	    wait(2000).then(() => setRefreshing(false));
-	  }, [refreshing]);
-
 	const _queryMatches = async () => {
 		const currentLocation = {
 			geohash: currentUserDocument.location.geohash, 
@@ -61,23 +52,23 @@ function HomeScreen(props) {
 				if (match.id === currentUser.uid) {
 					return false; // skip
 				}
-				/*const matchContainer = {
-					id: match.id,
-					pinned: false,
-					time: firebaseSDK.getTimestamp()
-				}
-				matchContainerArray.push(matchContainer);
-				firebaseSDK.updateUserDocument(match.uid, {matches: firebase.firestore.FieldValue.arrayUnion({
-					id: currentUser.uid,
-					pinned: false,
-					time: firebaseSDK.getTimestamp()
-				})});*/
+				match.hitMetadata.distance = match.hitMetadata.distance.toFixed(1);
+
 				return true;
 			});
 			//if (matchContainerArray) firebaseSDK.updateUserDocument(currentUser.uid, {matches: firebase.firestore.FieldValue.arrayUnion(...matchContainerArray)});
 			setUserMatches(new Set([...newMatches]));
 		});
 	}
+
+	const onRefresh = React.useCallback(() => {
+	    setRefreshing(true);
+	    //Pull new user info into data variable
+	    _queryMatches();
+
+	    wait(2000).then(() => setRefreshing(false));
+	  }, [refreshing]);
+
 
 	React.useEffect(() => {
 	    _queryMatches();
@@ -117,11 +108,12 @@ function HomeScreen(props) {
 	      				/>
 	      			);
 	      		})}
-
-		  		<AdCard {...props} name={"Mercedes-Benz Canada"}  
-		  		tile={require('../assets/images/mercedes.jpg')} 
-		  		thumbnail={require("../assets/images/mercedeslogo.png")}
-		  		bio={'AMG Pride. AMG Power. \nLeases starting from $539/month at your local Mercedes-Benz dealer.'} />
+	      		{!refreshing &&  
+			  		<AdCard {...props} name={"Mercedes-Benz Canada"}  
+			  		tile={require('../assets/images/mercedes.jpg')} 
+			  		thumbnail={require("../assets/images/mercedeslogo.png")}
+			  		bio={'AMG Pride. AMG Power. \nLeases starting from $539/month at your local Mercedes-Benz dealer.'} />
+			  	}
  
 	  	</ScrollView>
 	  </SafeAreaView>

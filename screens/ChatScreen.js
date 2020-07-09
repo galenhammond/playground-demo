@@ -1,20 +1,21 @@
 import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
+import { AuthContext } from '../navigation/AuthProvider'
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 function ChatScreen(props) {
-	//TODO: Push user avatar and name to GiftedChat
+	const { currentUser, currentUserDocument } = React.useContext(AuthContext);
 	const [userTypedMessage, setUserTypedMessage] = React.useState();
 	const [messages, updateMessages] = React.useState([
 		{
-			_id: 1,
+			_id: props.matchDocument.id,
 	        text: 'Just checking in!',
 	        createdAt: new Date(),
 	        user: {
 	            _id: 2,
-	            name: 'Galen',
-	            avatar: props.avatar,
+	            name: props.matchDocument.name,
+	            avatar: props.matchDocument.thumbnail,
 	        },
         },
     ]);
@@ -23,6 +24,10 @@ function ChatScreen(props) {
     	updateMessages(GiftedChat.append(messages, newMessage));
  	}
  	
+ 	React.useEffect(() => {
+ 		props.navigation.setOptions({title: props.matchDocument.name});
+ 	}, [])
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<GiftedChat
@@ -42,9 +47,9 @@ function ChatScreen(props) {
 			messages={messages}
         	onSend={messages => onSend(messages)}
         	user={{
-          	_id: 1,
-          	name: "Michelle",
-          	avatar: props.avatar
+          	_id: currentUser.uid,
+          	name: currentUserDocument.name,
+          	avatar: currentUserDocument.thumbnail
         	}} 
         	/>
 		</SafeAreaView>

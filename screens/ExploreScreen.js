@@ -21,7 +21,7 @@ const LAT_DELTA = 0.0422;
 function ExploreScreen(props) {
 	//TODO: Inject MatchCards as a callback rather than hard coding them
 	//TODO: Refresh must send and receive up to date data from backend
-  const { currentUser, currentUserDocument } = React.useContext(AuthContext);
+  const { currentUser, currentUserDocument, userMatches } = React.useContext(AuthContext);
 	const [locationSearch, setLocationSearch] = React.useState();
 	const [isModalVisible, setModalVisible] = React.useState(false);
 	const [userModalData, setUserModalData] = React.useState({});
@@ -60,6 +60,7 @@ function ExploreScreen(props) {
     /*return () => {
       location.remove();
     }*/
+    console.log(userMatches);
   },[]);
 
   const _onLocationChange = (location) => {
@@ -113,9 +114,11 @@ function ExploreScreen(props) {
         thumbnail={userModalData.thumbnail} 
 				name={userModalData.name} 
 				description={userModalData.bio}
-				status={userModalData.distance + 'm'}
+        barStatus={userModalData.bar_status}
+				status={userModalData.hitMetadata ? userModalData.hitMetadata.distance + ' km' : ' '}
         navigation={props.navigation}
         onNavigate={onNavigate}
+        matchDocument={userModalData}
 				actions
 				/>
 			</Modal>
@@ -203,14 +206,14 @@ function ExploreScreen(props) {
         showsHorizontalScrollIndicator={false}
 			  styles={styles.matchList}
 		      horizontal
-		      data={Data}
+		      data={[...userMatches]}
 		      keyExtractor={(item, index) => index.toString()}
 		      renderItem={({ item }) => (
 			    <TouchableOpacity onPress={() => _renderModal(item)}>
 			      <ExploreCard
 			        thumbnail={item.thumbnail}
 			        name={item.name}
-			        status={item.distance + 'm'}
+			        status={item.hitMetadata ? item.hitMetadata.distance + ' km' : ' '}
 			        variant
 			      />
 		        </TouchableOpacity>
@@ -411,13 +414,21 @@ const styles = StyleSheet.create({
     width: "40%",
     borderRadius: 10,
     position: 'absolute',
-    bottom: 10
+    bottom: 10,
+    shadowOpacity: 0.10,
+    shadowRadius: 10,
+    shadowColor: '#000000',
+    shadowOffset: { height: 0, width: 0 }
   },
   listCloseButtonContainer: {
     alignSelf: 'center',
     backgroundColor: '#add5ff',
-    width: "40%",
+    width: "120%",
     borderRadius: 10,
+    shadowOpacity: 0.10,
+    shadowRadius: 10,
+    shadowColor: '#000000',
+    shadowOffset: { height: 0, width: 0 }
   },
   listButtonTitle: {
     fontSize: 13,
@@ -440,6 +451,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     width: "22%",
     borderRadius: 10,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowColor: '#000000',
+    shadowOffset: { height: 0, width: 0 }
   },
   boostedButtonContainer: {
     justifyContent: 'center',
@@ -447,6 +462,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     width: "22%",
     borderRadius: 10,
+    borderRadius: 10,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowColor: '#000000',
+    shadowOffset: { height: 0, width: 0 }
   },
   boostContainer: {
     paddingVertical: 10,

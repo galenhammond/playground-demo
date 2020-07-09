@@ -7,6 +7,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [ userMatches, setUserMatches ] = React.useState(new Set([]));
   const [currentUserDocument, setCurrentUserDocument] = useState(null);
 
   if (!firebase.apps.length) {
@@ -29,6 +30,8 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         currentUserDocument,
+        userMatches,
+        setUserMatches,
         firebase,
         geo,
         setCurrentUserDocument,

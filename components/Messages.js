@@ -4,18 +4,18 @@ import { Badge } from 'react-native-elements'
 
 //TODO: Slidable message list
 
-const Message = ({ image, lastMessage, name, timeStamp, notification, navigation}) => {
+const Message = ({ image, lastMessage, name, timeStamp, notification, navigation, matchDocument}) => {
   const [isUnopenedMessage, setUnopenedMessage] = React.useState(notification);
 
   const onMessageOpen = (item) => {
   	setUnopenedMessage(false);
-  	navigation.navigate('Chats', {avatar: image});
+  	navigation.navigate('Chats', {matchDocument: matchDocument});
   }
   return (
   	<TouchableOpacity onPress={onMessageOpen}>
 	    <View style={styles.containerMessage}>
 	      { isUnopenedMessage && <Badge status="primary" containerStyle={{ position: 'absolute', left: '1.7%' }} /> }
-	      <Image source={image} style={styles.avatar} />
+	      <Image source={{uri: image}} style={styles.avatar} />
 	      <View>
 	        <Text>{name}</Text>
 	        <Text style={styles.message}>{lastMessage}</Text>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		textAlign: "right",
 		color: "#757E90",
-		fontSize: 12,
+		fontSize: 10,
 	}
 
 });

@@ -34,7 +34,7 @@ function HomeStack({ navigation }) {
         headerRight: props => <Wallet {...props} />,
         headerLeft: props => <HamburgerIcon {...props} navigation={navigation} />}} />
       <MyHomeStack.Screen name="Chats" component={ChatScreen} 
-        options={{headerBackTitle: " "}} />
+          options={props => ({title: props.name, headerBackTitle: " "}) }  />
       <MyHomeStack.Screen name="Match Profile" component={ProfileScreen} options={{
         headerTitle: "playground",
         headerBackTitle: " ",
@@ -57,7 +57,14 @@ function ExploreStack({ navigation }) {
         headerRight: props => <Wallet {...props} />,
         headerLeft: props => <HamburgerIcon {...props} navigation={navigation} /> }}/>
       <MyExploreStack.Screen name="Chats" component={ChatScreen} 
-        options={{headerBackTitle: " "}} />
+        options={props => ({headerBackTitle: " "}) } />
+      <MyExploreStack.Screen name="Match Profile" component={ProfileScreen} options={{
+        headerTitle: "playground",
+        headerBackTitle: " ",
+        headerStyle: { borderBottomWidth: 0.5},
+        headerTitleStyle: { fontFamily: 'comfortaa-regular', fontSize: 21,
+        textAlign: 'center', alignSelf: 'center'},
+        headerRight: props => <Wallet {...props} />}} />
     </MyExploreStack.Navigator>
   );
 }

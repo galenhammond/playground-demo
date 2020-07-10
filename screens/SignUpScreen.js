@@ -46,7 +46,7 @@ export default function SignUpScreen(props) {
 	};
 
 	return (
-		<KeyboardAvoidingView behavior="padding" style={styles.container}>
+		<KeyboardAvoidingView style={styles.container} behavior="padding" enabled   keyboardVerticalOffset={100}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.titleText}>Let's get you setup</Text>
 			</View>
@@ -139,11 +139,12 @@ export default function SignUpScreen(props) {
 
 const styles = StyleSheet.create({
 	container: {
+		flexDirection: 'column',
+		justifyContent: 'center',
 		flex: 1,
 		width: '100%',
 		backgroundColor: '#FFFFFF',
 		alignItems: 'center',
-		justifyContent: 'space-between'
 	}, 
 	titleContainer: {
 		alignItems: 'center',
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		width: '100%',
 		alignItems: 'center',
+		paddingVertical: 20
 	},
 	inputText: {
 		fontFamily: "sfprodisplay-light",

@@ -309,7 +309,7 @@ export default StyleSheet.create({
 		width: 45,
 		height: 45,
 		borderRadius: 25,
-		backgroundColor: SYSTEM_DEEP_BLUE,
+		backgroundColor: SYSTEM_BLUE,
 		justifyContent: "center",
 		alignItems: "center",
 		marginRight: 10
@@ -321,7 +321,7 @@ export default StyleSheet.create({
 		marginLeft: 10,
 		height: 45,
 		borderRadius: 13,
-		backgroundColor: SYSTEM_DEEP_BLUE,
+		backgroundColor: SYSTEM_BLUE,
 		paddingHorizontal: 15
 	},
 

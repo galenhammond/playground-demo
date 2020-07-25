@@ -52,6 +52,7 @@ export default function Playground(props) {
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
           'comfortaa-regular': require('./assets/fonts/Comfortaa-Regular.ttf'),
+          'comfortaa-bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
           'comfortaa-light': require('./assets/fonts/Comfortaa-Light.ttf'),
           'sfprodisplay-regular': require('./assets/fonts/SFProDisplay-Regular.ttf'),
           'sfprodisplay-light': require('./assets/fonts/SFProDisplay-Light.ttf'),

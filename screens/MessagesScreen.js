@@ -64,6 +64,12 @@ function MessagesScreen(props) {
   	  	}}
   	  	horizontal
   	  	data={[...userMatches]}
+  	  	ListEmptyComponent={() => { 
+	    	return (
+		    	<View style={{padding: 20}}>
+		    	</View>
+		    );
+	    }}
   	  	//TODO: Center elements in list at all times
   	  	/* contentContainerStyle={{
   	  		alignSelf: "center",
@@ -80,6 +86,13 @@ function MessagesScreen(props) {
 	  	<FlatList
 	    data={[...userMatches]}
 	    keyExtractor={(item, index) => index.toString()}
+	    ListEmptyComponent={() => { 
+	    	return (
+		    	<View>
+		    		<Text style={styles.emptyMessageList}>No matches to display</Text>
+		    	</View>
+		    );
+	    }}
 	    renderItem={({ item }) => (
 	        <Message
 	        //TODO: this will be real message data
@@ -102,5 +115,12 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		flex: 1
 	},
+	emptyMessageList: {
+		paddingVertical: '50%',
+		textAlign: 'center',
+		fontFamily: 'comfortaa-bold',
+		fontSize: 20,
+		color: '#D8D8D8'
+	}
 });
 export default MessagesScreen;

@@ -216,12 +216,11 @@ function ExploreScreen(props) {
 			        status={item.hitMetadata ? item.hitMetadata.distance + ' km' : ' '}
 			        variant
 			      />
-		        </TouchableOpacity>
+		      </TouchableOpacity>
 		    	)}
 		  	  />
-        </View>
-
-        : <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13} color={'white'}/> } 
+      </View>
+        : userMatches.length && <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13} color={'white'}/> } 
         containerStyle={styles.listOpenButtonContainer} 
         titleStyle={styles.listButtonBottomTitle} raised title={"Show Matches"} 
         type={'clear'} onPress={() => setListVisible(true)} />

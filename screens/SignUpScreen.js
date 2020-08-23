@@ -55,9 +55,6 @@ export default function SignUpScreen(props) {
 					</View>
 
 					<View style={styles.containerEditProfileItem}>
-				    	<View style={styles.matchesEditProfileItem}>
-				        	<Text style={styles.matchesTextProfileItem}>Profile Picture</Text>
-				      	</View>
 				      	<View style={_styles.inputContainer}>
 							<Avatar rounded
 							showAccessory={true}

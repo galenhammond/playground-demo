@@ -7,6 +7,7 @@ import styles from '../assets/styles';
 
 export default function SignInPage(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
+	const [authError, setAuthError] = React.useState(null);
 	const { login } = React.useContext(AuthContext);
 
 	const _onSignIn = (user) => {
@@ -15,7 +16,7 @@ export default function SignInPage(props) {
 			/*onSuccess callback*/
 			() => {
 				props.storePersistenceToken();
-			}, e => console.log(e)
+			}, e => setAuthError(e)
 		);
 	}
 	return (
@@ -60,6 +61,9 @@ export default function SignInPage(props) {
 						 textAlign={'center'}
 						 autoCapitalize={'none'} />
 					</View>
+
+					{authError && <Text style={_styles.authErrorText}>{authError.message}</Text>}
+
 				</View>
 
 				<TouchableOpacity style={styles.themeButtonItem} onPress={() => _onSignIn(userCredentials)}>
@@ -115,4 +119,9 @@ const _styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingTop: 50
 	},
+	authErrorText: {
+		alignSelf: 'center',
+		marginTop: 20,
+		color: '#ff3a30'
+	}
 });

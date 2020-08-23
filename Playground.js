@@ -112,7 +112,7 @@ export default function Playground(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
           <NavigationContainer ref={containerRef}>
-          {currentUserDocument ? <AppDrawer/> : <LoginStack/>}
+            {currentUserDocument ? <AppDrawer /> : <LoginStack />}
           </NavigationContainer>
         </View>
       </Root>

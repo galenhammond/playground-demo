@@ -445,4 +445,15 @@ export default StyleSheet.create({
 		color: WHITE,
 		fontSize: 16
 	},
+	signUpButtonItem: {
+		width: 250,
+		backgroundColor: SYSTEM_DEEP_BLUE,
+		height: 35,
+		justifyContent: 'center',
+		paddingVertical: 7,
+		paddingHorizontal: 20,
+		borderRadius: 10,
+		textAlign: "center",
+		alignSelf: "center"
+	},
 });

@@ -3,6 +3,7 @@ import {View, SafeAreaView, KeyboardAvoidingView, Text, TextInput, TouchableOpac
 import { Button } from 'react-native-elements';
 import firebaseSDK from '../server/fire.js';
 import { AuthContext } from '../navigation/AuthProvider';
+import styles from '../assets/styles';
 
 export default function SignInPage(props) {
 	const [userCredentials, setUserCredentials] = React.useState({email: '', password: ''});
@@ -18,75 +19,78 @@ export default function SignInPage(props) {
 		);
 	}
 	return (
-		<KeyboardAvoidingView behavior='padding' style={styles.container}>
-			<View style={styles.titleContainer}>
-				<Text style={styles.titleText}>Sign In</Text>
-			</View>
+		<SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 1}}>
+			<KeyboardAvoidingView style={_styles.container} behavior="padding" enabled keyboardVerticalOffset={110}>
 
-			<View style={styles.subTitleContainer}>
-				<Text style={styles.subTitleText}>Email</Text>
-			</View>
+				<View style={_styles.titleContainer}>
+					<Text style={_styles.titleText}>playground</Text>
+				</View>
 
-			<View style={styles.inputContainer}>
-				<TextInput style={styles.inputText} placeholder={'Enter email'} 
-				 onChangeText={val => {
-				 	const email = val; 
-				 	setUserCredentials(prevState => {
-				 		return {...prevState, email: email}
-				 	});
-				 }}  
-				 textAlign={'center'}
-				 autoCapitalize={'none'}
-				 keyboardType={'email-address'} />
-			</View>
+				<View style={styles.containerEditProfileItem}>
+			      	<View style={_styles.subTitleContainer}>
+						<Text style={_styles.subTitleText}>Email</Text>
+					</View>
+					<View style={_styles.inputContainer}>
+						<TextInput style={_styles.inputText} placeholder={'john.smith@playground.ca'} 
+						 onChangeText={val => {
+						 	const email = val; 
+						 	setUserCredentials(prevState => {
+						 		return {...prevState, email: email}
+						 	});
+						 }}  
+						 textAlign={'center'}
+						 autoCapitalize={'none'}
+						 keyboardType={'email-address'} />
+					</View>
 
-			<View style={styles.subTitleContainer}>
-				<Text style={styles.subTitleText}>Password</Text>
-			</View>
+					<View style={_styles.subTitleContainer}>
+						<Text style={_styles.subTitleText}>Password</Text>
+					</View>
 
-			<View style={styles.inputContainer}>
-				<TextInput style={styles.inputText} 
-				placeholder={'Enter password'} 
-				secureTextEntry={true}
-				 onChangeText={val => {
-				 	const password = val; 
-				 	setUserCredentials(prevState => {
-				 		return {...prevState, password: password}
-				 	});
-				 }} 
-				 textAlign={'center'}
-				 autoCapitalize={'none'} />
-			</View>
+					<View style={_styles.inputContainer}>
+						<TextInput style={_styles.inputText} 
+						placeholder={'*******'} 
+						secureTextEntry={true}
+						 onChangeText={val => {
+						 	const password = val; 
+						 	setUserCredentials(prevState => {
+						 		return {...prevState, password: password}
+						 	});
+						 }} 
+						 textAlign={'center'}
+						 autoCapitalize={'none'} />
+					</View>
+				</View>
 
-			<View style={styles.buttonContainer}>
-				<Button title={"Sign In"} type={"clear"} onPress={() => _onSignIn(userCredentials)}/>
-			</View>
-		</KeyboardAvoidingView>
+				<TouchableOpacity style={styles.themeButtonItem} onPress={() => _onSignIn(userCredentials)}>
+			    	<Text style={styles.confirmationButtonText}>Sign In</Text>
+			    </TouchableOpacity>
+
+			</KeyboardAvoidingView>
+		</SafeAreaView>
 	)
 }
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		width: '100%',
 		backgroundColor: '#FFFFFF',
-		alignItems: 'center',
-		justifyContent: 'space-between'
 	}, 
 	titleContainer: {
 		alignItems: 'center',
+		paddingVertical: 65
 	},
 	titleText: {
-		paddingTop: '20%',
 		color: '#000000',
-		fontFamily: "comfortaa-light",
-		fontSize: 28,
+		fontFamily: "comfortaa-regular",
+		fontSize: 40,
 	},
 	subTitleContainer: {
-		alignItems: 'center',
+		paddingVertical: 50,
+		alignSelf: 'center',
 		width: '80%',
 	},
 	subTitleText: {
+		textAlign: 'center',
 		color: 'black',
 		fontFamily: "sfprodisplay-light",
 		fontSize: 20,
@@ -97,9 +101,9 @@ const styles = StyleSheet.create({
 	},
 	inputText: {
 		fontFamily: "sfprodisplay-light",
-		width: '70%',
+		width: '90%',
 		color: '#757E90',
-		borderBottomWidth: 1,
+		borderBottomWidth: 0.3,
 		borderRadius: 20,
 		borderColor: '#D8D8D8',
 		fontSize: 21,
@@ -109,6 +113,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingBottom: 20
-	}
+		paddingTop: 50
+	},
 });

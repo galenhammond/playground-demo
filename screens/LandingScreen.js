@@ -4,23 +4,23 @@ import { View, Text, SafeAreaView, TouchableOpacity, ImageBackground, StyleSheet
 export default function LandingScreen(props) {
 
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={styles.titleContainer}>
-				<Text style={styles.titleText}>playground</Text>
+		<SafeAreaView style={_styles.container}>
+			<View style={_styles.titleContainer}>
+				<Text style={_styles.titleText}>playground</Text>
 			</View>
-			<View style={styles.registrationContainer}>
+			<View style={_styles.registrationContainer}>
 				<TouchableOpacity onPress={() => props.navigation.navigate('Sign Up')}>
-					<Text style={styles.registrationText}>join now</Text>
+					<Text style={_styles.registrationText}>join now</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => props.navigation.navigate('Sign In')}>
-					<Text style={styles.loginText}>already have an account? sign in</Text>
+					<Text style={_styles.loginText}>already have an account? sign in</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	)
 } 
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'column',

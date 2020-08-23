@@ -104,7 +104,7 @@ export default function UploadPhotoScreen(props) {
 	})
 
 	return (
-		<KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
+		<KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled keyboardVerticalOffset={100}>
 			<ScrollView>
 				<View style={styles.containerEditProfileItem}>
 			    	<View style={styles.matchesEditProfileItem}>
@@ -135,7 +135,7 @@ export default function UploadPhotoScreen(props) {
 					<View style={styles.matchesEditProfileItem}>
 			        	<Text style={styles.matchesTextProfileItem}>Update Details</Text>
 			      	</View>
-				    <Text style={styles.name}>{currentUser.displayName}</Text>
+				    <Text style={styles.name}>{currentUserDocument.name}</Text>
 
 				    <Text style={styles.descriptionProfileItem}>
 				    	{currentUserDocument.age} - Ottawa{/*currentUserDocument.age*/}

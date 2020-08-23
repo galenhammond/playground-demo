@@ -59,13 +59,15 @@ function ProfileScreen(props) {
           	</View>
         </ImageBackground>
 	    <View style={styles.containerProfileItem}>
-	    	<View style={styles.matchesProfileItem}>
-	        	<Text style={styles.matchesTextProfileItem}>
-	        		{props.matchProfile ? 'Matched!' :  'Welcome!'}
-	        	</Text>
-	      	</View>
-	      	<View style={{flex: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'center'}}>
 
+	    	{props.matchProfile && (
+		    	<View style={styles.matchesProfileItem}>
+		        	<Text style={styles.matchesTextProfileItem}>Matched!</Text>
+		      	</View>
+		      	)
+	    	}
+
+	      	<View style={{flex: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent:'center'}}>
 	      		<TouchableOpacity onPress={() => ActionSheet.show({
 		              options: [' Change Profile Picture', 'Cancel'],
 		              cancelButtonIndex: 1,
@@ -121,6 +123,7 @@ function ProfileScreen(props) {
 	        	<Text style={styles.infoContent}>Last seen: 24 hours ago</Text>
 	      	</View>
 	    </View>
+
 	    <View style={styles.actionsProfile}>
           <TouchableOpacity style={styles.circledButton}>
             <Text style={styles.iconButton}>
@@ -136,6 +139,7 @@ function ProfileScreen(props) {
           </TouchableOpacity>
         </View>
         <View style={{paddingVertical: 50}}>
+
 	    {props.matchProfile ?  props.matchDocument.images.map((image, id) => {
 			return (
 				<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500}} />
@@ -145,6 +149,7 @@ function ProfileScreen(props) {
 					<Image source={{uri: image}} key={id} style={styles.photo, {width: null, height: 500}} />
 				)})
     	}
+
     	</View>
       </ScrollView>
     </View>

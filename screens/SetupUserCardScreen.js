@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Ionicons, EvilIcons, Feather } from '@expo/vector-icons';
 import { View, SafeAreaView, KeyboardAvoidingView, TextInput, StyleSheet, Platform, Image, TouchableOpacity, FlatList, ScrollView, Slider } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import MatchCard from '../components/MatchCard';
@@ -10,6 +11,8 @@ import firebaseSDK from '../server/fire'
 import { DeckSwiper, Button, Card, CardItem, Thumbnail, Text, Icon, Left, Body, Right, Toast, ActionSheet } from 'native-base';
 import Swiper from 'react-native-swiper'
 import * as Location from 'expo-location'
+import styles from '../assets/styles';
+import SortableGrid from 'react-native-sortable-grid'
 
 const SYSTEM_GREEN = '#30bf54'
 const SYSTEM_BLUE = '#007bff'
@@ -23,7 +26,7 @@ export default function SetupUserCardScreen(props) {
 	const [userCredentials, setUserCredentials] = React.useState(props.route.params.userCredentials);
 	const [userData, setUserData] = React.useState(props.route.params.userData);
 	const [images, setImages] = React.useState([]);
-	const [imageUrls] = []
+	const gridRef = React.useRef(null);
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
 	const [userMatchRadius, setUserMatchRadius] = React.useState(MAX_RADIUS);
 	const [userAgeFilter, setUserAgeFilter] = React.useState(AGE_STEP * 11);
@@ -75,7 +78,7 @@ export default function SetupUserCardScreen(props) {
 		register(user, 
 			/*onSuccess callback*/
 			async (createdUser) => {
-				const promises = []
+				let promises = []
 				promises.push(firebaseSDK.uploadUserImage(createdUser.user.uid, userData.thumbnail));
 				images.forEach(async (image) => {
 					promises.push(firebaseSDK.uploadUserImage(createdUser.user.uid, image));
@@ -86,6 +89,8 @@ export default function SetupUserCardScreen(props) {
 						name: userData.name,
 						age: userData.age,
 						bio: userData.bio,
+						bar_status: userData.barStatus,
+						interests: userData.interests,
 						thumbnail: tasks[0],
 						images: tasks.slice(1),
 						visible: true,
@@ -127,120 +132,142 @@ export default function SetupUserCardScreen(props) {
 	}
 
 	return (
-		<View style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.titleContainer}>
-					<Text style={styles.titleText}>Customize your public profile</Text>
-				</View>
+		<SafeAreaView style={{backgroundColor: '#FFFFFF'}}>
+			<KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={100}>
+				<ScrollView showsVerticalScrollIndicator={false}>
 
-				<Card>
-			    	<CardItem>
-			  	    	<Left>
-			  	       <Thumbnail source={{uri: userData.thumbnail}} />
-			     	 		<Body>
-				          		<Text style={styles.headerText}>{userData.name}</Text>
-				          		<Text note>{userData.age}</Text>
-			        		</Body>
-			        	</Left>
-			          <Right>
-			          </Right>
-			      	</CardItem>
-			  		<CardItem cardBody>
-			          <Swiper showsPagination={false} loop={false} bounces={true} height={350}>
-			            {images.map((image, i) => {
-			              return (
-			                <Image key={i} source={{uri: image}} style={{height: 350, width: null, flex: 1}} />
-			                );
-			              })
-			            }
-			          </Swiper>
-			        </CardItem>
-			        {/* textColor: #828181*/}
-			        <TextInput 
-			        placeholder={'Say something about youself...'} 
-			        onChangeText={val => {
-					 	const bio = val; 
-					 	setUserData(prevState => {
-					 		return {...prevState, bio: bio}
-					 	});
-					 }} 
-					 textAlign={'left'}
-					 style={{fontSize: 16, fontFamily: "sfprodisplay-light", color: "#292929", paddingHorizontal: "3%", paddingTop: "4%"}}></TextInput>
-			        {/*<Text style={{color: "#D8D8D8", paddingHorizontal: "3%", paddingTop: "2%", fontFamily: "sfprodisplay-light", fontSize: 14}}>43:26</Text>*/}
-			        <CardItem>
-			        	<Left>
-			          	<Button transparent>
-			          		<Icon active name="wine" />
-			            		<Text style={styles.footerText}>buy a drink</Text>
-			          	</Button>
-			        	</Left>
-			          	<Body>
-			            	<Button transparent>
-			            		<Icon active name="chatbubbles" />
-			              	  <Text style={styles.footerText}>message</Text>
-			            	</Button>
-			          	</Body>
-			        	<Right>
-			          	<Text style={{fontSize: 13}}>23m away</Text>
-			        	</Right>
-			        </CardItem>
-		   		</Card>
-
-		   		<View style={{flexGrow: 1}}>
-		   			<View style={styles.containerMessage}>
-		   				<Button style={{alignSelf: 'center'}} transparent onPress={() => _pickImage()}>
-				        	<Text style={{fontSize: 16}}>{images.length ? 'Upload Another Image' : 'Upload Image'}</Text>
-				        </Button>
-				    </View>
-
-			      	<View style={styles.containerMessage}>
-				        <Text style={{fontSize: 16, color: "#757E90"}}>Match Radius</Text>
-			        	<Slider 
-			        	value={userMatchRadius/MAX_RADIUS}
-			        	step={0.2}
-			        	onSlidingComplete={val => setUserMatchRadius(val*MAX_RADIUS)} />
-			        	<Text style={{alignSelf: 'center'}}>{userMatchRadius.toFixed(1)} km</Text>
-				        <Text style={styles.message}>Set max visibility range</Text>
-				    </View>
-
-				    <View style={styles.containerMessage}>
-				        <Text style={{fontSize: 16, color: "#757E90"}}>Age Filter</Text>
-			        	<Slider 
-			        	value={userAgeFilter}
-			        	step={AGE_STEP}
-			        	onSlidingComplete={val => setUserAgeFilter(val)} />
-			        	<Text style={{alignSelf: 'center'}}>{((userAgeFilter / AGE_STEP) + MINIMUM_AGE).toFixed(0)}</Text>
-				        <Text style={styles.message}>Set max age range</Text>
-				    </View>
-
-				    <View style={styles.containerMessage}>
-				        <Text style={{fontSize: 16, color: "#757E90"}}>Gender Preference</Text>
-			        	<Slider 
-			        	value={userGenderPreference}
-			        	step={GENDER_STEP}
-			        	onSlidingComplete={val => setUserGenderPreference(val)} />
-			        	<View style={{flex: 1, 
-			        		flexDirection: "row",
-			        		alignItems: 'center',
-			        		justifyContent: 'space-between', }}>
-				        	<MaterialCommunityIcons name="human-male" size={24} color="#757E90" />
-				        	<MaterialCommunityIcons name="human-male-female" size={24} color="#757E90" />
-				        	<MaterialCommunityIcons name="human-female" size={24} color="#757E90" />
-				        </View>
-				        <Text style={styles.message}>Set gender preference</Text>
-				    </View>
-				    <View style={styles.buttonContainer}>
-						 <Button transparent  onPress={() => _onRegister(userCredentials)}> 
-						 	<Text>Sign Up</Text>
-						 </Button>
+					<View style={_styles.titleContainer}>
+						<Text style={_styles.titleText}>Customize your profile</Text>
 					</View>
-				</View>
-			</ScrollView>
-		</View>
+
+					<View style={styles.containerEditProfileItem}>
+					    <SortableGrid itemsPerRow={3}
+					    	ref={gridRef}
+					    	blockTransitionDuration={400}
+							activeBlockCenteringDuration={200}
+							dragActivationTreshold={200}
+							onDeleteItem={(item) => _removeImage(userImagesToUpload, item)}
+							onDragRelease={itemOrder => setUserImagesToUpload(_rearrangeImages(userImagesToUpload, itemOrder)) }
+							onDragStart={() => console.log("Some block is being dragged now!")}>
+							{
+							    images.map((image, index) => {
+							    	return (
+							      		<Image key={index} onTap={() => gridRef.current.toggleDeleteMode()} source={{uri: image}} style={styles.editProfileDragableImage} />
+								    )}
+							    )
+							}
+						</SortableGrid>
+						<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => _pickImage()}>
+					    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
+					    </TouchableOpacity>
+				    </View>
+
+				    {/*TODO: ADD PROFILE IMAGE AS IT IS ON NORMAL PROFILE*/}
+				    <View style={styles.containerEditProfileItem}>
+						<View style={styles.matchesEditProfileItem}>
+				        	<Text style={styles.matchesTextProfileItem}>Profile</Text>
+				      	</View>
+					    <Text style={styles.name}>{userData.name}</Text>
+
+					    <Text style={styles.descriptionProfileItem}>
+					    	{userData.age} - Ottawa{/*currentUserDocument.age*/}
+					    </Text>
+
+				      	<View style={styles.info}>
+				        	<Text style={styles.iconProfile}>
+				        		<Ionicons name="ios-person" size={24} color="#757E90" />
+				        	</Text>
+
+				        	<TextInput style={styles.infoContent} onChangeText={val => {
+							 	const bio = val; 
+							 	setUserData(prevState => {
+							 		return {...prevState, bio: bio}
+							 	});
+							 }}
+							 placeholder={'Ready to roll'}
+							 >{userData.bio ? userData.bio : null}</TextInput>
+				      	</View>
+
+				      	<View style={styles.info}>
+				        	<Text style={styles.iconProfile}>
+				        		<Ionicons name="ios-pin" size={24} color="#757E90" />
+				        	</Text>
+				        	<TextInput style={styles.infoContent} onChangeText={val => {
+							 	const barStatus = val; 
+							 	setUserData(prevState => {
+							 		return {...prevState, barStatus: barStatus}
+							 	});
+							 }}
+							 placeholder={"Barley Mow..."}
+							 >{userData.bar_status ? userData.bar_status : null}</TextInput>
+				      	</View>
+
+				      	<View style={styles.info}>
+				        	<Text style={styles.iconProfile}>
+				        		<Feather name="hash" size={24} color="#757E90" />
+				        	</Text>
+				        	<TextInput style={styles.infoContent} onChangeText={val => {
+							 	const interests = val; 
+							 	setUserData(prevState => {
+							 		return {...prevState, interests: interests}
+							 	});
+							 }}
+							 placeholder={"Friends, music, and nights out..."}
+							 >{userData.interests ? userData.interests : null}</TextInput>
+				      	</View>
+				    </View>
+
+			   		<View style={{flexGrow: 1, backgroundColor: '#FFFFFF'}}>
+
+				      	<View style={_styles.containerMessage}>
+					        <Text style={{fontSize: 16, color: "#757E90"}}>Match Radius</Text>
+				        	<Slider 
+				        	value={userMatchRadius/MAX_RADIUS}
+				        	step={0.2}
+				        	onSlidingComplete={val => setUserMatchRadius(val*MAX_RADIUS)} />
+				        	<Text style={{alignSelf: 'center'}}>{userMatchRadius.toFixed(1)} km</Text>
+					        <Text style={_styles.message}>Set max visibility range</Text>
+					    </View>
+
+					    <View style={_styles.containerMessage}>
+					        <Text style={{fontSize: 16, color: "#757E90"}}>Age Filter</Text>
+				        	<Slider 
+				        	value={userAgeFilter}
+				        	step={AGE_STEP}
+				        	onSlidingComplete={val => setUserAgeFilter(val)} />
+				        	<Text style={{alignSelf: 'center'}}>{((userAgeFilter / AGE_STEP) + MINIMUM_AGE).toFixed(0)}</Text>
+					        <Text style={_styles.message}>Set max age range</Text>
+					    </View>
+
+					    <View style={_styles.containerMessage}>
+					        <Text style={{fontSize: 16, color: "#757E90"}}>Gender Preference</Text>
+				        	<Slider 
+				        	value={userGenderPreference}
+				        	step={GENDER_STEP}
+				        	onSlidingComplete={val => setUserGenderPreference(val)} />
+				        	<View style={{flex: 1, 
+				        		flexDirection: "row",
+				        		alignItems: 'center',
+				        		justifyContent: 'space-between', }}>
+					        	<MaterialCommunityIcons name="human-male" size={24} color="#757E90" />
+					        	<MaterialCommunityIcons name="human-male-female" size={24} color="#757E90" />
+					        	<MaterialCommunityIcons name="human-female" size={24} color="#757E90" />
+					        </View>
+					        <Text style={_styles.message}>Set gender preference</Text>
+					    </View>
+					</View>
+					<View style={_styles.buttonContainer}>
+					    <TouchableOpacity style={styles.themeButtonItem} onPress={() => _onRegister(userCredentials)}>
+					    	<Text style={styles.confirmationButtonText}>Finish Sign Up</Text>
+					    </TouchableOpacity>
+				   	</View>
+				</ScrollView>
+			</KeyboardAvoidingView>
+		</SafeAreaView>
 	)
 }
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		width: '100%',
@@ -251,7 +278,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	titleText: {
-		paddingTop: '10%',
+		paddingTop: '15%',
+		paddingBottom: '10%',
 		textAlign: 'center',
 		color: '#000000',
 		fontFamily: "comfortaa-light",
@@ -283,7 +311,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingBottom: 20
+		paddingTop: 20
 	},
 	headerText: {
 		fontFamily: 'sfprodisplay-regular',

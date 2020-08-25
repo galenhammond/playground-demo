@@ -5,7 +5,7 @@ import { Thumbnail } from 'native-base';
 import { MatchCounter } from "../components/MatchCounter";
 import { AuthContext } from '../navigation/AuthProvider'
 import { Data } from '../assets/data/Matches';
-import Message from '../components/Messages';
+import Message from '../components/Message';
 import ChatScreen from '../screens/ChatScreen';
 import { DateConversion } from '../utils/EpochTimeConversion'
 

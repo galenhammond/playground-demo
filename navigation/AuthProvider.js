@@ -6,9 +6,9 @@ import * as geofirex from 'geofirex';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [ userMatches, setUserMatches ] = React.useState(new Set([]));
-  const [currentUserDocument, setCurrentUserDocument] = useState(null);
+  const [ currentUser, setCurrentUser ] = useState(null);
+  const [ userMatches, setUserMatches ] =useState(new Set([]));
+  const [ currentUserDocument, setCurrentUserDocument ] = useState(null);
 
   if (!firebase.apps.length) {
     firebase.initializeApp({
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       measurementId: MEASUREMENT_ID
     });
   }
+
   const geo = geofirex.init(firebase);
 
   return (

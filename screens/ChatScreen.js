@@ -9,18 +9,18 @@ function ChatScreen(props) {
 	const [userTypedMessage, setUserTypedMessage] = React.useState();
 	const [messages, updateMessages] = React.useState([
 		{
-			_id: props.matchDocument.id,
+			_id: currentUser.uid,
 	        text: 'Just checking in!',
 	        createdAt: new Date(),
 	        user: {
-	            _id: 2,
+	            _id: props.matchDocument.id,
 	            name: props.matchDocument.name,
 	            avatar: props.matchDocument.thumbnail,
 	        },
         },
     ]);
 
-    const onSend = (newMessage = []) => {
+    const _onSend = (newMessage = []) => {
     	updateMessages(GiftedChat.append(messages, newMessage));
  	}
  	
@@ -45,7 +45,7 @@ function ChatScreen(props) {
 			}}
 			placeholder={"Say Hi!"}
 			messages={messages}
-        	onSend={messages => onSend(messages)}
+        	onSend={messages => _onSend(messages)}
         	user={{
           	_id: currentUser.uid,
           	name: currentUserDocument.name,

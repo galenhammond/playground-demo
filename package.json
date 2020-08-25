@@ -56,7 +56,8 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.9",
     "react-navigation-props-mapper": "2",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "sendbird": "^3.0.132"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

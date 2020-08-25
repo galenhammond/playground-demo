@@ -64,7 +64,7 @@ export default function SignUpScreen(props) {
 					      	onPress={_pickImage}/>
 						</View>
 						<TouchableOpacity style={styles.matchesAddImageItem} onPress={() => _pickImage()}>
-					    	<Text style={styles.matchesTextProfileItem}>Add Image</Text>
+					    	<Text style={styles.matchesTextProfileItem}>Add Profile Photo</Text>
 					    </TouchableOpacity>
 				    </View>
 

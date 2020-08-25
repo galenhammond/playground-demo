@@ -421,7 +421,7 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-evenly',
-		width: 110,
+		width: 105,
 		backgroundColor: SYSTEM_BLUE,
 		paddingVertical: 7,
 		paddingHorizontal: 15,
@@ -431,12 +431,12 @@ export default StyleSheet.create({
 		marginLeft: '-8%'
 	},
 	matchCardButton: {
-		fontSize: 13, 
+		fontSize: 12, 
 		paddingLeft: 12, 
 		color: 'white'
 	},
 	matchDistanceText: {
-		fontSize: 13, 
+		fontSize: 12, 
 		color: '#88bbf2'
 	},
 	confirmationButtonText: {

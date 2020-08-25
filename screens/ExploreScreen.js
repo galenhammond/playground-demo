@@ -161,30 +161,34 @@ function ExploreScreen(props) {
         title={"Boost"}
         onPress={useBoost} 
         type={'clear'}/>
-        {isBoosted && 
-          (<TouchableOpacity style={styles.listButtonTitle, {flexDirection: 'row',}} 
-            onPress={() => ActionSheet.show({
-              title: 'WARNING: Ending this boost prematurely will result in the loss of the remainder of the boost',
-              options: ['End Boost', 'Cancel'],
-              cancelButtonIndex: 1,
-              destructiveButtonIndex: 0,
-            }, 
 
-            buttonIndex => {
-              switch(buttonIndex) {
-                case 0: 
-                  setBoosted(false);
-                  break;
-                default:
-                  //do nothing
-              } 
-            }
-            )}>
-            <Text>Boosted for </Text>  
+        {isBoosted && 
+          (
+            <TouchableOpacity style={styles.listButtonTitle, {flexDirection: 'row',}} 
+              onPress={() => ActionSheet.show({
+                title: 'WARNING: Ending this boost prematurely will result in the loss of the remainder of the boost',
+                options: ['End Boost', 'Cancel'],
+                cancelButtonIndex: 1,
+                destructiveButtonIndex: 0,
+              }, 
+
+              buttonIndex => {
+                switch(buttonIndex) {
+                  case 0: 
+                    setBoosted(false);
+                    break;
+                  default:
+                    //do nothing
+                } 
+              }
+              )}>
+              <Text>Boosted for </Text>  
               <ExpiryTimer setTime={3600}/>
-          </TouchableOpacity>
-          )}
-         <Button 
+            </TouchableOpacity>
+          )
+        }
+        
+        <Button 
          iconRight 
          icon={ <Icon name={"filter"} type={"antdesign"} size={13} color={SYSTEM_BLUE}/> } 
         containerStyle={styles.boostButtonContainer} 
@@ -195,36 +199,38 @@ function ExploreScreen(props) {
       </View>
 
       {listVisible ?
-		  <View style={styles.listContainer}>
+  		  <View style={styles.listContainer}>
 
-        <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={13} color={'white'}/> } 
-        containerStyle={styles.listCloseButtonContainer} 
-        titleStyle={styles.listButtonBottomTitle} title={"Hide Matches"} 
-        type={"clear"} onPress={() => setListVisible(false)} />
+          <Button iconRight icon={ <Icon name={"ios-arrow-down"} type={"ionicon"} size={13} color={'white'}/> } 
+          containerStyle={styles.listCloseButtonContainer} 
+          titleStyle={styles.listButtonBottomTitle} title={"Hide Matches"} 
+          type={"clear"} onPress={() => setListVisible(false)} />
 
-			  <FlatList
-        showsHorizontalScrollIndicator={false}
-			  styles={styles.matchList}
-		      horizontal
-		      data={[...userMatches]}
-		      keyExtractor={(item, index) => index.toString()}
-		      renderItem={({ item }) => (
-			    <TouchableOpacity onPress={() => _renderModal(item)}>
-			      <ExploreCard
-			        thumbnail={item.thumbnail}
-			        name={item.name}
-			        status={item.hitMetadata ? item.hitMetadata.distance + ' km' : ' '}
-			        variant
-			      />
-		      </TouchableOpacity>
-		    	)}
-		  	  />
-      </View>
-        : userMatches.length && <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13} color={'white'}/> } 
-        containerStyle={styles.listOpenButtonContainer} 
-        titleStyle={styles.listButtonBottomTitle} raised title={"Show Matches"} 
-        type={'clear'} onPress={() => setListVisible(true)} />
-    }
+  			  <FlatList
+          showsHorizontalScrollIndicator={false}
+  			  styles={styles.matchList}
+  		      horizontal
+  		      data={[...userMatches]}
+  		      keyExtractor={(item, index) => index.toString()}
+  		      renderItem={({ item }) => (
+
+    			    <TouchableOpacity onPress={() => _renderModal(item)}>
+    			      <ExploreCard
+    			        thumbnail={item.thumbnail}
+    			        name={item.name}
+    			        status={item.hitMetadata ? item.hitMetadata.distance + ' km' : ' '}
+    			        variant
+    			      />
+    		      </TouchableOpacity>
+
+  		    	)}
+  		  	  />
+        </View>
+          : userMatches && <Button iconRight icon={ <Icon name={"ios-arrow-up"} type={"ionicon"} size={13} color={'white'}/> } 
+          containerStyle={styles.listOpenButtonContainer} 
+          titleStyle={styles.listButtonBottomTitle} raised title={"Show Matches"} 
+          type={'clear'} onPress={() => setListVisible(true)} />
+      }
 
 	</View>
 	);

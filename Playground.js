@@ -24,6 +24,7 @@ export default function Playground(props) {
   const [usePersistedLogin, setPersistedLogin] = React.useState(false);
   const [userID, setUserID] = React.useState(' ');
   const containerRef = React.useRef();
+  var sb = new SendBird({appId: SENDIRD_APP_ID});
 
   const getPermissionAsync = async () => {
       let { locationStatus } = await Location.requestPermissionsAsync(Permissions.LOCATION);

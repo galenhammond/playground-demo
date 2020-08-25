@@ -118,6 +118,8 @@ class FirebaseSDK extends React.Component {
     }
   }
 
+  async sendMessage(origin_uid, destination_uid, timestamp, payload) {};
+
   async getUserQuery(collection, center, radius, field) {
     const geoRef = this.geo.query(collection);
     return await geoRef.within(center, radius, field);
